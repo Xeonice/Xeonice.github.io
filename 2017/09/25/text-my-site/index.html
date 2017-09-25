@@ -37,36 +37,11 @@
 
 
 
+
   
   
   <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
 
-
-
-
-  
-  
-  
-  
-
-  
-    
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    
-    
-    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-  
 
 
 
@@ -96,17 +71,17 @@
 
 
 
-<meta name="description" content="We can!">
+<meta name="description" content="P5天下第一！！">
 <meta property="og:type" content="article">
 <meta property="og:title" content="text_my_site">
 <meta property="og:url" content="http://yoursite.com/2017/09/25/text-my-site/index.html">
 <meta property="og:site_name" content="Helve&#39;s Blog">
-<meta property="og:description" content="We can!">
+<meta property="og:description" content="P5天下第一！！">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2017-09-25T08:55:47.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="text_my_site">
-<meta name="twitter:description" content="We can!">
+<meta name="twitter:description" content="P5天下第一！！">
 
 
 
@@ -115,10 +90,11 @@
   var CONFIG = {
     root: '/',
     scheme: 'Muse',
+    version: '5.1.2',
     sidebar: {"position":"left","display":"always","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
     tabs: true,
-    motion: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn"}},
     duoshuo: {
       userId: '0',
       author: '博主'
@@ -151,12 +127,6 @@
 
 
 
-
-
-
-
-
-
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -166,7 +136,7 @@
     
   
 
-  <div class="container sidebar-position-left page-post-detail ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -218,16 +188,6 @@
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
             归档
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-tags">
-          <a href="/tags/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
-            
-            标签
           </a>
         </li>
       
@@ -422,19 +382,18 @@
 
       <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image"
-               src="/images/avatar.gif"
-               alt="Helvetica.D" />
-          <p class="site-author-name" itemprop="name">Helvetica.D</p>
-           
-              <p class="site-description motion-element" itemprop="description">We can!</p>
           
+            <p class="site-author-name" itemprop="name">Helvetica.D</p>
+            <p class="site-description motion-element" itemprop="description">P5天下第一！！</p>
         </div>
+
         <nav class="site-state motion-element">
 
           
             <div class="site-state-item site-state-posts">
+            
               <a href="/archives/">
+            
                 <span class="site-state-item-count">4</span>
                 <span class="site-state-item-name">日志</span>
               </a>
@@ -447,10 +406,10 @@
             
             
             <div class="site-state-item site-state-tags">
-              
+              <a href="/tags/index.html">
                 <span class="site-state-item-count">2</span>
                 <span class="site-state-item-name">标签</span>
-              
+              </a>
             </div>
           
 
@@ -502,22 +461,25 @@
     <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">Helvetica.D</span>
+
+  
 </div>
 
 
-<div class="powered-by">
-  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
-</div>
+  <div class="powered-by">由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动</div>
 
-<div class="theme-info">
-  主题 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
-    NexT.Muse
-  </a>
-</div>
+  <span class="post-meta-divider">|</span>
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.2</div>
 
 
         
+
+
+
+
+
+
 
         
       </div>
@@ -592,11 +554,11 @@
   
   
 
-  
   <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
 <script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
 
 
+  
 
   
 
@@ -626,6 +588,8 @@
 
 
   
+
+
 
 
 
