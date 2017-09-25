@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-09-25T10:58:29.000Z</updated>
+  <updated>2017-09-25T14:11:21.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>WodeXinBoke</title>
+    <link href="http://yoursite.com/2017/09/25/WodeXinBoke/"/>
+    <id>http://yoursite.com/2017/09/25/WodeXinBoke/</id>
+    <published>2017-09-25T14:09:33.000Z</published>
+    <updated>2017-09-25T14:11:21.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>Hello, world<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">#include&lt;stdio.h&gt;</div><div class="line">printf(&quot;hello, world&quot;);</div></pre></td></tr></table></figure></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;Hello, world&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;/pr
+      
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>wodeboke</title>
