@@ -244,6 +244,143 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/28/响应式表格分析/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Helvetica.D">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Helve's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/09/28/响应式表格分析/" itemprop="url">响应式表格分析</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-28T13:26:55+08:00">
+                2017-09-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <script src="/assets/js/APlayer.min.js"> </script><p>深入分析课程：<strong>响应式表格 - 没有更多表格了</strong> 后，对源码的分析如下：</p>
+<p><br></p>
+<p><strong>源代码</strong>:</p>
+<iframe height="265" scrolling="no" title="RWDF L5 No More Tables" src="//codepen.io/Xeonice/embed/dVWNRy/?height=265&theme-id=0&default-tab=html,result&embed-version=2" frameborder="no" allowtransparency="true" allowfullscreen="true" style="width: 100%;">See the Pen <a href="https://codepen.io/Xeonice/pen/dVWNRy/" target="_blank" rel="external">RWDF L5 No More Tables</a> by DouglasDong (<a href="https://codepen.io/Xeonice" target="_blank" rel="external">@Xeonice</a>) on <a href="https://codepen.io" target="_blank" rel="external">CodePen</a>.<br></iframe>
+
+<p><br></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">tr</span><span class="selector-pseudo">:nth-child(odd)</span> &#123;</div><div class="line">  <span class="attribute">background-color</span>: <span class="number">#f9f9f9</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>使用了 nth-child(odd) 选择器对下标是奇数或偶数的 <code>&lt;tr&gt;</code> 进行选择，相关文档可参见 <a href="http://www.w3school.com.cn/cssref/selector_nth-child.asp" target="_blank" rel="external">CSS3 :nth-child() 选择器</a>。</p>
+<p><br></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">thead</span> <span class="selector-tag">tr</span> &#123;</div><div class="line">    <span class="attribute">position</span>: absolute;</div><div class="line">    <span class="attribute">top</span>: -<span class="number">9999px</span>;</div><div class="line">    <span class="attribute">left</span>: -<span class="number">9999px</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>使 DOM 树中的 thead，tr 元素移至浏览器可视窗口之外。不使用 <code>display: none</code> 的原因有两点：</p>
+<ul>
+<li>搜索引擎可能认为被隐藏的文字属于垃圾信息而被忽略，不为隐藏的对象保留物理占位空间。</li>
+<li>会被屏幕阅读器所忽略。</li>
+</ul>
+<p><br></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">td</span> &#123; </div><div class="line">    <span class="attribute">position</span>: relative;</div><div class="line">    <span class="attribute">padding-left</span>: <span class="number">50%</span>; </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>当 <code>mediaQuery</code> 被触发时，设定 <code>padding-left</code> 为页面 <code>width</code> 的50%。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/25/WodeXinBoke/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -315,23 +452,21 @@
       
         
           
-            <script src="/assets/js/APlayer.min.js"> </script><p>Hello, world<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">#include&lt;stdio.h&gt;</div><div class="line">printf(&quot;hello, world&quot;);</div></pre></td></tr></table></figure></p>
-<div id="dplayer0" class="dplayer" style="margin-bottom: 20px;"></div><script>var dplayer0 = new DPlayer({"element":document.getElementById("dplayer0"),"autoplay":0,"theme":"#FADFA3","loop":1,"video":{"url":"http://7xrad6.com1.z0.glb.clouddn.com/The%20Evil%20Within%202%20%E2%80%93%20Official%20E3%20Announce%20Trailer%20%28PEGI%29.mp4"}});</script>
-<div id="aplayer0" class="aplayer" style="margin-bottom: 20px;"></div>
+            <script src="/assets/js/APlayer.min.js"> </script><p>DPlayer 与 Aplayer 插件的简单测试。<br><div id="dplayer0" class="dplayer" style="margin-bottom: 20px;"></div><script>var dplayer0 = new DPlayer({"element":document.getElementById("dplayer0"),"autoplay":0,"theme":"#FADFA3","loop":1,"video":{"url":"http://7xrad6.com1.z0.glb.clouddn.com/The%20Evil%20Within%202%20%E2%80%93%20Official%20E3%20Announce%20Trailer%20%28PEGI%29.mp4"}});</script><br><div id="aplayer0" class="aplayer" style="margin-bottom: 20px;"></div>
 		<script>
 			new APlayer({
 				element: document.getElementById("aplayer0"),
 				narrow: false,
-				autoplay: true,
+				autoplay: false,
 				showlrc: 0,
 				music: {
-					title: "Clocks",
-					author: "Plaid",
+					title: "Clock",
+					author: "Jeff Williams",
 					url: "http://7xrad6.com1.z0.glb.clouddn.com/Clocks%20-%20Plaid.mp3",
 					pic: "",
 				}
 			});
-		</script>
+		</script></p>
 
           
         
@@ -783,7 +918,7 @@
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -838,8 +973,6 @@
         
 
         
-
-        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=16296365&auto=1&height=66"></iframe>
 
 
       </section>
