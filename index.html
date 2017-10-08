@@ -244,12 +244,162 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/03/精通CSS笔记-第二章-为样式找到应用目标/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Helvetica.D">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.PNG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Helve's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/10/03/精通CSS笔记-第二章-为样式找到应用目标/" itemprop="url">第二章--为样式找到应用目标</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-03T02:40:06+08:00">
+                2017-10-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/精通CSS-高级Web标准解决方案/" itemprop="url" rel="index">
+                    <span itemprop="name">精通CSS-高级Web标准解决方案</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <script src="/assets/js/APlayer.min.js"> </script><h1 id="常用的选择器"><a href="#常用的选择器" class="headerlink" title="常用的选择器"></a>常用的选择器</h1><p>最常用的选择器类型是 <strong>类型选择器</strong> 和 <strong>后代选择器</strong> 。</p>
+<p><strong>类型选择器</strong><br>有时被称为 <em>元素选择器</em> 或 <em>简单选择器</em> 是用来寻找特定类型的选择器，例如，我们想要选择网页中所有的 <code>&lt;p&gt;</code> 或 <code>&lt;h1&gt;</code> ，只需按照如下示例进行指定。<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">p</span> &#123;</div><div class="line">    <span class="attribute">color</span>: black;</div><div class="line">&#125;</div><div class="line"><span class="selector-tag">h1</span> &#123;</div><div class="line">    <span class="attribute">font-weight</span>: bold;</div><div class="line">&#125;</div></pre></td></tr></table></figure><br><strong>后代选择器</strong><br>可用来寻找特定元素或元素组的后代。后代选择器由其他两个选择器中间的空格表示。在此事例中，css 属性仅影响 <code>blockquote</code> 的后代的 <code>&lt;p&gt;</code> 元素。<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">blockquote</span> <span class="selector-tag">p</span> &#123;</div><div class="line">    <span class="attribute">padding-left</span>: <span class="number">2em</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure><br>要想寻找更特定的元素，可以使用 <strong>ID选择器</strong> 和 <strong>类选择器</strong> 。顾名思义，这两种选择器用于寻找那些具有指定 <em>ID</em> 或 <em>类名</em> 的元素。下方示例，第一条选择 <code>ID = intro</code> 的元素，第二条选择 <code>class = data-posted</code> 的元素。<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="selector-id">#intro</span> &#123;</div><div class="line">    <span class="attribute">font-weight</span>: bold;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.date-posted</span> &#123;</div><div class="line">    <span class="attribute">color</span>: <span class="number">#ccc</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure><br>注意：如果你发现自己在文档中添加了许多不必要的类，那么这可能是文档结构不合理的一个警告信号。<strong>因此，不要给这些元素指定不同的类，而应将一个 <em>类</em> 或 <em>ID</em> 应用于它们的祖先，然后使用后代选择器定位它们。</strong></p>
+<h1 id="伪类"><a href="#伪类" class="headerlink" title="伪类"></a>伪类</h1><p>用于根据 <em>DOM</em> 流外的条件对元素应用样式，例如表单元素或链接的状态。示例如下：</p>
+<p></p><p data-height="265" data-theme-id="0" data-slug-hash="QqqbKY" data-default-tab="css,result" data-user="Xeonice" data-embed-version="2" data-pen-title="伪类" class="codepen">See the Pen <a href="https://codepen.io/Xeonice/pen/QqqbKY/" target="_blank" rel="external">伪类</a> by DouglasDong (<a href="https://codepen.io/Xeonice" target="_blank" rel="external">@Xeonice</a>) on <a href="https://codepen.io" target="_blank" rel="external">CodePen</a>.</p><p></p>
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+
+<p><code>:link</code> 和 <code>:visited</code> 称为链接伪类， 只能应用于锚元素。 <code>:hover</code> <code>:active</code> 和 <code>:focus</code>称为动态伪类，理论上可应用于任何元素。 <strong>注意：<em>IE6</em> 只注意应用于锚链接的 <code>:active</code> 和 <code>:hover</code> 选择器，完全忽略 <code>:focus</code> 。<em>IE7</em> 在任何元素上都支持 <code>:hover</code> ，但是忽略 <code>:active</code> 和 <code>:focus</code>。</strong></p>
+<h1 id="通用选择器"><a href="#通用选择器" class="headerlink" title="通用选择器"></a>通用选择器</h1><p>通用选择器就像是通配符，作用是对页面上所有的元素应用样式。例如，可以使用下列代码清除每个元素上默认的 <code>padding</code> 和 <code>margin</code>。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">* &#123;</div><div class="line">    <span class="attribute">padding</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">margin</span>: <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/28/响应式表格分析/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Helvetica.D">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/avatar.PNG">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -393,7 +543,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Helvetica.D">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/avatar.PNG">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -527,7 +677,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Helvetica.D">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/avatar.PNG">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -647,7 +797,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Helvetica.D">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/avatar.PNG">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -766,7 +916,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Helvetica.D">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/avatar.PNG">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -911,7 +1061,7 @@
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           
             <img class="site-author-image" itemprop="image"
-              src="/images/avatar.gif"
+              src="/images/avatar.PNG"
               alt="Helvetica.D" />
           
             <p class="site-author-name" itemprop="name">Helvetica.D</p>
@@ -925,12 +1075,21 @@
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">6</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
           
 
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
           
 
           
