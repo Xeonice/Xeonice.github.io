@@ -107,9 +107,9 @@
     </summary>
     
     
-      <category term="CSS" scheme="http://yoursite.com/tags/CSS/"/>
-    
       <category term="Javascript" scheme="http://yoursite.com/tags/Javascript/"/>
+    
+      <category term="CSS" scheme="http://yoursite.com/tags/CSS/"/>
     
   </entry>
   
