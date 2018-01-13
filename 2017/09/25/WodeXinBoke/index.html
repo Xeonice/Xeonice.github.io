@@ -71,17 +71,17 @@
 
 
 
-<meta name="description" content="DPlayer 与 Aplayer 插件的简单测试。var dplayer0 = new DPlayer({&quot;element&quot;:document.getElementById(&quot;dplayer0&quot;),&quot;autoplay&quot;:0,&quot;theme&quot;:&quot;#FADFA3&quot;,&quot;loop&quot;:1,&quot;video&quot;:{&quot;url&quot;:&quot;http://7xrad6.com1.z0.glb.clouddn.com/The%2">
+<meta name="description" content="DPlayer 与 Aplayer 插件的简单测试。 		 			var ap = new APlayer({ 				element: document.getElementById(&quot;aplayer0&quot;), 				narrow: false, 				autoplay: false, 				showlrc: 0, 				music: { 					title: &quot;Clock&quot;,">
 <meta property="og:type" content="article">
 <meta property="og:title" content="WodeXinBoke">
 <meta property="og:url" content="http://yoursite.com/2017/09/25/WodeXinBoke/index.html">
 <meta property="og:site_name" content="Helve&#39;s Blog">
-<meta property="og:description" content="DPlayer 与 Aplayer 插件的简单测试。var dplayer0 = new DPlayer({&quot;element&quot;:document.getElementById(&quot;dplayer0&quot;),&quot;autoplay&quot;:0,&quot;theme&quot;:&quot;#FADFA3&quot;,&quot;loop&quot;:1,&quot;video&quot;:{&quot;url&quot;:&quot;http://7xrad6.com1.z0.glb.clouddn.com/The%2">
+<meta property="og:description" content="DPlayer 与 Aplayer 插件的简单测试。 		 			var ap = new APlayer({ 				element: document.getElementById(&quot;aplayer0&quot;), 				narrow: false, 				autoplay: false, 				showlrc: 0, 				music: { 					title: &quot;Clock&quot;,">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-09-28T05:39:35.000Z">
+<meta property="og:updated_time" content="2018-01-13T13:44:30.452Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="WodeXinBoke">
-<meta name="twitter:description" content="DPlayer 与 Aplayer 插件的简单测试。var dplayer0 = new DPlayer({&quot;element&quot;:document.getElementById(&quot;dplayer0&quot;),&quot;autoplay&quot;:0,&quot;theme&quot;:&quot;#FADFA3&quot;,&quot;loop&quot;:1,&quot;video&quot;:{&quot;url&quot;:&quot;http://7xrad6.com1.z0.glb.clouddn.com/The%2">
+<meta name="twitter:description" content="DPlayer 与 Aplayer 插件的简单测试。 		 			var ap = new APlayer({ 				element: document.getElementById(&quot;aplayer0&quot;), 				narrow: false, 				autoplay: false, 				showlrc: 0, 				music: { 					title: &quot;Clock&quot;,">
 
 
 
@@ -127,7 +127,7 @@
 
 
 
-<script src="/assets/js/DPlayer.min.js"></script></head>
+</head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
@@ -311,9 +311,9 @@
       
 
       
-        <script src="/assets/js/APlayer.min.js"> </script><p>DPlayer 与 Aplayer 插件的简单测试。<br><div id="dplayer0" class="dplayer" style="margin-bottom: 20px;"></div><script>var dplayer0 = new DPlayer({"element":document.getElementById("dplayer0"),"autoplay":0,"theme":"#FADFA3","loop":1,"video":{"url":"http://7xrad6.com1.z0.glb.clouddn.com/The%20Evil%20Within%202%20%E2%80%93%20Official%20E3%20Announce%20Trailer%20%28PEGI%29.mp4"}});</script><br><div id="aplayer0" class="aplayer" style="margin-bottom: 20px;"></div>
+        <script src="/assets/js/APlayer.min.js"> </script><p>DPlayer 与 Aplayer 插件的简单测试。<br><div id="aplayer0" class="aplayer" style="margin-bottom: 20px;"></div>
 		<script>
-			new APlayer({
+			var ap = new APlayer({
 				element: document.getElementById("aplayer0"),
 				narrow: false,
 				autoplay: false,
@@ -325,6 +325,8 @@
 					pic: "",
 				}
 			});
+			window.aplayers || (window.aplayers = []);
+			window.aplayers.push(ap);
 		</script></p>
 
       
@@ -433,7 +435,7 @@
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-count">8</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -518,7 +520,7 @@
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2017</span>
+  <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -676,4 +678,5 @@
 
   
 
-<link rel="stylesheet" type="text/css" href="/assets/css/DPlayer.min.css"></link>
+</body>
+</html>

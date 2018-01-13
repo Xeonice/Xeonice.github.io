@@ -101,7 +101,7 @@
 <meta property="og:image" content="http://7xrad6.com1.z0.glb.clouddn.com/3-22.png">
 <meta property="og:image" content="http://7xrad6.com1.z0.glb.clouddn.com/3-23.png">
 <meta property="og:image" content="http://7xrad6.com1.z0.glb.clouddn.com/3-24.png">
-<meta property="og:updated_time" content="2017-11-16T07:52:18.778Z">
+<meta property="og:updated_time" content="2017-11-19T07:13:14.041Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="第三章--可视化格式模型">
 <meta name="twitter:description" content="盒模型概述盒模型是 CSS 的基石之一，它指定元素如何显示以及（在某种程度上）如何相互交互。页面上的每个元素被看作一个矩形框，这个框由元素的内容，内边距，边框和外边距组成。 内边距内边距常用用于在内容周围创建一个隔离带，使内容不会与背景混在一起。 外边距外边距是透明的，一般使用它控制元素之间的间隔。 盒模型示意图 内边距，边框和外边距都是可选的，默认值为0。但是，许多元素将由用户代理样式表设置外">
@@ -357,7 +357,7 @@
       
 
       
-        <script src="/assets/js/APlayer.min.js"> </script><h1 id="盒模型概述"><a href="#盒模型概述" class="headerlink" title="盒模型概述"></a>盒模型概述</h1><p>盒模型是 CSS 的基石之一，它指定元素如何显示以及（在某种程度上）如何相互交互。页面上的每个元素被看作一个矩形框，这个框由元素的内容，内边距，边框和外边距组成。</p>
+        <script src="/assets/js/APlayer.min.js"> </script><h1 id="盒模型概述"><a href="#盒模型概述" class="headerlink" title="盒模型概述"></a>盒模型概述</h1><p>盒模型是 CSS 的基石之一，<strong>它指定元素如何显示以及（在某种程度上）如何相互交互</strong>。页面上的每个元素被看作一个矩形框，这个框由元素的内容，内边距，边框和外边距组成。</p>
 <h2 id="内边距"><a href="#内边距" class="headerlink" title="内边距"></a>内边距</h2><p>内边距常用用于在内容周围创建一个隔离带，使内容不会与背景混在一起。</p>
 <h2 id="外边距"><a href="#外边距" class="headerlink" title="外边距"></a>外边距</h2><p>外边距是透明的，一般使用它控制元素之间的间隔。</p>
 <h3 id="盒模型示意图"><a href="#盒模型示意图" class="headerlink" title="盒模型示意图"></a>盒模型示意图</h3><p><img src="http://7xrad6.com1.z0.glb.clouddn.com/3-1.png" alt="3-1"></p>
@@ -414,7 +414,7 @@
 <p>与相对定位一样，绝对定位的框可以从它的包含块向上、下、左、右移动。</p>
 <p>因为绝对定位的框与文档流无关，因此它们可以覆盖页面上的其他元素。可以通过设置 z-index 来控制这些框的叠放顺序，z-index 值越高，框的位置就越高。</p>
 <p>相对于最近的已定位祖先元素来定位绝对定位的元素，能够实现一些非常有意思的效果。例如，假设希望让一个文本段落对准一个大框的右下角，只需对包含框进行相对定位，然后相对于这个框对段落进行绝对定位：</p>
-<p></p><p data-height="308" data-theme-id="0" data-slug-hash="wPqVKE" data-default-tab="css,result" data-user="Xeonice" data-embed-version="2" data-pen-title="wPqVKE" class="codepen">See the Pen <a href="https://codepen.io/Xeonice/pen/wPqVKE/" target="_blank" rel="external">wPqVKE</a> by DouglasDong (<a href="https://codepen.io/Xeonice" target="_blank" rel="external">@Xeonice</a>) on <a href="https://codepen.io" target="_blank" rel="external">CodePen</a>.</p><p></p>
+<p></p><p data-height="308" data-theme-id="0" data-slug-hash="wPqVKE" data-default-tab="css,result" data-user="Xeonice" data-embed-version="2" data-pen-title="wPqVKE" class="codepen">See the Pen <a href="https://codepen.io/Xeonice/pen/wPqVKE/" target="_blank" rel="noopener">wPqVKE</a> by DouglasDong (<a href="https://codepen.io/Xeonice" target="_blank" rel="noopener">@Xeonice</a>) on <a href="https://codepen.io" target="_blank" rel="noopener">CodePen</a>.</p><p></p>
 <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
 
 <p>注意：因为绝对定位的元素和文档流无关，所以它们不会影响普通流中的框。如果扩大绝对定位的框（例如：增加字号），周围的框不会重新定位。因此，尺寸的任何改变都会导致绝对定位的框产生重叠，从而破坏布局。</p>
@@ -437,7 +437,7 @@
 <p>因为浮动元素脱离了文档流，所以包围图片和文本的 div 不占据空间。<br>浮动元素脱离了文档流，使包含图片和文本的 div 不占空间，使元素在视觉上包括浮动元素的方法是：在这个元素中的某个地方运用 clear 。本例中添加在了最后一个段落下面。</p>
 <p><img src="http://7xrad6.com1.z0.glb.clouddn.com/3-24.png" alt="3-24"></p>
 <p>还可以选择浮动容器 div</p>
-<p></p><p data-height="301" data-theme-id="0" data-slug-hash="vWJoxp" data-default-tab="css,result" data-user="Xeonice" data-embed-version="2" data-pen-title="vWJoxp" class="codepen">See the Pen <a href="https://codepen.io/Xeonice/pen/vWJoxp/" target="_blank" rel="external">vWJoxp</a> by DouglasDong (<a href="https://codepen.io/Xeonice" target="_blank" rel="external">@Xeonice</a>) on <a href="https://codepen.io" target="_blank" rel="external">CodePen</a>.</p><p></p>
+<p></p><p data-height="301" data-theme-id="0" data-slug-hash="vWJoxp" data-default-tab="css,result" data-user="Xeonice" data-embed-version="2" data-pen-title="vWJoxp" class="codepen">See the Pen <a href="https://codepen.io/Xeonice/pen/vWJoxp/" target="_blank" rel="noopener">vWJoxp</a> by DouglasDong (<a href="https://codepen.io/Xeonice" target="_blank" rel="noopener">@Xeonice</a>) on <a href="https://codepen.io" target="_blank" rel="noopener">CodePen</a>.</p><p></p>
 <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
 
 <p>这也会产生我们想要的结果。但是，下一个元素会受到这个浮动元素的影响。为了解决这个问题，有些人选择浮动布局中的几乎所有东西，然后使用合适的元素（常常是站点的页脚）对这些浮动元素进行清理。这有助于减少或消除不必要的标记。但是，浮动会变得复杂，而且一些老式浏览器在处理有许多浮动元素布局时有困难。因此，许多人喜欢添加少量的额外标记。</p>
@@ -484,6 +484,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/11/19/4-1/" rel="prev" title="第四章 -- 背景图像效果">
+                第四章 -- 背景图像效果 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -563,7 +567,7 @@
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-count">8</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -664,7 +668,7 @@
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2017</span>
+  <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
