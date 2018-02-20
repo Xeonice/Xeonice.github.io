@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="CSS," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Helve's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="计划布局在开始把设计转换为功能完整的模板时，设计者往往很想马上开始编写页面和处理图像。但是，这样做很快就会遇到麻烦。相反，先做一点儿计划可以避免很多问题。 要想创建可伸缩且容易维护的 CSS 系统，首先应该检查设计，寻找重复的模式，这包括页面结构中的模式或在站点中元素反复出现的方式。在这个阶段，不应该太关注表现方式，而是应该注意结构和意义。我喜欢打印出每个设计，圈出模式，然后在每个页面上随便写上">
+<meta name="keywords" content="CSS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第八章 -- 布局">
+<meta property="og:url" content="http://yoursite.com/2018/02/05/2018-02-05/index.html">
+<meta property="og:site_name" content="Helve&#39;s Blog">
+<meta property="og:description" content="计划布局在开始把设计转换为功能完整的模板时，设计者往往很想马上开始编写页面和处理图像。但是，这样做很快就会遇到麻烦。相反，先做一点儿计划可以避免很多问题。 要想创建可伸缩且容易维护的 CSS 系统，首先应该检查设计，寻找重复的模式，这包括页面结构中的模式或在站点中元素反复出现的方式。在这个阶段，不应该太关注表现方式，而是应该注意结构和意义。我喜欢打印出每个设计，圈出模式，然后在每个页面上随便写上">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-02-18T20:11:45.496Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="第八章 -- 布局">
+<meta name="twitter:description" content="计划布局在开始把设计转换为功能完整的模板时，设计者往往很想马上开始编写页面和处理图像。但是，这样做很快就会遇到麻烦。相反，先做一点儿计划可以避免很多问题。 要想创建可伸缩且容易维护的 CSS 系统，首先应该检查设计，寻找重复的模式，这包括页面结构中的模式或在站点中元素反复出现的方式。在这个阶段，不应该太关注表现方式，而是应该注意结构和意义。我喜欢打印出每个设计，圈出模式，然后在每个页面上随便写上">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.2',
+    sidebar: {"position":"left","display":"always","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/02/05/2018-02-05/"/>
+
+
+
+
+
+  <title>第八章 -- 布局 | Helve's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Helve's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/05/2018-02-05/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Helvetica.D">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.PNG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Helve's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">第八章 -- 布局</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-05T04:35:24+08:00">
+                2018-02-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/精通CSS-高级Web标准解决方案/" itemprop="url" rel="index">
+                    <span itemprop="name">精通CSS-高级Web标准解决方案</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <script src="/assets/js/APlayer.min.js"> </script><h1 id="计划布局"><a href="#计划布局" class="headerlink" title="计划布局"></a>计划布局</h1><p>在开始把设计转换为功能完整的模板时，设计者往往很想马上开始编写页面和处理图像。但是，这样做很快就会遇到麻烦。相反，先做一点儿计划可以避免很多问题。</p>
+<p>要想创建可伸缩且容易维护的 CSS 系统，首先应该检查设计，寻找重复的模式，这包括页面结构中的模式或在站点中元素反复出现的方式。在这个阶段，不应该太关注表现方式，而是应该注意结构和意义。我喜欢打印出每个设计，圈出模式，然后在每个页面上随便写上批注。但是，有些人喜欢在 Phootoshop 文件上加批注或是使用灰色框设计图。</p>
+<p>先把页面划分为大的结构性区域，比如容器、页眉、内容区域和页脚。这些区域在整个站点中往往是一致的，很少改变。如果用建筑来类比，可以把这些区域看做建筑物的外墙。</p>
+<p>然后，将注意力转移到内容区域本身，开始建立网格结构。设计有多少个不同的内容区域？它们有什么差异？从布局的角度来说，内容区域是确实不一样，还是可以被同等看待？大多数设计只有几个独特的内容区域，所以应该寻找共同的特征而不是视觉表现。你可以把这些内容区域看做建筑物的内部承重墙。</p>
+<p>最后，在各个内容区域中寻找不同的布局结构。是否需要把某些信息分为两列、三列或四列？与前面不同，这些布局结构往往非常灵活，在各个页面之间常常有变化。可以把它们看做建筑物的隔断墙。将这些结构与前一步相结合，可以形成每个页面的结构计划。现在，要拿起绘图纸和彩色铅笔，开始详细设计结构和尺寸。</p>
+<p>结构设计完以后，现在可以开始关注不同类型的内容。内容是新闻稿、文章还是公告？给每个内容块起一个有意义的名称，然后分析它们的关系。可能新闻稿和公告实际上没什么差别，在这种情况下，把它们组合成一个内容类型是有道理的。</p>
+<p>查看每个内容块的结构，看看不同的类型中是否有共同的模式。例如，文章和新闻稿可能都有醒目的页眉和页脚，所以可以加上相应的标识。即使页眉和页脚看起来不一样，实际上也没关系，因为以后可以根据上下文应用样式。对于错误消息、搜索框和菜单项等也是这样。应该尽量采用一般的类名，然后根据上下文应用样式。</p>
+<p>找出模式并确定命名约定之后，最好马上开始定义将使用的元素，这是有好处的。例如，链接列表可能是一个无序列表，而文章可能是一个 <code>div</code>，其中包含 <code>h2</code>、段落和锚元素。与几位同事一起提前定义元素，比随时添加元素容易得多。我还发现应该记下颜色编码、尺寸等信息，这在开发阶段会有帮助。另外，可以在设计的打印稿上添加批注以便快速参考。</p>
+<h1 id="设置基本结构"><a href="#设置基本结构" class="headerlink" title="设置基本结构"></a>设置基本结构</h1><p>假设我们要开发一个典型的三列博客模板，见下图</p>
+<p>示例图</p>
+<p><center>典型的三列布局</center><br><br></p>
+<p>通过分析设计发现，我们需要用一个容器元素让设计居中，其中包含页眉、内容区域和页脚。因此，标记应该像下面这样。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"wrapper"</span>&gt;</span></div><div class="line">    </div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"header"</span>&gt;</span></div><div class="line">            <span class="comment">&lt;!--Your header content goes here--&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"content"</span>&gt;</span></div><div class="line">            <span class="comment">&lt;!--Your pages content goes here--&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"footer"</span>&gt;</span></div><div class="line">            <span class="comment">&lt;!--Your footer content goes here--&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">        </div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>因为后三个区域放在容器中，我们先设置容器元素的样式。</p>
+<h2 id="使用外边距让设计居中"><a href="#使用外边距让设计居中" class="headerlink" title="使用外边距让设计居中"></a>使用外边距让设计居中</h2><p>长文本行可能阅读起来很困难，让人讨厌。现代显示器的尺寸越来越大，屏幕可读性问题变得越来越重要。缓解这个问题的一种方法是让设计居中。居中是指只占据屏幕的一部分，而不是横跨屏幕的整个宽度，这样就会创建比较短的容易阅读的行。</p>
+<p>假设有一个典型的布局，希望让其中的容器 <code>div</code> 在屏幕上水平居中：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"wrapper"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>为此，只需定义容器 <code>div</code> 的宽度，然后将水平外边距设置为 <code>auto</code>：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">.wrapper &#123;</div><div class="line">    width: 920px;</div><div class="line">    margin: 0 auto;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在这个示例中，我决定以像素为单位指定容器 <code>div</code> 的宽度，让它适合分辨率为 <code>1024x768</code> 的屏幕。但是，也可以将宽度设置为主体的百分之几，或者使用 <code>em</code> 相对于文本字号设置宽度。</p>
+<h1 id="基于浮动的布局"><a href="#基于浮动的布局" class="headerlink" title="基于浮动的布局"></a>基于浮动的布局</h1><p>用 CSS 进行布局有几种不同的方式，包括绝对定位和使用负的外边距值。我发现基于浮动的布局是最容易使用的，也是最可靠的。顾名思义，在基于浮动的布局中，只需设置希望定位的元素的宽度，然后将它们向左或向右浮动。</p>
+<p>因为浮动的元素不再占据文档流中的任何空间，它们就不再对包围它们的块框产生任何影响。为了解决这个问题，需要对布局中各个点上的浮动元素进行清理。非常常见的做法不是连续地浮动和清理元素，而是浮动几乎所有东西，然后在整个文档的“战略点”（比如页脚）上进行一次或两次清理。还可以使用溢出方法清理某些元素的内容。这是我目前最喜欢的方法，所以在后面的示例中都是用这种方法。</p>
+<h2 id="两列的浮动布局"><a href="#两列的浮动布局" class="headerlink" title="两列的浮动布局"></a>两列的浮动布局</h2><p>要在内容区创建一个两列布局，首先需要创建一个基本的 HTML 结构。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"content"</span>&gt;</span></div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"primary"</span>&gt;</span></div><div class="line">        <span class="comment">&lt;!-- main content goes here --&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    </div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"secondary"</span>&gt;</span></div><div class="line">        <span class="comment">&lt;!-- navigation and secondary content goes here --&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>这个设计的次要内容区域（包括站点导航）将位于页面的左边，主内容位于右边。但是，为了提高易用性和可访问性，我选择在源代码中将主内容区域放在次要内容区域的前面。首先，主内容是页面上最重要的东西，所以在文档中应该先出现。其次，这样可以方便屏幕阅读器用户，他们用不着经过可能很长的链接列表和不太重要的内容（比如站点宣传）就能找到主内容部分。</p>
+<p>在创建基于浮动的布局时，一般将两列都向左浮动，然后使用外边距或内边距在两列之间创建一个隔离带。在使用这种方法时，列在可用空间内包得很紧，没有喘息的空间。如果浏览器表现良好的话，这不是问题；但是差劲的浏览器会打乱紧密的布局，迫使一列退到另一列下面。（比如 IE）</p>
+<p>实现这个布局的 CSS 非常简单。只需为每个列设置想要的宽度，然后将次要内容向左浮动，将主内容向左浮动。还需要在主内容中添加一点儿内边距，以避免其中包含的文本紧挨着元素的右边缘。注意，我还在所有浮动元素中添加了 <code>display: inline</code>。这个预防措施用来防止 IE 中的双内边距浮动产生的 bug（详细信息见下一章）。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.content</span> <span class="selector-class">.primary</span> &#123;</div><div class="line">    <span class="attribute">width</span>: <span class="number">650px</span>;</div><div class="line">    <span class="attribute">padding-right</span>: <span class="number">20px</span>;</div><div class="line">    <span class="attribute">float</span>: right;</div><div class="line">    <span class="attribute">display</span>: inline;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-class">.content</span> <span class="selector-class">.secondary</span> &#123;</div><div class="line">    <span class="attribute">width</span>: <span class="number">230px</span>;</div><div class="line">    <span class="attribute">float</span>: left;</div><div class="line">    <span class="attribute">display</span>: inline;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>因为总宽度是 920 像素，这些设置在每个浮动元素之间留出 20 像素宽的隔离带。正如前面提到的，这可以防止内容扩展导致浮动元素下降。</p>
+<p>因为这些元素是浮动的，它们不再在文档流中占据任何空间，这会导致页脚向上升。为了避免这种情况，需要对它们的父元素（在这里是内容 <code>div</code>）应用溢出方法，从而清理浮动元素。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">.content &#123;</div><div class="line">    overflow: hidden;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>现在你看到效果：一个简单的两列 CSS 布局（见下图）。</p>
+<p>示例图</p>
+<p><center>浮动的两列布局</center><br><br></p>
+<p>注意，我没有把创建的两个元素命名为 <code>primary-content</code> 和 <code>secondary-content</code>，而是简称为 <code>primary</code> 和 <code>secondary</code>。这两个元素嵌套在 <code>content</code> 元素中，可以创建关联，我利用了这一事实。这有两个好处。首先，不需要为要应用样式的每个元素创建新的类名，而应使用层叠找到元素。更重要的是，可以多次使用 <code>primary</code> 和 <code>secondary</code> 类，这会创建一个非常灵活的命名系统。例如，假设我们希望创建的是三列布局而不是两列布局，具体方法请见下一节。</p>
+<h2 id="三列的浮动布局"><a href="#三列的浮动布局" class="headerlink" title="三列的浮动布局"></a>三列的浮动布局</h2><p>创建三列布局所需的 HTML 与两列布局的 HTML 非常相似，唯一的差异是在内容 <code>div</code> 中添加了两个新的 <code>div</code>：一个用于主内容，另一个用于次要内容。因此，可以重用灵活的 <code>primary</code> 和 <code>secondary</code> 类名。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"content"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"primary"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"primary"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">--</span> <span class="attr">your</span> <span class="attr">primary</span> <span class="attr">primary</span> <span class="attr">content</span> <span class="attr">goes</span> <span class="attr">here</span> <span class="attr">--</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"secondary"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">--</span> <span class="attr">your</span> <span class="attr">secondary</span> <span class="attr">primary</span> <span class="attr">content</span> <span class="attr">goes</span> <span class="attr">here</span> <span class="attr">--</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    </div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"secondary"</span>&gt;</span></div><div class="line">        <span class="comment">&lt;!--navigation and secondary content goes here --&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    </div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>可以使用与两列布局技术相同的 CSS，将次要内容向左浮动，将主内容向右浮动。然后，在主内容 <code>div</code> 中。将主 <code>div</code> 向左浮动，将次要 <code>div</code> 向右浮动（见下图）。这其实就是将主内容区域分成两列，从而形成三列的效果。</p>
+<p>与前面一样，所用的 CSS 非常简单。只需设置想要的宽度，然后将主 <code>div</code> 向左浮动，将次要 <code>div</code> 向右浮动，在中间留出 20 像素的间距：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">.content .primary .primary &#123;</div><div class="line">    width: 400px;</div><div class="line">    float: left;</div><div class="line">    display: inline;</div><div class="line">&#125;</div><div class="line"></div><div class="line">.content .primary .secondary &#123;</div><div class="line">    width: 230px;</div><div class="line">    float: right;</div><div class="line">    display: inline;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>示例图</p>
+<p><center>通过将内容列分成两列，形成三列布局</center><br><br></p>
+<p>注意，第一个示例中主 <code>div</code> 中添加的右内边距现在要应用在第二个示例的主 <code>div</code> 上。因此，需要从一般样式中删除内边距，把它应用于更特定的样式。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.content</span> <span class="selector-class">.primary</span> &#123;</div><div class="line">    <span class="attribute">width</span>: <span class="number">670px</span>; <span class="comment">/* width increased and padding removed */</span></div><div class="line">    <span class="attribute">float</span>: right;</div><div class="line">    <span class="attribute">display</span>: inline;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-class">.content</span> <span class="selector-class">.secondary</span> &#123;</div><div class="line">    <span class="attribute">width</span>: <span class="number">230px</span>;</div><div class="line">    <span class="attribute">float</span>: left;</div><div class="line">    <span class="attribute">display</span>: inline;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-class">.content</span> <span class="selector-class">.primary</span> <span class="selector-class">.primary</span> &#123;</div><div class="line">    <span class="attribute">width</span>: <span class="number">400px</span>;</div><div class="line">    <span class="attribute">float</span>: left;</div><div class="line">    <span class="attribute">display</span>: inline;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-class">.content</span> <span class="selector-class">.primary</span> <span class="selector-class">.secondary</span> &#123;</div><div class="line">    <span class="attribute">width</span>: <span class="number">230px</span>;</div><div class="line">    <span class="attribute">padding-right</span>: <span class="number">20px</span>;</div><div class="line">    <span class="attribute">float</span>: right;</div><div class="line">    <span class="attribute">display</span>: inline;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这样就形成了一个漂亮的三列布局（见下图）。</p>
+<p>示例图</p>
+<p><center>使用浮动的三列布局</center><br><br></p>
+<h1 id="固定宽度、流式和弹性布局"><a href="#固定宽度、流式和弹性布局" class="headerlink" title="固定宽度、流式和弹性布局"></a>固定宽度、流式和弹性布局</h1><p>固定宽度的布局，可以在知道每个元素的精确宽度的情况下进行精确的布局，而且知道所有的东西在什么地方。这使固定宽度的布局成为最简便、最常用的布局方法。</p>
+<p>但是，固定宽度的布局也有缺点。首先，因为它们是固定的，所以无论窗口的尺寸有多大，它们的尺寸总是不变。因此，它们无法充分利用可用空间。在高分辨率的屏幕上，为分辨率为 1024x760 的屏幕创建的设计会缩小并且出现在屏幕的中甲。反之，为分辨率为 1024x760 的屏幕创建的设计在低分辨率上的屏幕会导致水平滚动。随着屏幕尺寸范围越来越大，固定宽度设计越来越不适应灵活的 Web。因此，它们常常被认为是糟糕的权宜之计。</p>
+<p>固定宽度的另一个问题是关于行长和文本易读性的。固定宽度的布局往往适合于浏览器默认字号，但是，只要将文本字号增加几级，边栏就会挤满空间并且行长太短，阅读起来不舒服。</p>
+<p>为了解决这些问题，可以使用流式布局或者弹性布局替代固定宽度的布局。</p>
+<h2 id="流式布局"><a href="#流式布局" class="headerlink" title="流式布局"></a>流式布局</h2><p>在使用流式布局时，尺寸是用百分数而不是像素设置的。这使流式布局能相对于浏览器窗口进行伸缩。随着浏览器窗口变大，列也会变宽。相反，随着窗口变小，列的宽度也减小。流式布局可以非常高效的利用空间。</p>
+<p>但是，流式布局也不是没有问题的。在窗口宽度较小的时候，行变得非常窄，很难阅读。在多列布局中尤其如此。因此，有必要添加以像素或 <code>em</code> 为单位的 <code>min-width</code>，从而防止布局变得太窄。但是，如果 <code>mid-width</code> 设置的太大，流式设计也会遇到与固定宽度布局相同的限制。</p>
+<p>与之相反，如果设计横跨整个浏览器窗口，那么行就变得太长，也很难阅读。可以采取几个措施来避免这个问题。首先，不要横跨浏览器而是让容器只跨越宽度的一部分，比如 <code>85%</code>。还可以考虑用百分数设置内边距和外边距，这样的话，内边距和外边距的宽度将随着窗口尺寸而变，可以防止列太快得变得过宽。最后，对于非常严重的情况，也可以选择为容器设置最大宽度，以防止内容在大显示器上变得过宽。</p>
+<p>可以使用这些技术将前面的固定宽度的三列布局转换为流式三列布局。首先，将容器宽度设置为窗口总宽度的百分数。大多数人根据自己屏幕上的效果选择尺寸，这很好。但是，如果希望更精确一点，可以通过查看浏览器统计数据确定最常用的窗口尺寸，然后根据固定宽度版本和这个尺寸的比例选择容器半分熟。例如，如果设计者使用的宽度为 <code>960px</code>，而大多数用户的浏览器窗口设置为 <code>1250px</code>，那么使用的百分数是 <code>(960/1250) * 100 = 76.8%</code>。</p>
+<p>接下来，以容器宽度的百分数形式设置主内容区域和次要内容区域的宽度。在前面的示例中，主内容 <code>div</code> 的宽度是 <code>670px</code>。因为总宽度是 <code>920px</code>，计算结果为 <code>72.82%</code>。以相似的方法计算出次要内容 <code>div</code> 的宽度是 <code>25%</code>。这在导航元素和容器之间流出 <code>2.18%</code> 的隔离带，从而应对任何取整错误和宽度差异。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.wrapper</span> &#123;</div><div class="line">    <span class="attribute">wifth</span>: <span class="number">76.8%</span>;</div><div class="line">    <span class="attribute">margin</span>: <span class="number">0</span> auto;</div><div class="line">    <span class="attribute">text-align</span>: left;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-class">.content</span> <span class="selector-class">.primary</span> &#123;</div><div class="line">    <span class="attribute">width</span>: <span class="number">72.82%</span>;</div><div class="line">    <span class="attribute">float</span>: right;</div><div class="line">    <span class="attribute">display</span>: inline;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-class">.conetent</span> <span class="selector-class">.secondary</span> &#123;</div><div class="line">    <span class="attribute">width</span>: <span class="number">25%</span>;</div><div class="line">    <span class="attribute">float</span>: left;</div><div class="line">    <span class="attribute">display</span>: inline;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>然后需要设置主内容区域中列的宽度。这需要一点儿技巧，因为内容 <code>div</code> 的宽度依据的是主内容元素的宽度，而不是整个容器。现在，主 <code>div</code> 的宽度是 <code>400px</code>，即父元素的 <code>59.7%</code>。以相似的方法计算出次要 <code>div</code> 的宽度是 <code>34.33%</code>。最后，还需要 <code>20px</code> 的槽，即父元素的 <code>2.63%</code>。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">.content .primary .primary&#123;</div><div class="line">    width: 59.7%;</div><div class="line">    float: left;</div><div class="line">    display: inline;</div><div class="line">&#125;</div><div class="line"></div><div class="line">.content .primary .secondary &#123;</div><div class="line">    width: 34.33%;</div><div class="line">    padding-right: 2.63%;</div><div class="line">    float: right;</div><div class="line">    display: inline;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这会产生一个最适合 <code>1250px</code> 像素窗口的流式布局，但是在屏幕分辨率更大或更小时阅读起来也比较舒服。</p>
+<p>示例图</p>
+<p><center>三列流式布局在屏幕分辨率为 800x600、1024x768 和 1152x900 时的效果</center><br><br></p>
+<p>因为这个布局会恰当地伸缩，所以不需要添加 <code>max-width</code> 属性。但是，为确保文本行的长度适合阅读，最好添加以 <code>em</code> 为单位的 <code>max-width</code>。对于比较小的窗口尺寸，这个布局会有点儿挤，所以还添加以 <code>em</code> 为单位的 <code>min-width</code>。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">.wrapper &#123;</div><div class="line">    width: 76.8%;</div><div class="line">    margin: 0 auto;</div><div class="line">    text-align: left;</div><div class="line">    max-width: 125em;</div><div class="line">    min-width: 62em;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>现在你应该看到了一个漂亮灵活的流式布局。</p>
+<h2 id="弹性布局"><a href="#弹性布局" class="headerlink" title="弹性布局"></a>弹性布局</h2><p>虽然流式布局可以充分利用可用空间，但是在大分辨率显示器上，行仍然会过长，让用户不舒服。相反，在窄窗口中或者在增加文本字号时，行会变得非常短，内容很零碎。对于这个问题，弹性布局可能会是一种解决方案。</p>
+<p>弹性布局相对于字号（而不是浏览器宽度）来设置元素的宽度。以 <code>em</code> 为单位设置宽度，可以确保在字号增加时整个布局随之扩大。这可以将行长保持在可阅读的范围，对于视力弱或有认知障碍的人尤其有用。</p>
+<p>与其他布局技术一样，弹性布局也有自己的问题。弹性布局的一些问题与固定宽度布局相同，比如不能充分利用可用空间。另外，因为在文本字号增加时整个布局会加大，所以弹性布局会变得比浏览器窗口宽，导致水平滚动条出现。为了防止这种情况，可能需要在容器 <code>div</code> 上添加 <code>100%</code> 的 <code>max-width</code>。</p>
+<p>大多数浏览器上的默认字号是 <code>16px</code>，<code>10px</code> 大约是 <code>16px</code> 的 <code>62.5%</code>，所以在主体上将字号设置为 <code>62.5%</code> 就可以了：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">body &#123;</div><div class="line">    font-size: 62.5%;</div><div class="line">    text-align: center;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>因为在使用默认字号时 <code>1em</code> 现在相当于 <code>10px</code>，所以可以相当轻松地将固定宽度布局转换为弹性布局。在本书的前一个版本中，我建议以 <code>em</code> 为单位设置所有宽度。但是，<strong>我的同事建议内部宽度仍然使用百分数，只以 em 为单位设置容器的宽度。这样的话，内部宽度仍然是相对于字号的。</strong>这样就可以方便地修改布局的总尺寸，不必修改每个元素的宽度，这种解决方案更灵活、更易于维护。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.wrapper</span> &#123;</div><div class="line">    <span class="attribute">width</span>: <span class="number">92em</span>;</div><div class="line">    <span class="attribute">max-width</span>: <span class="number">95%</span>;</div><div class="line">    <span class="attribute">margin</span>: <span class="number">0</span> auto;</div><div class="line">    <span class="attribute">text-align</span>: left;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.content</span> <span class="selector-class">.primary</span> &#123;</div><div class="line">    <span class="attribute">width</span>: <span class="number">72.82%</span>;</div><div class="line">    <span class="attribute">float</span>: right;</div><div class="line">    <span class="attribute">display</span>: inline;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-class">.content</span> <span class="selector-class">.secondary</span> &#123;</div><div class="line">    <span class="attribute">width</span>: <span class="number">25%</span>;</div><div class="line">    <span class="attribute">float</span>: left;</div><div class="line">    <span class="attribute">display</span>: inline;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-class">.content</span> <span class="selector-class">.primary</span> <span class="selector-class">.primary</span> &#123;</div><div class="line">    <span class="attribute">width</span>: <span class="number">34.33%</span>;</div><div class="line">    <span class="attribute">float</span>: left;</div><div class="line">    <span class="attribute">display</span>: inline;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-class">.content</span> <span class="selector-class">.primary</span> <span class="selector-class">.secondary</span> &#123;</div><div class="line">    <span class="attribute">width</span>: <span class="number">34.33%</span>;</div><div class="line">    <span class="attribute">padding-right</span>: <span class="number">2em</span>;</div><div class="line">    <span class="attribute">float</span>: right;</div><div class="line">    <span class="attribute">display</span>: inline;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在使用常规文本字号时，这些代码产生的布局与固定宽度布局看起来一样（见下图），但是它会随着文本字号的增加而漂亮地增大（见下图）。</p>
+<p>除非所有浏览器都默认支持页面缩放，否则，对于老式浏览器，可能仍然需要考虑使用弹性布局。</p>
+<p>示例图</p>
+<p><center>使用默认文本字号时的弹性布局</center><br><br></p>
+<p>示例图</p>
+<p><center>文本字号增加几次后的弹性布局</center><br><br></p>
+<h2 id="流式和弹性图像"><a href="#流式和弹性图像" class="headerlink" title="流式和弹性图像"></a>流式和弹性图像</h2><p>如果选择使用流式或弹性布局，那么固定宽度的图像就会对设计产生强烈的影响。当布局的宽度减小时，图像会相对它移动，可能对彼此产生消极影响。图像会以自然的最小宽度显示，从而防止某些元素的尺寸减小。有些图像会超出包含它们的元素，从而破坏精心调整过的设计。增加布局的宽度也会产生戏剧性的效果。</p>
+<p>对于需要跨越大区域的图像，比如站点页眉或品牌区域中的图像，可以考虑使用背景图像而不是图像元素。随着 <code>branding</code> 元素的伸缩，背景图像或多或少会露出来一些：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"># <span class="selector-tag">branding</span> &#123;</div><div class="line">    <span class="attribute">height</span>: <span class="number">171px</span>;</div><div class="line">    <span class="attribute">background</span>: <span class="built_in">url</span>(img/branding.png) no-repeat left top;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"branding"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>如果图像需要用作页面上的图像元素，那么将容器元素的宽度设置为 <code>100%</code> 并且将 <code>overflow</code> 属性设置为 <code>hidden</code>。这样的话，图像右边会被截短，使它适合 <code>branding</code> 元素，而不会随着布局伸缩：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-id">#branding</span> &#123;</div><div class="line">    <span class="attribute">width</span>: <span class="number">100%</span>;</div><div class="line">    <span class="attribute">overflow</span>: hidden;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"branding"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"/img/branding.png"</span> <span class="attr">width</span>=<span class="string">"1600"</span> <span class="attr">height</span>=<span class="string">"171"</span> /&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>对于常规内容图像，你可能希望它们垂直和水平伸缩以避免被剪切。为此，可以将图像元素添加到没有任何尺寸的页面上。然后设置图像的百分数宽度，并且添加与图像宽度相同的 <code>max-width</code> 以避免像素失真（pixelization）。</p>
+<p>例如，假设希望创建一种新闻稿样式，在左边是窄的图像列，右边是比较大的文本列。图像的宽度需要大约是包含它的框的四分之一，文本占据余下的空间。为此，只需将图像的宽度设置为 <code>25%</code>，然后将 <code>max-width</code> 设置为图像的尺寸（在这个示例中是 <code>200px</code> 宽）：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.news</span> <span class="selector-tag">img</span> &#123;</div><div class="line">    <span class="attribute">width</span>: <span class="number">25%</span>;</div><div class="line">    <span class="attribute">max-width</span>: <span class="number">200px</span>;</div><div class="line">    <span class="attribute">float</span>: left;</div><div class="line">    <span class="attribute">display</span>: inline;</div><div class="line">    <span class="attribute">padding</span>: <span class="number">2%</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-class">.news</span> <span class="selector-tag">p</span> &#123;</div><div class="line">    <span class="attribute">width</span>: <span class="number">68%</span>;</div><div class="line">    <span class="attribute">float</span>: right;</div><div class="line">    <span class="attribute">display</span>: inline;</div><div class="line">    <span class="attribute">padding</span>: <span class="number">2%</span> <span class="number">2%</span> <span class="number">2%</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>随着 <code>news</code> 元素的扩展或收缩，图像和文本段落也会扩展或收缩，从而保持视觉上的平衡（见下图）。但是，在符合标准的浏览器上，图像不会超过它的实际尺寸。</p>
+<p>示例图</p>
+<p><center>给图像设置百分数宽度，使它们能够相对于周围元素漂亮地伸缩</center><br><br></p>
+<h1 id="高度相等的列"><a href="#高度相等的列" class="headerlink" title="高度相等的列"></a>高度相等的列</h1><p>除了在主布局中创建列，你可能还需要在其他地方创建高度相等的列，比如像下图这样。尽管使用表格很容易实现这种效果，但是在 CSS 中实现时需要一点儿技巧。</p>
+<p>先看看标记</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"wrapper"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"box"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">h1</span>&gt;</span>Andy Budd<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">p</span>&gt;</span>...<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"bottom"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"box"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">h1</span>&gt;</span>Richard Rutter<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">p</span>&gt;</span>...<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"bottom"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span> </div><div class="line">    </div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"box"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">h1</span>&gt;</span>Jeremy Keith<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">p</span>&gt;</span>...<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"bottom"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span> </div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>对于这个示例，需要 3 个 <code>div</code>，每个列一个。在每个 <code>div</code> 中，需要标题、一些内容和一个空的 <code>div</code>，这个 <code>div</code> 作为底角的钩子。然后，把这 3 个 <code>div</code> 放在容器 <code>div</code> 中，我们将使用容器 <code>div</code> 限制高度。现在开始给框设置样式。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.wrapper</span> &#123;</div><div class="line">    <span class="attribute">width</span>: <span class="number">100%</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-class">.box</span> &#123;</div><div class="line">    <span class="attribute">width</span>: <span class="number">250px</span>;</div><div class="line">    <span class="attribute">margin-left</span>: <span class="number">20px</span>;</div><div class="line">    <span class="attribute">float</span>: left;</div><div class="line">    <span class="attribute">display</span>: inline;</div><div class="line">    <span class="attribute">padding</span>: <span class="number">20px</span>;</div><div class="line">    <span class="attribute">background</span>: <span class="number">#89ac10</span> <span class="built_in">url</span>(/img/top.gif) no-repeat left top;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>如下图所示，这会产生 3 个高度不一致的列。</p>
+<p>这种技术的关键是给每个框设置大的底内边距，然后用数值相似的负外边距消除这个高度。这会导致每个列溢出容器元素（见下图）。如果把容器的 <code>overflow</code> 属性设置为 <code>hidden</code>，列就在最高点被裁切。在这个示例中，给每个元素设置 <code>520px</code> 的底内边距和 <code>500px</code> 的底外边距。<code>20px</code> 的差值在每个框的地步形成可见的内边距。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.wrapper</span> &#123;</div><div class="line">    <span class="attribute">width</span>: <span class="number">100%</span>;</div><div class="line">    <span class="attribute">overflow</span>: hidden;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-class">.box</span> &#123;</div><div class="line">    <span class="attribute">width</span>: <span class="number">250px</span>;</div><div class="line">    <span class="attribute">padding-left</span>: <span class="number">20px</span>;</div><div class="line">    <span class="attribute">padding-right</span>: <span class="number">20px</span>;</div><div class="line">    <span class="attribute">padding-top</span>: <span class="number">20px</span>;</div><div class="line">    <span class="attribute">padding-bottom</span>: <span class="number">520px</span>;</div><div class="line">    <span class="attribute">margin-bottom</span>: <span class="number">20px</span>;</div><div class="line">    <span class="attribute">margin-left</span>: <span class="number">20px</span>;</div><div class="line">    <span class="attribute">float</span>: left;</div><div class="line">    <span class="attribute">display</span>: inline;</div><div class="line">    <span class="attribute">background</span>: <span class="number">#89ac10</span> <span class="built_in">url</span>(/img/top.gif) no-repeat left top;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>示例图</p>
+<p><center>在应用主要技术之前的三个列</center><br><br></p>
+<p>示例图</p>
+<p><center>红色框显示容器 <code>div</code> 的边界，可以看出三个列溢出了这个元素</center><br><br></p>
+<p>为了把列的底边定位在正确的位置，需要让它们与容器元素的底部对其。为此，首先把容器的 <code>position</code> 设置为 <code>relative</code>。然后把空 <code>div</code> 的 <code>position</code> 设置为 <code>absolute</code>，把它们的 <code>bottom</code> 属性设置为0。现在，只需设置正确的宽度和高度，应用底部背景图像。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.wrapper</span> &#123;</div><div class="line">    <span class="attribute">width</span>: <span class="number">100%</span>;</div><div class="line">    <span class="attribute">overflow</span>: hidden;</div><div class="line">    <span class="attribute">position</span>: relative;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-class">.box</span> &#123;</div><div class="line">    <span class="attribute">width</span>: <span class="number">250px</span>;</div><div class="line">    <span class="attribute">padding-left</span>: <span class="number">20px</span>;</div><div class="line">    <span class="attribute">padding-right</span>: <span class="number">20px</span>;</div><div class="line">    <span class="attribute">padding-top</span>: <span class="number">20px</span>;</div><div class="line">    <span class="attribute">padding-bottom</span>: <span class="number">520px</span>;</div><div class="line">    <span class="attribute">margin-bottom</span>: <span class="number">20px</span>;</div><div class="line">    <span class="attribute">margin-left</span>: <span class="number">20px</span>;</div><div class="line">    <span class="attribute">float</span>: left;</div><div class="line">    <span class="attribute">display</span>: inline;</div><div class="line">    <span class="attribute">padding</span>: <span class="number">20px</span>;</div><div class="line">    <span class="attribute">background</span>: <span class="number">#89ac10</span> <span class="built_in">url</span>(/img/top.gif) no-repeat left top;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>结果是一个高度与最长列相等的三列布局。</p>
+<h1 id="CSS-3-列"><a href="#CSS-3-列" class="headerlink" title="CSS 3 列"></a>CSS 3 列</h1><p>CSS 3 也可以创建等高文本列，见下图。这要通过 <code>column-count</code>、<code>column-width</code> 和 <code>column-gap</code> 属性实现。</p>
+<p>假设使用的标记如下：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>Socrates<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"co1"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>After philosophizing for a while...<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>示例图</p>
+<p><center>使用 CSS 3 列属性实现的文本列</center><br><br></p>
+<p>应用以下规则创建一个三列布局，每个列的宽度是 <code>14em</code>，列之间有 <code>2em</code> 的间距。CSS 列的优点之一是在可用空间小鱼已定义列的宽度时的处理方式。列不会像使用浮动时那样回绕，而是会减少列数。因此，如果空间不够显示三列，就会减少到两列。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.col</span> &#123;</div><div class="line">    <span class="attribute">-moz-column-count</span>: <span class="number">3</span>;</div><div class="line">    <span class="attribute">-moz-column-width</span>: <span class="number">14em</span>;</div><div class="line">    <span class="attribute">-moz-column-gap</span>: <span class="number">2em</span>;</div><div class="line">    <span class="attribute">-moz-column-rule</span>: <span class="number">1px</span> solid <span class="number">#ccc</span>;</div><div class="line">    <span class="attribute">-webkit-column-count</span>: <span class="number">3</span>;</div><div class="line">    <span class="attribute">-webkit-column-width</span>: <span class="number">14em</span>;</div><div class="line">    <span class="attribute">-webkit-column-gap</span>: <span class="number">2em</span>;</div><div class="line">    <span class="attribute">-webkit-column-rule</span>: <span class="number">1px</span> solid <span class="number">#ccc</span>;</div><div class="line">    <span class="attribute">column-count</span>: <span class="number">3</span>;</div><div class="line">    <span class="attribute">column-width</span>: <span class="number">14em</span>;</div><div class="line">    <span class="attribute">column-gap</span>: <span class="number">2em</span>;</div><div class="line">    <span class="attribute">column-rule</span>: <span class="number">1px</span> solid <span class="number">#ccc</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CSS/" rel="tag"># CSS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/21/2018-01-21/" rel="next" title="第六章 -- 对列表应用样式和创建导航条">
+                <i class="fa fa-chevron-left"></i> 第六章 -- 对列表应用样式和创建导航条
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          
+            <img class="site-author-image" itemprop="image"
+              src="/images/avatar.PNG"
+              alt="Helvetica.D" />
+          
+            <p class="site-author-name" itemprop="name">Helvetica.D</p>
+            <p class="site-description motion-element" itemprop="description">P5天下第一！！</p>
+        </div>
+
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+            
+              <a href="/archives/">
+            
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Xeonice" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>GitHub</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="ad546971975@gmail.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#计划布局"><span class="nav-number">1.</span> <span class="nav-text">计划布局</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#设置基本结构"><span class="nav-number">2.</span> <span class="nav-text">设置基本结构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用外边距让设计居中"><span class="nav-number">2.1.</span> <span class="nav-text">使用外边距让设计居中</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#基于浮动的布局"><span class="nav-number">3.</span> <span class="nav-text">基于浮动的布局</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#两列的浮动布局"><span class="nav-number">3.1.</span> <span class="nav-text">两列的浮动布局</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三列的浮动布局"><span class="nav-number">3.2.</span> <span class="nav-text">三列的浮动布局</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#固定宽度、流式和弹性布局"><span class="nav-number">4.</span> <span class="nav-text">固定宽度、流式和弹性布局</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#流式布局"><span class="nav-number">4.1.</span> <span class="nav-text">流式布局</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#弹性布局"><span class="nav-number">4.2.</span> <span class="nav-text">弹性布局</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#流式和弹性图像"><span class="nav-number">4.3.</span> <span class="nav-text">流式和弹性图像</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#高度相等的列"><span class="nav-number">5.</span> <span class="nav-text">高度相等的列</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CSS-3-列"><span class="nav-number">6.</span> <span class="nav-text">CSS 3 列</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Helvetica.D</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+  <span class="post-meta-divider">|</span>
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.2</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
