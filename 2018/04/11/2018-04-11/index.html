@@ -71,18 +71,18 @@
 
 
 
-<meta name="description" content="何为 THUNK？开发者时常会面临一个选择：函数的参数到底应该何时求值？ 12345var x = 1;function f(m) &amp;#123;    return m * 2;&amp;#125;f ( x + 5 ); 上例中的代码非常正常，问题是，什么时候计算参数 x + 5 呢？ 一种策略是立即计算，于是 f(x + 5) 会被转换成 f(6)，然后进入函数 f 内运行函数 另一种策略是延迟计算，">
+<meta name="description" content="何为 THUNK？开发者时常会面临一个选择：函数的参数到底应该何时求值？ 12345var x = 1;function f(m) &amp;#123;    return m * 2;&amp;#125;f ( x + 5 ); 上例中的代码非常正常，问题是：什么时候计算参数 x + 5 呢？ 一种策略是立即计算，于是 f(x + 5) 会被转换成 f(6)，然后进入函数 f 内运行函数 另一种策略是延迟计算">
 <meta name="keywords" content="Javascript">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Thunk 函数解析">
+<meta property="og:title" content="Thunk 解析">
 <meta property="og:url" content="http://yoursite.com/2018/04/11/2018-04-11/index.html">
 <meta property="og:site_name" content="Helve&#39;s Blog">
-<meta property="og:description" content="何为 THUNK？开发者时常会面临一个选择：函数的参数到底应该何时求值？ 12345var x = 1;function f(m) &amp;#123;    return m * 2;&amp;#125;f ( x + 5 ); 上例中的代码非常正常，问题是，什么时候计算参数 x + 5 呢？ 一种策略是立即计算，于是 f(x + 5) 会被转换成 f(6)，然后进入函数 f 内运行函数 另一种策略是延迟计算，">
+<meta property="og:description" content="何为 THUNK？开发者时常会面临一个选择：函数的参数到底应该何时求值？ 12345var x = 1;function f(m) &amp;#123;    return m * 2;&amp;#125;f ( x + 5 ); 上例中的代码非常正常，问题是：什么时候计算参数 x + 5 呢？ 一种策略是立即计算，于是 f(x + 5) 会被转换成 f(6)，然后进入函数 f 内运行函数 另一种策略是延迟计算">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-04-12T11:11:18.312Z">
+<meta property="og:updated_time" content="2018-04-12T11:23:24.705Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Thunk 函数解析">
-<meta name="twitter:description" content="何为 THUNK？开发者时常会面临一个选择：函数的参数到底应该何时求值？ 12345var x = 1;function f(m) &amp;#123;    return m * 2;&amp;#125;f ( x + 5 ); 上例中的代码非常正常，问题是，什么时候计算参数 x + 5 呢？ 一种策略是立即计算，于是 f(x + 5) 会被转换成 f(6)，然后进入函数 f 内运行函数 另一种策略是延迟计算，">
+<meta name="twitter:title" content="Thunk 解析">
+<meta name="twitter:description" content="何为 THUNK？开发者时常会面临一个选择：函数的参数到底应该何时求值？ 12345var x = 1;function f(m) &amp;#123;    return m * 2;&amp;#125;f ( x + 5 ); 上例中的代码非常正常，问题是：什么时候计算参数 x + 5 呢？ 一种策略是立即计算，于是 f(x + 5) 会被转换成 f(6)，然后进入函数 f 内运行函数 另一种策略是延迟计算">
 
 
 
@@ -118,7 +118,7 @@
 
 
 
-  <title>Thunk 函数解析 | Helve's Blog</title>
+  <title>Thunk 解析 | Helve's Blog</title>
   
 
 
@@ -262,7 +262,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Thunk 函数解析</h1>
+          <h1 class="post-title" itemprop="name headline">Thunk 解析</h1>
         
 
         <div class="post-meta">
@@ -336,26 +336,26 @@
       
         <script src="/assets/js/APlayer.min.js"> </script><h1 id="何为-THUNK？"><a href="#何为-THUNK？" class="headerlink" title="何为 THUNK？"></a>何为 THUNK？</h1><p>开发者时常会面临一个选择：函数的参数到底应该何时求值？</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> x = <span class="number">1</span>;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params">m</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> m * <span class="number">2</span>;</div><div class="line">&#125;</div><div class="line">f ( x + <span class="number">5</span> );</div></pre></td></tr></table></figure>
-<p>上例中的代码非常正常，问题是，什么时候计算参数 x + 5 呢？</p>
+<p>上例中的代码非常正常，问题是：<strong>什么时候计算参数 x + 5 呢</strong>？</p>
 <p>一种策略是立即计算，于是 <code>f(x + 5)</code> 会被转换成 <code>f(6)</code>，然后进入函数 <code>f</code> 内运行函数</p>
 <p>另一种策略是延迟计算，在进入函数 <code>f</code> 之前并不计算参数值，而是进入函数体之后才计算，因此函数体内的 <code>return m * 2;</code> 会被转换为 <code>return (x + 5) * 2;</code>，此时才开始计算</p>
 <p>如果不考虑开发成本，延迟计算是比较好的，否则如果函数体内走了某 if 分支并没有用到该参数，就白计算了，浪费性能。延迟到真正用到参数时才开始计算，这也是程序开发的一种流行的风格：<strong>越懒越好</strong></p>
-<p>如何实现延迟计算呢？可以生成一个临时函数（Thunk 函数），将参数放进去，上面代码等价于：</p>
+<h2 id="如何实现-Thunk？"><a href="#如何实现-Thunk？" class="headerlink" title="如何实现 Thunk？"></a>如何实现 Thunk？</h2><p>如何实现延迟计算呢？可以生成一个临时函数（Thunk 函数），将参数放进去，上面代码等价于：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> x = <span class="number">1</span>;</div><div class="line"><span class="keyword">var</span> thunk = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> x + <span class="number">5</span>;</div><div class="line">&#125;;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span> (<span class="params">tempFunc</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> tempFunc() * <span class="number">2</span>;</div><div class="line">&#125;;</div><div class="line">f (thunk);  <span class="comment">//12    </span></div></pre></td></tr></table></figure>
 <p>上面这样的延迟计算，可能对效率控来说节省了一些理论上的性能（实际真节省了吗？未必），但从代码可读性，可维护性上来看，这样是得不偿失的</p>
-<p>Thunk 函数在 JS 里的应用是将多参的一步函数转换为单参，通常异步函数的最后一个参数是回调函数，以 NodeJS 的核心模块 File System 的异步函数 <code>readFile</code> 为例</p>
+<h2 id="Thunk-的具体应用"><a href="#Thunk-的具体应用" class="headerlink" title="Thunk 的具体应用"></a>Thunk 的具体应用</h2><p>Thunk 函数在 JS 里的应用是将多参的一步函数转换为单参，通常异步函数的最后一个参数是回调函数，以 NodeJS 的核心模块 File System 的异步函数 <code>readFile</code> 为例</p>
 <p>函数原型：<code>fs.readFile (file[, options], callback)</code><br>支持 3 个参数，其中最后一个是回调函数，普通调用方式：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">someCallback</span> (<span class="params"> err, data </span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span> (err) <span class="keyword">throw</span> err;</div><div class="line">    <span class="built_in">console</span>.log (data);</div><div class="line">&#125;</div><div class="line">fs.readFile(<span class="string">'./oranges.txt'</span>, <span class="string">'utf8'</span>, someCallback); </div></pre></td></tr></table></figure>
 <p>用 Thunk 改造后：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">someCallback</span> (<span class="params">err, data</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span> (err) <span class="keyword">throw</span> err;</div><div class="line">    <span class="built_in">console</span>.log(data);</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> Thunk = <span class="function"><span class="keyword">function</span> (<span class="params">fileName, options</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">callback</span>) </span>&#123;</div><div class="line">        reutrn fs.readFile(fileName, options, callback);</div><div class="line">    &#125;;</div><div class="line">&#125;;</div><div class="line"><span class="keyword">var</span> readFileThunk = Thunk(<span class="string">'./oranges.txt'</span>, <span class="string">'utf8'</span>);</div><div class="line">readFileThunk(someCallBack);    </div></pre></td></tr></table></figure>
-<p>Thunk 函数真正的作用是简化了参数，将原本多参的函数，简化成只接受回调函数做参数，即多参版本的一步函数，经由 Thunk，变成了单参（参数为回调函数）函数</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">someCallback</span> (<span class="params">err, data</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span> (err) <span class="keyword">throw</span> err;</div><div class="line">    <span class="built_in">console</span>.log(data);</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> Thunk = <span class="function"><span class="keyword">function</span> (<span class="params">fileName, options</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">callback</span>) </span>&#123;</div><div class="line">        <span class="keyword">return</span> fs.readFile(fileName, options, callback);</div><div class="line">    &#125;;</div><div class="line">&#125;;</div><div class="line"><span class="keyword">var</span> readFileThunk = Thunk(<span class="string">'./oranges.txt'</span>, <span class="string">'utf8'</span>);</div><div class="line">readFileThunk(someCallBack);    </div></pre></td></tr></table></figure>
+<p>Thunk 函数真正的作用是<strong>简化了参数，将原本多参的函数，简化成只接受回调函数做参数</strong>，即多参版本的一步函数，经由 Thunk，变成了单参（参数为回调函数）函数</p>
 <p>现实中不必为每个异步函数定制一个 Thunk 函数，因此可以定义通用的 Thunk 函数：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> Thunk = <span class="function"><span class="keyword">function</span> (<span class="params">fn</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="keyword">var</span> args = <span class="built_in">Array</span>.prototype.slice.call(<span class="built_in">arguments</span>);</div><div class="line">        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">callback</span>) </span>&#123;</div><div class="line">            args.push(callback);</div><div class="line">            <span class="keyword">return</span> fn.apply(<span class="keyword">this</span>, args);</div><div class="line">        &#125;</div><div class="line">    &#125;;</div><div class="line">&#125;;</div><div class="line"><span class="keyword">var</span> readFileThunk = Thunk(fs.readFile);</div><div class="line">readFileThunk(<span class="string">'./oranges.txt'</span>, <span class="string">'utf8'</span>)(someCallback); </div></pre></td></tr></table></figure>
 <p>可以把上面 Thunk 函数放到 common 位置，任何多参的异步函数（最后一个参数为回调函数），都可以调用上面的 Thunk 函数转换成单参版本</p>
 <p>其实上述 Thunk 函数等价于柯里化：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> readFileThunk = fs.readFile.bind(<span class="literal">null</span>, <span class="string">'./orange.txt'</span>, <span class="string">'utf8'</span>);</div><div class="line">readFileThunk(someCallback);</div></pre></td></tr></table></figure>
 <p>如果不想自己造轮子来写 Thunk 函数，可以 Thunkify 模块：<code>npm install thunkify</code>，源代码和我们写的 Thunk 非常像</p>
-<p>上面举的 Thunk 函数的例子，无论是延迟计算，还是将多参异步函数转换成单参，其实都没什么用，所以在 Generator 函数出现之前，Thunk 函数确实没什么用，真正让其发挥作用的是配合 Generator 函数实现自动化异步操作，以读取文件为例，Generator 函数封装了两个异步操作</p>
+<h2 id="Thunk-的真正用途"><a href="#Thunk-的真正用途" class="headerlink" title="Thunk 的真正用途"></a>Thunk 的真正用途</h2><p>上面举的 Thunk 函数的例子，无论是延迟计算，还是将多参异步函数转换成单参，其实都没什么用，所以在 Generator 函数出现之前，Thunk 函数确实没什么用，真正让其发挥作用的是配合 Generator 函数实现自动化异步操作，以读取文件为例，Generator 函数封装了两个异步操作</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</div><div class="line"><span class="keyword">var</span> thunkify = <span class="built_in">require</span>(<span class="string">'thunkify'</span>);</div><div class="line"><span class="keyword">var</span> readFileThunk = thunkify(fs.readFile);</div><div class="line"></div><div class="line"><span class="keyword">var</span> gen = <span class="function"><span class="keyword">function</span>* (<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> r1 = <span class="keyword">yield</span> readFileThunk(<span class="string">'./apples.txt'</span>, <span class="string">'utf8'</span>);</div><div class="line">    <span class="built_in">console</span>.log(r1);</div><div class="line">    <span class="keyword">var</span> r2 = <span class="keyword">yield</span> readFileThunk(<span class="string">'./oranges.txt'</span>, <span class="string">'utf8'</span>);</div><div class="line">    <span class="built_in">console</span>.log(r2);</div><div class="line">&#125;;    </div></pre></td></tr></table></figure>
 <p>定义的异步操作很清晰（这也是 Generator 的优点，可以用同步化的方式定义异步操作步骤），可以如下执行异步操作</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> g = gen();</div><div class="line"><span class="keyword">var</span> r = g.next();</div><div class="line">r.value(<span class="function"><span class="keyword">function</span> (<span class="params">err, data</span>) </span>&#123;  <span class="comment">//r.value 是一个 function，等价于 fs.readFile(callback)</span></div><div class="line">    <span class="keyword">if</span> (err) <span class="keyword">throw</span> err;</div><div class="line">    <span class="keyword">var</span> r2 = g.next(data);</div><div class="line">    r2.value(<span class="function"><span class="keyword">function</span>(<span class="params">err, data</span>) </span>&#123;</div><div class="line">        <span class="keyword">if</span> (err) <span class="keyword">throw</span> err;</div><div class="line">        g.next(data);</div><div class="line">    &#125;);</div><div class="line">&#125;);    </div></pre></td></tr></table></figure>
@@ -363,7 +363,7 @@
 <p>因此上面代码第三行 <code>r.value(function(err, data){...}</code> 等价于 <code>fs.readFile(function(err, data){...}</code>，此时才开始正式执行异步函数读取文件内容，读取到的内容通过第 5 行 <code>next</code> 方法传递给 Generator 函数里的 <code>r1</code>，打印出文件内容，之后就是重复上述套路</p>
 <p>显然开发者不想用这样嵌套的调用方法，所以可以定义一个 <code>run</code> 方法将上面的调用代码封装起来。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">run</span>(<span class="params">genFunc</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> g = genFunc();</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">next</span>(<span class="params">err, data</span>) </span>&#123;</div><div class="line">        <span class="keyword">var</span> result = g.next(data);</div><div class="line">        <span class="keyword">if</span> (result.done) <span class="keyword">return</span>;</div><div class="line">        result.value(next);</div><div class="line">    &#125;</div><div class="line">    next();</div><div class="line">&#125;</div><div class="line">run(gen);    </div></pre></td></tr></table></figure>
-<p>定义了 run 方法后，执行 Generator 函数就方便了很多，直接将 Generator 函数作为参数传动给 run 就行了，然后会自动像多米诺骨牌一样依次执行 Generator 函数内的异步操作，当然，前提是每一个异步操作，都要是 Thunk 函数，即 yield 命令后面的必须是 Thunk 函数<a id="more"></a></p>
+<p>定义了 <code>run</code> 方法后，执行 Generator 函数就方便了很多，直接将 Generator 函数作为参数传动给 <code>run</code> 就行了，然后会自动像多米诺骨牌一样依次执行 Generator 函数内的异步操作，当然，前提是每一个异步操作，都要是 Thunk 函数，即 <code>yield</code> 命令后面的必须是 Thunk 函数</p>
 
       
     </div>
@@ -482,7 +482,7 @@
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -560,7 +560,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#何为-THUNK？"><span class="nav-number">1.</span> <span class="nav-text">何为 THUNK？</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#何为-THUNK？"><span class="nav-number">1.</span> <span class="nav-text">何为 THUNK？</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#如何实现-Thunk？"><span class="nav-number">1.1.</span> <span class="nav-text">如何实现 Thunk？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Thunk-的具体应用"><span class="nav-number">1.2.</span> <span class="nav-text">Thunk 的具体应用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Thunk-的真正用途"><span class="nav-number">1.3.</span> <span class="nav-text">Thunk 的真正用途</span></a></li></ol></li></ol></div>
             
 
           </div>
