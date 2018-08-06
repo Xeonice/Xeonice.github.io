@@ -72,13 +72,13 @@
 
 
 
-<meta name="description" content="概览对 image 标签的滥用导致纯修饰性的图像把页面弄乱了。好在 CSS 使我们能够在页面上显示图像，而不需要让图像成为标记的一部分，即将图像作为背景添加到现有的元素中。本章将通过一系列实际示例讲解如何使使用背景图像创建各种有意思且有用的技术。 本章将介绍以下内容：  固定宽度和可变宽度的圆角框 滑动门技术 多个背景图像和 border-radius 属性 CSS 投影 不透明度和 RGBa">
+<meta name="description" content="概览对 image 标签的滥用导致纯修饰性的图像把页面弄乱了。好在 CSS 使我们能够在页面上显示图像，而不需要让图像成为标记的一部分，即将图像作为背景添加到现有的元素中。本章将通过一系列实际示例讲解如何使使用背景图像创建各种有意思且有用的技术。 本章将介绍以下内容：  固定宽度和可变宽度的圆角框 滑动门技术 多个背景图像和 border-radius 属性 CSS 投影 不透明度和 RGBa 让">
 <meta name="keywords" content="CSS">
 <meta property="og:type" content="article">
 <meta property="og:title" content="第四章 -- 背景图像效果">
 <meta property="og:url" content="https://www.douglasdong.site/4-1.html">
 <meta property="og:site_name" content="Helve&#39;s Blog">
-<meta property="og:description" content="概览对 image 标签的滥用导致纯修饰性的图像把页面弄乱了。好在 CSS 使我们能够在页面上显示图像，而不需要让图像成为标记的一部分，即将图像作为背景添加到现有的元素中。本章将通过一系列实际示例讲解如何使使用背景图像创建各种有意思且有用的技术。 本章将介绍以下内容：  固定宽度和可变宽度的圆角框 滑动门技术 多个背景图像和 border-radius 属性 CSS 投影 不透明度和 RGBa">
+<meta property="og:description" content="概览对 image 标签的滥用导致纯修饰性的图像把页面弄乱了。好在 CSS 使我们能够在页面上显示图像，而不需要让图像成为标记的一部分，即将图像作为背景添加到现有的元素中。本章将通过一系列实际示例讲解如何使使用背景图像创建各种有意思且有用的技术。 本章将介绍以下内容：  固定宽度和可变宽度的圆角框 滑动门技术 多个背景图像和 border-radius 属性 CSS 投影 不透明度和 RGBa 让">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://imagetemp.oss-cn-beijing.aliyuncs.com/4-1.png">
 <meta property="og:image" content="https://imagetemp.oss-cn-beijing.aliyuncs.com/4-2.png">
@@ -102,10 +102,10 @@
 <meta property="og:image" content="https://imagetemp.oss-cn-beijing.aliyuncs.com/屏幕截图 2017-11-23 23.32.57.png">
 <meta property="og:image" content="https://imagetemp.oss-cn-beijing.aliyuncs.com/屏幕截图 2017-11-23 23.51.04.png">
 <meta property="og:image" content="https://imagetemp.oss-cn-beijing.aliyuncs.com/屏幕截图 2017-11-23 23.52.31.png">
-<meta property="og:updated_time" content="2018-08-06T12:20:59.929Z">
+<meta property="og:updated_time" content="2018-08-06T15:02:24.245Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="第四章 -- 背景图像效果">
-<meta name="twitter:description" content="概览对 image 标签的滥用导致纯修饰性的图像把页面弄乱了。好在 CSS 使我们能够在页面上显示图像，而不需要让图像成为标记的一部分，即将图像作为背景添加到现有的元素中。本章将通过一系列实际示例讲解如何使使用背景图像创建各种有意思且有用的技术。 本章将介绍以下内容：  固定宽度和可变宽度的圆角框 滑动门技术 多个背景图像和 border-radius 属性 CSS 投影 不透明度和 RGBa">
+<meta name="twitter:description" content="概览对 image 标签的滥用导致纯修饰性的图像把页面弄乱了。好在 CSS 使我们能够在页面上显示图像，而不需要让图像成为标记的一部分，即将图像作为背景添加到现有的元素中。本章将通过一系列实际示例讲解如何使使用背景图像创建各种有意思且有用的技术。 本章将介绍以下内容：  固定宽度和可变宽度的圆角框 滑动门技术 多个背景图像和 border-radius 属性 CSS 投影 不透明度和 RGBa 让">
 <meta name="twitter:image" content="https://imagetemp.oss-cn-beijing.aliyuncs.com/4-1.png">
 
 
@@ -380,7 +380,7 @@
 <li>视差滚动</li>
 <li>图像替换</li>
 </ul>
-<p>&lt;!−− more −−&gt;</p>
+<a id="more"></a>
 <h1 id="背景图像基础"><a href="#背景图像基础" class="headerlink" title="背景图像基础"></a>背景图像基础</h1><h2 id="如何设立背景图像"><a href="#如何设立背景图像" class="headerlink" title="如何设立背景图像"></a>如何设立背景图像</h2><p>应用背景图像是很容易的。如果希望网站有一个好看的背景，那么只需将图像作为背景应用于主题元素</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">body</span> &#123; </div><div class="line">   <span class="attribute">background-image</span>: <span class="built_in">url</span>(/img/pattern.gif);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p><strong>默认情况下，浏览器水平和垂直地重复显示背景图像</strong>，让图像平铺在整个页面上。可以选择背景图像是水平平铺、垂直平铺，还是根本不平铺。</p>
