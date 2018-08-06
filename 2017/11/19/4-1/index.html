@@ -98,10 +98,10 @@
 <meta property="og:image" content="http://7xrad6.com1.z0.glb.clouddn.com/屏幕截图 2017-11-23 23.30.29.png">
 <meta property="og:image" content="http://7xrad6.com1.z0.glb.clouddn.com/屏幕截图 2017-11-23 23.30.50.png">
 <meta property="og:image" content="http://7xrad6.com1.z0.glb.clouddn.com/屏幕截图 2017-11-23 23.31.01.png">
-<meta property="og:image" content="http://http://7xrad6.com1.z0.glb.clouddn.com/屏幕截图 2017-11-23 23.32.57.png">
+<meta property="og:image" content="http://7xrad6.com1.z0.glb.clouddn.com/屏幕截图 2017-11-23 23.32.57.png">
 <meta property="og:image" content="http://7xrad6.com1.z0.glb.clouddn.com/屏幕截图 2017-11-23 23.51.04.png">
 <meta property="og:image" content="http://7xrad6.com1.z0.glb.clouddn.com/屏幕截图 2017-11-23 23.52.31.png">
-<meta property="og:updated_time" content="2018-01-14T12:48:54.352Z">
+<meta property="og:updated_time" content="2018-08-06T03:05:53.648Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="第四章 -- 背景图像效果">
 <meta name="twitter:description" content="概览对 image 标签的滥用导致纯修饰性的图像把页面弄乱了。好在 CSS 使我们能够在页面上显示图像，而不需要让图像成为标记的一部分，即将图像作为背景添加到现有的元素中。本章将通过一系列实际示例讲解如何使使用背景图像创建各种有意思且有用的技术。 本章将介绍以下内容：  固定宽度和可变宽度的圆角框 滑动门技术 多个背景图像和 border-radius 属性 CSS 投影 不透明度和 RGBa">
@@ -493,7 +493,7 @@
 <h3 id="Box-shadow"><a href="#Box-shadow" class="headerlink" title="Box-shadow"></a>Box-shadow</h3><p>尽管前面的技术可以达到目的，但是很麻烦。如果浏览器本身可以创建投影，就不需要使用 Photoshop 滤镜和图像了，这会方便的多。CSS 3 也支持这种做法，即 <strong><code>box-shadow</code> 属性。这个属性需要 4 个值：垂直和水平偏移、投影的宽度（也就是模糊程度）和颜色</strong>。</p>
 <p>在下面的示例中，把投影偏移 3 像素，宽度设置为 6 像素，颜色为中等灰色（见下图）。</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">img</span> &#123;</div><div class="line">   <span class="attribute">box-shadow</span>: <span class="number">3px</span> <span class="number">3px</span> <span class="number">6px</span> <span class="number">#666</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><img src="http://http://7xrad6.com1.z0.glb.clouddn.com/屏幕截图 2017-11-23 23.32.57.png" alt="屏幕截图 2017-11-23 23.32.57"></p>
+<p><img src="http://7xrad6.com1.z0.glb.clouddn.com/屏幕截图 2017-11-23 23.32.57.png" alt="屏幕截图 2017-11-23 23.32.57"></p>
 <p><center>使用 <code>box-shadow</code> 属性实现的投影</center><br><br></p>
 <p>这也是一个实验性的 CSS 3 属性，所以目前需要使用 Safari 和 Firefox 扩展。但是，这个属性可能很快就会得到广泛支持了。</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">img</span> &#123;</div><div class="line">   <span class="attribute">-webkit-box-shadow</span>: <span class="number">3px</span> <span class="number">3px</span> <span class="number">6px</span> <span class="number">#666</span>;</div><div class="line">   <span class="attribute">-moz-box-shadow</span>: <span class="number">3px</span> <span class="number">3px</span> <span class="number">6px</span> <span class="number">#666</span>;</div><div class="line">   <span class="attribute">box-shadow</span>: <span class="number">3px</span> <span class="number">3px</span> <span class="number">6px</span> <span class="number">#666</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>

@@ -1408,7 +1408,7 @@
 <p>这就是想要的效果，一个简单的只使用 CSS 的下拉导航条。这种技术适用于大多数现代浏览器，但是在 IE 的老版本中无效，因为它们不支持在非锚元素上使用 <code>:hover</code> 伪类。为了解决这个问题，可以使用几行 Javascript 或 .htc 行为文件启用这个功能。</p>
 <h1 id="CSS-图像映射"><a href="#CSS-图像映射" class="headerlink" title="CSS 图像映射"></a>CSS 图像映射</h1><p>利用图像映射可以将图像的一些区域指定为热点。图像映射在几年前非常流行，但是近年来不太常见了，因为近几年发展出了更简单、表现性更低的标记。虽然图像映射仍然是 HTML 的有效部分，但是它们将表现形式与内容混在了一起。可以结合使用列表、锚和一些高级 CSS 创建出简单的图像映射。</p>
 <p>对于本节的示例，我使用了 Clearleft 团队的一些成员在办公室外的涂鸦墙模仿独立乐队的一张图片（见下图）。当鼠标悬停在每个人身上时，我希望会出现一个矩形框，单击这个框就会进入这个人的网站。</p>
-<p><img src="http://77xrad6.com1.z0.glb.clouddn.com/6-10.png" alt="6-10"></p>
+<p><img src="http://7xrad6.com1.z0.glb.clouddn.com/6-10.png" alt="6-10"></p>
 <p><center>Rich、Sophie、Cath、James、和 Paul 在办公室外的涂鸦墙前模仿乐队成员</center><br><br></p>
 <p>首先需要做的是将图片添加到页面中，放在一个已命名的 <code>div</code> 中。</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"imagemap"</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"img/nerdcore.jpg"</span> <span class="attr">width</span>=<span class="string">"333"</span> <span class="attr">height</span>=<span class="string">"500"</span> <span class="attr">alt</span>=<span class="string">"Some of the Clearleft team"</span> /&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
@@ -1425,7 +1425,7 @@
 <p>最后，为了创建反转效果，将一个白色的实线边框应用于鼠标悬停时的链接：</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.imagemap</span> <span class="selector-tag">a</span><span class="selector-pseudo">:hover</span>,</div><div class="line"><span class="selector-tag">imagemap</span> <span class="selector-tag">a</span><span class="selector-pseudo">:focus</span> &#123;</div><div class="line">   <span class="attribute">border</span>: <span class="number">1px</span> solid <span class="number">#fff</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>基本的技术就是这样，如果将鼠标悬停在一个图片上，那么应该会看到与下图相似的情况：</p>
-<p><img src="http://77xrad6.com1.z0.glb.clouddn.com/6-11.png" alt="6-11"></p>
+<p><img src="http://7xrad6.com1.z0.glb.clouddn.com/6-11.png" alt="6-11"></p>
 <p><center>翻转状态下的 CSS 图像映射</center><br><br></p>
 <h2 id="flickr-风格的图像映射"><a href="#flickr-风格的图像映射" class="headerlink" title="flickr 风格的图像映射"></a>flickr 风格的图像映射</h2><p>如果你使用过图像共享服务 flickr，那么可能见过对图像进行说明的相似技术（见下图）。当翻转加了说明的图像时，在包含每个说明的区域上出现一个双边框的框。当鼠标悬停在这些框上时，它将突出显示并且显示说明。只要稍加修改，就可以使用前面的技术实现这种效果。</p>
 <p>为了创建双边框的框，需要在每个锚链接内部添加两个额外的 <code>span</code>。说明也需要添加一个额外的 <code>span</code>。添加这些额外的 <code>span</code> 之后，列表应该像下面这样：</p>
@@ -2029,7 +2029,7 @@
 <h3 id="Box-shadow"><a href="#Box-shadow" class="headerlink" title="Box-shadow"></a>Box-shadow</h3><p>尽管前面的技术可以达到目的，但是很麻烦。如果浏览器本身可以创建投影，就不需要使用 Photoshop 滤镜和图像了，这会方便的多。CSS 3 也支持这种做法，即 <strong><code>box-shadow</code> 属性。这个属性需要 4 个值：垂直和水平偏移、投影的宽度（也就是模糊程度）和颜色</strong>。</p>
 <p>在下面的示例中，把投影偏移 3 像素，宽度设置为 6 像素，颜色为中等灰色（见下图）。</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">img</span> &#123;</div><div class="line">   <span class="attribute">box-shadow</span>: <span class="number">3px</span> <span class="number">3px</span> <span class="number">6px</span> <span class="number">#666</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><img src="http://http://7xrad6.com1.z0.glb.clouddn.com/屏幕截图 2017-11-23 23.32.57.png" alt="屏幕截图 2017-11-23 23.32.57"></p>
+<p><img src="http://7xrad6.com1.z0.glb.clouddn.com/屏幕截图 2017-11-23 23.32.57.png" alt="屏幕截图 2017-11-23 23.32.57"></p>
 <p><center>使用 <code>box-shadow</code> 属性实现的投影</center><br><br></p>
 <p>这也是一个实验性的 CSS 3 属性，所以目前需要使用 Safari 和 Firefox 扩展。但是，这个属性可能很快就会得到广泛支持了。</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">img</span> &#123;</div><div class="line">   <span class="attribute">-webkit-box-shadow</span>: <span class="number">3px</span> <span class="number">3px</span> <span class="number">6px</span> <span class="number">#666</span>;</div><div class="line">   <span class="attribute">-moz-box-shadow</span>: <span class="number">3px</span> <span class="number">3px</span> <span class="number">6px</span> <span class="number">#666</span>;</div><div class="line">   <span class="attribute">box-shadow</span>: <span class="number">3px</span> <span class="number">3px</span> <span class="number">6px</span> <span class="number">#666</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>

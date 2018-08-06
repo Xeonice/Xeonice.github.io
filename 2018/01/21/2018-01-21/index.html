@@ -88,11 +88,11 @@
 <meta property="og:image" content="http://7xrad6.com1.z0.glb.clouddn.com/6-7.png">
 <meta property="og:image" content="http://7xrad6.com1.z0.glb.clouddn.com/6-8.png">
 <meta property="og:image" content="http://7xrad6.com1.z0.glb.clouddn.com/6-9.png">
-<meta property="og:image" content="http://77xrad6.com1.z0.glb.clouddn.com/6-10.png">
-<meta property="og:image" content="http://77xrad6.com1.z0.glb.clouddn.com/6-11.png">
+<meta property="og:image" content="http://7xrad6.com1.z0.glb.clouddn.com/6-10.png">
+<meta property="og:image" content="http://7xrad6.com1.z0.glb.clouddn.com/6-11.png">
 <meta property="og:image" content="http://7xrad6.com1.z0.glb.clouddn.com/6-12.png">
 <meta property="og:image" content="http://7xrad6.com1.z0.glb.clouddn.com/6-13.png">
-<meta property="og:updated_time" content="2018-02-20T19:00:25.621Z">
+<meta property="og:updated_time" content="2018-08-06T03:07:35.937Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="第六章 -- 对列表应用样式和创建导航条">
 <meta name="twitter:description" content="对列表应用样式和创建导航条列表让我们能够对相关的元素进行分组，并由此给它们添加意义和结构。大多数网页都包含某种形式的列表，比如最近的新闻列表、喜欢的网页的链接列表或到站点其他部分的链接列表。将这些条目标识为列表并且加上标记会在 HTML 文档中增加结构，提供应用样式的钩子（hook） 基本列表样式基本列表样式非常简单，假设有下面这个任务列表： 123456&amp;lt;ul&amp;gt;    &amp;lt;li">
@@ -458,7 +458,7 @@
 <p>这就是想要的效果，一个简单的只使用 CSS 的下拉导航条。这种技术适用于大多数现代浏览器，但是在 IE 的老版本中无效，因为它们不支持在非锚元素上使用 <code>:hover</code> 伪类。为了解决这个问题，可以使用几行 Javascript 或 .htc 行为文件启用这个功能。</p>
 <h1 id="CSS-图像映射"><a href="#CSS-图像映射" class="headerlink" title="CSS 图像映射"></a>CSS 图像映射</h1><p>利用图像映射可以将图像的一些区域指定为热点。图像映射在几年前非常流行，但是近年来不太常见了，因为近几年发展出了更简单、表现性更低的标记。虽然图像映射仍然是 HTML 的有效部分，但是它们将表现形式与内容混在了一起。可以结合使用列表、锚和一些高级 CSS 创建出简单的图像映射。</p>
 <p>对于本节的示例，我使用了 Clearleft 团队的一些成员在办公室外的涂鸦墙模仿独立乐队的一张图片（见下图）。当鼠标悬停在每个人身上时，我希望会出现一个矩形框，单击这个框就会进入这个人的网站。</p>
-<p><img src="http://77xrad6.com1.z0.glb.clouddn.com/6-10.png" alt="6-10"></p>
+<p><img src="http://7xrad6.com1.z0.glb.clouddn.com/6-10.png" alt="6-10"></p>
 <p><center>Rich、Sophie、Cath、James、和 Paul 在办公室外的涂鸦墙前模仿乐队成员</center><br><br></p>
 <p>首先需要做的是将图片添加到页面中，放在一个已命名的 <code>div</code> 中。</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"imagemap"</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"img/nerdcore.jpg"</span> <span class="attr">width</span>=<span class="string">"333"</span> <span class="attr">height</span>=<span class="string">"500"</span> <span class="attr">alt</span>=<span class="string">"Some of the Clearleft team"</span> /&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
@@ -475,7 +475,7 @@
 <p>最后，为了创建反转效果，将一个白色的实线边框应用于鼠标悬停时的链接：</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.imagemap</span> <span class="selector-tag">a</span><span class="selector-pseudo">:hover</span>,</div><div class="line"><span class="selector-tag">imagemap</span> <span class="selector-tag">a</span><span class="selector-pseudo">:focus</span> &#123;</div><div class="line">   <span class="attribute">border</span>: <span class="number">1px</span> solid <span class="number">#fff</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>基本的技术就是这样，如果将鼠标悬停在一个图片上，那么应该会看到与下图相似的情况：</p>
-<p><img src="http://77xrad6.com1.z0.glb.clouddn.com/6-11.png" alt="6-11"></p>
+<p><img src="http://7xrad6.com1.z0.glb.clouddn.com/6-11.png" alt="6-11"></p>
 <p><center>翻转状态下的 CSS 图像映射</center><br><br></p>
 <h2 id="flickr-风格的图像映射"><a href="#flickr-风格的图像映射" class="headerlink" title="flickr 风格的图像映射"></a>flickr 风格的图像映射</h2><p>如果你使用过图像共享服务 flickr，那么可能见过对图像进行说明的相似技术（见下图）。当翻转加了说明的图像时，在包含每个说明的区域上出现一个双边框的框。当鼠标悬停在这些框上时，它将突出显示并且显示说明。只要稍加修改，就可以使用前面的技术实现这种效果。</p>
 <p>为了创建双边框的框，需要在每个锚链接内部添加两个额外的 <code>span</code>。说明也需要添加一个额外的 <code>span</code>。添加这些额外的 <code>span</code> 之后，列表应该像下面这样：</p>
