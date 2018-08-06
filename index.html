@@ -416,6 +416,7 @@
 </ul>
 </li>
 </ul>
+<p>&lt;!−− more −−&gt;</p>
 <h1 id="setTimeout-和-setImmediate-执行顺序"><a href="#setTimeout-和-setImmediate-执行顺序" class="headerlink" title="setTimeout 和 setImmediate 执行顺序"></a><code>setTimeout</code> 和 <code>setImmediate</code> 执行顺序</h1><h2 id="普通代码中设置定时器"><a href="#普通代码中设置定时器" class="headerlink" title="普通代码中设置定时器"></a>普通代码中设置定时器</h2><p>普通代码执行阶段中设置的这两个执行任务，它们的执行顺序不是固定的</p>
 <ul>
 <li>首先，设置的 <code>setTimeout(callback, 0)</code> 被转换为 <code>setTimeout(callback, 1)</code>，所以进入定时器阶段时，会根据当前时间判断定时是否超过 1ms</li>
@@ -595,6 +596,7 @@
 <li>主线程从 <code>Event Queue</code> 读取回调函数 <code>success</code> 并执行</li>
 </ul>
 <p>接下来我们来研究进阶活动：<code>setTimeout</code></p>
+<p>&lt;!−− more −−&gt;</p>
 <h1 id="又爱又恨的-setTimeout"><a href="#又爱又恨的-setTimeout" class="headerlink" title="又爱又恨的 setTimeout"></a>又爱又恨的 setTimeout</h1><p>大名鼎鼎的 <code>setTimeout</code>，我们经常这么实现延时 3 秒执行</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">setTimeout( <span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">    <span class="built_in">console</span>.log (<span class="string">'延时3秒'</span>);</div><div class="line">&#125;, <span class="number">3000</span>)    </div></pre></td></tr></table></figure>
 <p>渐渐的，<code>setTimeout</code> 用的地方多了以后就会出现问题，有时候<strong>明明写的延时 3 秒，实际却 5、6 秒才执行</strong>，这又是怎么回事？</p>
@@ -896,7 +898,7 @@
 <p>上例中的代码非常正常，问题是：<strong>什么时候计算参数 x + 5 呢</strong>？</p>
 <p>一种策略是立即计算，于是 <code>f(x + 5)</code> 会被转换成 <code>f(6)</code>，然后进入函数 <code>f</code> 内运行函数</p>
 <p>另一种策略是延迟计算，在进入函数 <code>f</code> 之前并不计算参数值，而是进入函数体之后才计算，因此函数体内的 <code>return m * 2;</code> 会被转换为 <code>return (x + 5) * 2;</code>，此时才开始计算</p>
-<p>如果不考虑开发成本，延迟计算是比较好的，否则如果函数体内走了某 if 分支并没有用到该参数，就白计算了，浪费性能。延迟到真正用到参数时才开始计算，这也是程序开发的一种流行的风格：<strong>越懒越好</strong></p>
+<p>如果不考虑开发成本，延迟计算是比较好的，否则如果函数体内走了某 if 分支并没有用到该参数，就白计算了，浪费性能。延迟到真正用到参数时才开始计算，这也是程序开发的一种流行的风格：<strong>越懒越好</strong><br>&lt;!−− more −−&gt;</p>
 <h2 id="如何实现-Thunk？"><a href="#如何实现-Thunk？" class="headerlink" title="如何实现 Thunk？"></a>如何实现 Thunk？</h2><p>如何实现延迟计算呢？可以生成一个临时函数（Thunk 函数），将参数放进去，上面代码等价于：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> x = <span class="number">1</span>;</div><div class="line"><span class="keyword">var</span> thunk = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> x + <span class="number">5</span>;</div><div class="line">&#125;;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span> (<span class="params">tempFunc</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> tempFunc() * <span class="number">2</span>;</div><div class="line">&#125;;</div><div class="line">f (thunk);  <span class="comment">//12    </span></div></pre></td></tr></table></figure>
 <p>上面这样的延迟计算，可能对效率控来说节省了一些理论上的性能（实际真节省了吗？未必），但从代码可读性，可维护性上来看，这样是得不偿失的</p>
@@ -1069,7 +1071,7 @@
 <p>最后，在各个内容区域中寻找不同的布局结构。是否需要把某些信息分为两列、三列或四列？与前面不同，这些布局结构往往非常灵活，在各个页面之间常常有变化。可以把它们看做建筑物的隔断墙。将这些结构与前一步相结合，可以形成每个页面的结构计划。现在，要拿起绘图纸和彩色铅笔，开始详细设计结构和尺寸。</p>
 <p>结构设计完以后，现在可以开始关注不同类型的内容。内容是新闻稿、文章还是公告？给每个内容块起一个有意义的名称，然后分析它们的关系。可能新闻稿和公告实际上没什么差别，在这种情况下，把它们组合成一个内容类型是有道理的。</p>
 <p>查看每个内容块的结构，看看不同的类型中是否有共同的模式。例如，文章和新闻稿可能都有醒目的页眉和页脚，所以可以加上相应的标识。即使页眉和页脚看起来不一样，实际上也没关系，因为以后可以根据上下文应用样式。对于错误消息、搜索框和菜单项等也是这样。应该尽量采用一般的类名，然后根据上下文应用样式。</p>
-<p>找出模式并确定命名约定之后，最好马上开始定义将使用的元素，这是有好处的。例如，链接列表可能是一个无序列表，而文章可能是一个 <code>div</code>，其中包含 <code>h2</code>、段落和锚元素。与几位同事一起提前定义元素，比随时添加元素容易得多。我还发现应该记下颜色编码、尺寸等信息，这在开发阶段会有帮助。另外，可以在设计的打印稿上添加批注以便快速参考。</p>
+<p>找出模式并确定命名约定之后，最好马上开始定义将使用的元素，这是有好处的。例如，链接列表可能是一个无序列表，而文章可能是一个 <code>div</code>，其中包含 <code>h2</code>、段落和锚元素。与几位同事一起提前定义元素，比随时添加元素容易得多。我还发现应该记下颜色编码、尺寸等信息，这在开发阶段会有帮助。另外，可以在设计的打印稿上添加批注以便快速参考。<br>&lt;!−− more −−&gt;</p>
 <h1 id="设置基本结构"><a href="#设置基本结构" class="headerlink" title="设置基本结构"></a>设置基本结构</h1><p>假设我们要开发一个典型的三列博客模板，见下图</p>
 <p><img src="https://imagetemp.oss-cn-beijing.aliyuncs.com/8-1.png" alt="8-1"></p>
 <p><center>典型的三列布局</center><br><br></p>
@@ -1309,7 +1311,7 @@
       
         
           
-            <script src="/assets/js/APlayer.min.js"> </script><h1 id="对列表应用样式和创建导航条"><a href="#对列表应用样式和创建导航条" class="headerlink" title="对列表应用样式和创建导航条"></a>对列表应用样式和创建导航条</h1><p>列表让我们能够对相关的元素进行分组，并由此给它们添加意义和结构。大多数网页都包含某种形式的列表，比如最近的新闻列表、喜欢的网页的链接列表或到站点其他部分的链接列表。将这些条目标识为列表并且加上标记会在 <code>HTML</code> 文档中增加结构，提供应用样式的钩子（hook）</p>
+            <script src="/assets/js/APlayer.min.js"> </script><h1 id="对列表应用样式和创建导航条"><a href="#对列表应用样式和创建导航条" class="headerlink" title="对列表应用样式和创建导航条"></a>对列表应用样式和创建导航条</h1><p>列表让我们能够对相关的元素进行分组，并由此给它们添加意义和结构。大多数网页都包含某种形式的列表，比如最近的新闻列表、喜欢的网页的链接列表或到站点其他部分的链接列表。将这些条目标识为列表并且加上标记会在 <code>HTML</code> 文档中增加结构，提供应用样式的钩子（hook）<br>&lt;!−− more −−&gt;</p>
 <h2 id="基本列表样式"><a href="#基本列表样式" class="headerlink" title="基本列表样式"></a>基本列表样式</h2><p>基本列表样式非常简单，假设有下面这个任务列表：</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">li</span>&gt;</span>Read emails<span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">li</span>&gt;</span>Write chapter<span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">li</span>&gt;</span>Cook dinner<span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">li</span>&gt;</span>Watch Lost<span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div></pre></td></tr></table></figure>
 <p>为了添加定制的项目列表，可以使用 <code>list-style-image</code> 属性。但是，这种方法对项目符号图像的位置控制能力不强。更常用的方法是<strong>关闭项目符号，并且将定制的项目符号作为背景添加在列表元素上。然后可以使用背景图像的定位属性精确地控制自定义项目符号的对齐方式。</strong></p>
@@ -1627,6 +1629,7 @@
 <figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">a</span> &#123;<span class="attribute">color</span>: red;&#125;</div></pre></td></tr></table></figure>
 <p>但是，锚可以作为内部引用，也可以作为外部链接，所以使用类型选择器不总是理想的。例如，下面的第一个锚包含一个片段标识符，当用户单击这个锚时，页面将跳转到第二个锚的位置：</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span> = <span class="string">"#mainContent"</span>&gt;</span>Skip to main content<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">...</div><div class="line"><span class="tag">&lt;<span class="name">h1</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">name</span> = <span class="string">"mainContent"</span>&gt;</span>Welcome<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>&lt;!−− more −−&gt;</p>
 <h2 id="伪类选择器"><a href="#伪类选择器" class="headerlink" title="伪类选择器"></a>伪类选择器</h2><p>虽然只想让真正的链接变成红色，但是标题的内容也成了红色的。为了避免这个问题，CSS 提供了两个特殊的选择器，称为链接伪类选择器。 <code>:link</code> 伪类选择器用来寻找没有被访问过的链接，<code>:visited</code> 伪类选择器用来寻找被访问过的链接。所以，在下面的示例中，所有没有被访问过的链接将是懒得色的，所有被访问过的链接将是绿色的：</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">a</span><span class="selector-pseudo">:link</span> &#123;<span class="attribute">color</span>: blue&#125; <span class="comment">/* Make unvisited link blue */</span></div><div class="line"><span class="selector-tag">a</span><span class="selector-pseudo">:visited</span> &#123;<span class="attribute">color</span>: green;&#125;<span class="comment">/* Make visited links green */</span></div></pre></td></tr></table></figure>
 <p>可以用来对链接应用样式的另外两个选择器是 <code>:hover</code> 和 <code>:active</code> 动态伪类选择器用来寻找被激活的元素。对于链接来说，激活发生在链接被单击时。所以，在下面的示例中，当鼠标悬停在链接上单击链接时，链接将变成红色：</p>
@@ -1916,6 +1919,7 @@
 <li>视差滚动</li>
 <li>图像替换</li>
 </ul>
+<p>&lt;!−− more −−&gt;</p>
 <h1 id="背景图像基础"><a href="#背景图像基础" class="headerlink" title="背景图像基础"></a>背景图像基础</h1><h2 id="如何设立背景图像"><a href="#如何设立背景图像" class="headerlink" title="如何设立背景图像"></a>如何设立背景图像</h2><p>应用背景图像是很容易的。如果希望网站有一个好看的背景，那么只需将图像作为背景应用于主题元素</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">body</span> &#123; </div><div class="line">   <span class="attribute">background-image</span>: <span class="built_in">url</span>(/img/pattern.gif);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p><strong>默认情况下，浏览器水平和垂直地重复显示背景图像</strong>，让图像平铺在整个页面上。可以选择背景图像是水平平铺、垂直平铺，还是根本不平铺。</p>
@@ -2219,6 +2223,7 @@
         
           
             <script src="/assets/js/APlayer.min.js"> </script><h1 id="盒模型概述"><a href="#盒模型概述" class="headerlink" title="盒模型概述"></a>盒模型概述</h1><p>盒模型是 CSS 的基石之一，<strong>它指定元素如何显示以及（在某种程度上）如何相互交互</strong>。页面上的每个元素被看作一个矩形框，这个框由元素的内容，内边距，边框和外边距组成。</p>
+<p>&lt;!−− more −−&gt;</p>
 <h2 id="内边距"><a href="#内边距" class="headerlink" title="内边距"></a>内边距</h2><p>内边距常用用于在内容周围创建一个隔离带，使内容不会与背景混在一起。</p>
 <h2 id="外边距"><a href="#外边距" class="headerlink" title="外边距"></a>外边距</h2><p>外边距是透明的，一般使用它控制元素之间的间隔。</p>
 <h3 id="盒模型示意图"><a href="#盒模型示意图" class="headerlink" title="盒模型示意图"></a>盒模型示意图</h3><p><img src="https://imagetemp.oss-cn-beijing.aliyuncs.com/3-1.png" alt="3-1"></p>
@@ -2450,6 +2455,7 @@
             <script src="/assets/js/APlayer.min.js"> </script><h1 id="常用的选择器"><a href="#常用的选择器" class="headerlink" title="常用的选择器"></a>常用的选择器</h1><p>最常用的选择器类型是 <strong>类型选择器</strong> 和 <strong>后代选择器</strong> 。</p>
 <h2 id="类型选择器"><a href="#类型选择器" class="headerlink" title="类型选择器"></a>类型选择器</h2><p>有时被称为 <em>元素选择器</em> 或 <em>简单选择器</em> 是用来寻找特定类型的选择器，例如，我们想要选择网页中所有的 <code>&lt;p&gt;</code> 或 <code>&lt;h1&gt;</code> ，只需按照如下示例进行指定。<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">p</span> &#123;</div><div class="line">    <span class="attribute">color</span>: black;</div><div class="line">&#125;</div><div class="line"><span class="selector-tag">h1</span> &#123;</div><div class="line">    <span class="attribute">font-weight</span>: bold;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <h2 id="后代选择器"><a href="#后代选择器" class="headerlink" title="后代选择器"></a>后代选择器</h2><p>可用来寻找特定元素或元素组的后代。后代选择器由其他两个选择器中间的空格表示。在此事例中，css 属性仅影响 <code>blockquote</code> 的后代的 <code>&lt;p&gt;</code> 元素。<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">blockquote</span> <span class="selector-tag">p</span> &#123;</div><div class="line">    <span class="attribute">padding-left</span>: <span class="number">2em</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure><br>要想寻找更特定的元素，可以使用 <strong>ID选择器</strong> 和 <strong>类选择器</strong> 。顾名思义，这两种选择器用于寻找那些具有指定 <em>ID</em> 或 <em>类名</em> 的元素。下方示例，第一条选择 <code>ID = intro</code> 的元素，第二条选择 <code>class = data-posted</code> 的元素。<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="selector-id">#intro</span> &#123;</div><div class="line">   <span class="attribute">font-weight</span>: bold;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.date-posted</span> &#123;</div><div class="line">   <span class="attribute">color</span>: <span class="number">#ccc</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure><br>注意：如果你发现自己在文档中添加了许多不必要的类，那么这可能是文档结构不合理的一个警告信号。<strong>因此，不要给这些元素指定不同的类，而应将一个 <em>类</em> 或 <em>ID</em> 应用于它们的祖先，然后使用后代选择器定位它们。</strong></p>
+<p>&lt;!−− more −−&gt;</p>
 <h1 id="伪类"><a href="#伪类" class="headerlink" title="伪类"></a>伪类</h1><p>用于根据 <em>DOM</em> 流外的条件对元素应用样式，例如表单元素或链接的状态。示例如下：</p>
 <p></p><p data-height="265" data-theme-id="0" data-slug-hash="QqqbKY" data-default-tab="css,result" data-user="Xeonice" data-embed-version="2" data-pen-title="伪类" class="codepen">See the Pen <a href="https://codepen.io/Xeonice/pen/QqqbKY/" target="_blank" rel="noopener">伪类</a> by DouglasDong (<a href="https://codepen.io/Xeonice" target="_blank" rel="noopener">@Xeonice</a>) on <a href="https://codepen.io" target="_blank" rel="noopener">CodePen</a>.</p><p></p>
 <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
@@ -2742,6 +2748,7 @@
 <li>搜索引擎可能认为被隐藏的文字属于垃圾信息而被忽略，不为隐藏的对象保留物理占位空间。</li>
 <li>会被屏幕阅读器所忽略。</li>
 </ul>
+<p>&lt;!−− more −−&gt;</p>
 <p><br></p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">td</span> &#123; </div><div class="line">    <span class="attribute">position</span>: relative;</div><div class="line">    <span class="attribute">padding-left</span>: <span class="number">50%</span>; </div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>当 <code>mediaQuery</code> 被触发时，设定 <code>padding-left</code> 为页面 <code>width</code> 的50%。</p>
@@ -2789,10 +2796,6 @@
   </section>
 
   
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
-  </nav>
-
 
 
           </div>
@@ -2839,7 +2842,7 @@
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">10</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

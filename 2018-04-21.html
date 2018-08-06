@@ -82,7 +82,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://user-gold-cdn.xitu.io/2017/11/21/15fdd88994142347?imageView2/0/w/1280/h/960/ignore-error/1">
 <meta property="og:image" content="https://user-gold-cdn.xitu.io/2017/11/21/15fdcea13361a1ec?imageView2/0/w/1280/h/960/ignore-error/1">
-<meta property="og:updated_time" content="2018-04-21T14:46:49.627Z">
+<meta property="og:updated_time" content="2018-08-06T12:21:49.919Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Javascript 执行机制解析">
 <meta name="twitter:description" content="关于 JavascriptJavascript 是一门单线程语言，在最新的 HTML5 中提出了 Web-worker，但 Javascript 是单线程这一核心并未改变，所以，一切 Javascript 版的“多线程”都是用单线程模拟出来的。 Javascript 事件循环既然 JS 是单线程，那就像只有一个窗口的银行，客户需要一个一个办理业务，同理 JS 任务也要一个一个顺序执行，如果一个任">
@@ -374,6 +374,7 @@
 <li>主线程从 <code>Event Queue</code> 读取回调函数 <code>success</code> 并执行</li>
 </ul>
 <p>接下来我们来研究进阶活动：<code>setTimeout</code></p>
+<p>&lt;!−− more −−&gt;</p>
 <h1 id="又爱又恨的-setTimeout"><a href="#又爱又恨的-setTimeout" class="headerlink" title="又爱又恨的 setTimeout"></a>又爱又恨的 setTimeout</h1><p>大名鼎鼎的 <code>setTimeout</code>，我们经常这么实现延时 3 秒执行</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">setTimeout( <span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">    <span class="built_in">console</span>.log (<span class="string">'延时3秒'</span>);</div><div class="line">&#125;, <span class="number">3000</span>)    </div></pre></td></tr></table></figure>
 <p>渐渐的，<code>setTimeout</code> 用的地方多了以后就会出现问题，有时候<strong>明明写的延时 3 秒，实际却 5、6 秒才执行</strong>，这又是怎么回事？</p>
@@ -651,7 +652,7 @@
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">10</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

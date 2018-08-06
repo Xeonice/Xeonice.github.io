@@ -80,7 +80,7 @@
 <meta property="og:site_name" content="Helve&#39;s Blog">
 <meta property="og:description" content="执行流程 node 的初始化 初始化 node 环境 执行输入代码 执行 process.nextTick 回调 执行 MicroTask（Promise）   进入 EventLoop 阶段 进入 timer 阶段（执行timer（setTimeout、setInterval）的回调） 检查 timer 队列是否有到期的回调，如果有，将到期的 timer 回调按照 timerId 升序执行（s">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-08-06T09:36:31.160Z">
+<meta property="og:updated_time" content="2018-08-06T12:21:37.616Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Node.js 事件循环原理总结">
 <meta name="twitter:description" content="执行流程 node 的初始化 初始化 node 环境 执行输入代码 执行 process.nextTick 回调 执行 MicroTask（Promise）   进入 EventLoop 阶段 进入 timer 阶段（执行timer（setTimeout、setInterval）的回调） 检查 timer 队列是否有到期的回调，如果有，将到期的 timer 回调按照 timerId 升序执行（s">
@@ -413,6 +413,7 @@
 </ul>
 </li>
 </ul>
+<p>&lt;!−− more −−&gt;</p>
 <h1 id="setTimeout-和-setImmediate-执行顺序"><a href="#setTimeout-和-setImmediate-执行顺序" class="headerlink" title="setTimeout 和 setImmediate 执行顺序"></a><code>setTimeout</code> 和 <code>setImmediate</code> 执行顺序</h1><h2 id="普通代码中设置定时器"><a href="#普通代码中设置定时器" class="headerlink" title="普通代码中设置定时器"></a>普通代码中设置定时器</h2><p>普通代码执行阶段中设置的这两个执行任务，它们的执行顺序不是固定的</p>
 <ul>
 <li>首先，设置的 <code>setTimeout(callback, 0)</code> 被转换为 <code>setTimeout(callback, 1)</code>，所以进入定时器阶段时，会根据当前时间判断定时是否超过 1ms</li>
@@ -543,7 +544,7 @@
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">10</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
