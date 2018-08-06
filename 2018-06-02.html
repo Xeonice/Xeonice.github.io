@@ -54,7 +54,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="CSS," />
+  <meta name="keywords" content="Javascript," />
 
 
 
@@ -72,18 +72,18 @@
 
 
 
-<meta name="description" content="深入分析课程：响应式表格 - 没有更多表格了 后，对源码的分析如下： test123  源代码: See the Pen RWDF L5 No More Tables by DouglasDong (@Xeonice) on CodePen.   123tr:nth-child(odd) &amp;#123;  background-color: #f9f9f9;&amp;#125; 使用了 nth-child">
-<meta name="keywords" content="CSS">
+<meta name="description" content="执行流程 node 的初始化 初始化 node 环境 执行输入代码 执行 process.nextTick 回调 执行 MicroTask（Promise）   进入 EventLoop 阶段 进入 timer 阶段（执行timer（setTimeout、setInterval）的回调） 检查 timer 队列是否有到期的回调，如果有，将到期的 timer 回调按照 timerId 升序执行（s">
+<meta name="keywords" content="Javascript">
 <meta property="og:type" content="article">
-<meta property="og:title" content="响应式表格分析">
-<meta property="og:url" content="https://www.douglasdong.site/2017/09/28/响应式表格分析/index.html">
+<meta property="og:title" content="Node.js 事件循环原理总结">
+<meta property="og:url" content="https://www.douglasdong.site/2018-06-02.html">
 <meta property="og:site_name" content="Helve&#39;s Blog">
-<meta property="og:description" content="深入分析课程：响应式表格 - 没有更多表格了 后，对源码的分析如下： test123  源代码: See the Pen RWDF L5 No More Tables by DouglasDong (@Xeonice) on CodePen.   123tr:nth-child(odd) &amp;#123;  background-color: #f9f9f9;&amp;#125; 使用了 nth-child">
+<meta property="og:description" content="执行流程 node 的初始化 初始化 node 环境 执行输入代码 执行 process.nextTick 回调 执行 MicroTask（Promise）   进入 EventLoop 阶段 进入 timer 阶段（执行timer（setTimeout、setInterval）的回调） 检查 timer 队列是否有到期的回调，如果有，将到期的 timer 回调按照 timerId 升序执行（s">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-09-28T16:09:32.758Z">
+<meta property="og:updated_time" content="2018-08-06T09:36:31.160Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="响应式表格分析">
-<meta name="twitter:description" content="深入分析课程：响应式表格 - 没有更多表格了 后，对源码的分析如下： test123  源代码: See the Pen RWDF L5 No More Tables by DouglasDong (@Xeonice) on CodePen.   123tr:nth-child(odd) &amp;#123;  background-color: #f9f9f9;&amp;#125; 使用了 nth-child">
+<meta name="twitter:title" content="Node.js 事件循环原理总结">
+<meta name="twitter:description" content="执行流程 node 的初始化 初始化 node 环境 执行输入代码 执行 process.nextTick 回调 执行 MicroTask（Promise）   进入 EventLoop 阶段 进入 timer 阶段（执行timer（setTimeout、setInterval）的回调） 检查 timer 队列是否有到期的回调，如果有，将到期的 timer 回调按照 timerId 升序执行（s">
 
 
 
@@ -113,13 +113,13 @@
 
 
 
-  <link rel="canonical" href="https://www.douglasdong.site/2017/09/28/响应式表格分析/"/>
+  <link rel="canonical" href="https://www.douglasdong.site/2018-06-02.html"/>
 
 
 
 
 
-  <title>响应式表格分析 | Helve's Blog</title>
+  <title>Node.js 事件循环原理总结 | Helve's Blog</title>
   
 
 
@@ -256,7 +256,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.douglasdong.site/2017/09/28/响应式表格分析/">
+    <link itemprop="mainEntityOfPage" href="https://www.douglasdong.site/2018-06-02.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Helvetica.D">
@@ -273,7 +273,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">响应式表格分析</h1>
+          <h1 class="post-title" itemprop="name headline">Node.js 事件循环原理总结</h1>
         
 
         <div class="post-meta">
@@ -285,8 +285,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-28T13:26:55+08:00">
-                2017-09-28
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-02T20:33:24+08:00">
+                2018-06-02
               </time>
             
 
@@ -295,6 +295,28 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Node-js/" itemprop="url" rel="index">
+                    <span itemprop="name">Node.js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -323,31 +345,86 @@
       
 
       
-        <script src="/assets/js/APlayer.min.js"> </script><p>深入分析课程：<strong>响应式表格 - 没有更多表格了</strong> 后，对源码的分析如下：</p>
-<p>test123</p>
-<p><br></p>
-<p><strong>源代码</strong>:</p>
-<iframe height="265" scrolling="no" title="RWDF L5 No More Tables" src="//codepen.io/Xeonice/embed/dVWNRy/?height=265&theme-id=0&default-tab=html,result&embed-version=2" frameborder="no" allowtransparency="true" allowfullscreen="true" style="width: 100%;">See the Pen <a href="https://codepen.io/Xeonice/pen/dVWNRy/" target="_blank" rel="noopener">RWDF L5 No More Tables</a> by DouglasDong (<a href="https://codepen.io/Xeonice" target="_blank" rel="noopener">@Xeonice</a>) on <a href="https://codepen.io" target="_blank" rel="noopener">CodePen</a>.<br></iframe>
-
-<p><br></p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">tr</span><span class="selector-pseudo">:nth-child(odd)</span> &#123;</div><div class="line">  <span class="attribute">background-color</span>: <span class="number">#f9f9f9</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>使用了 nth-child(odd) 选择器对下标是奇数或偶数的 <code>&lt;tr&gt;</code> 进行选择，并设置其背景颜色为 <code>#f9f9f9</code> 。相关文档可参见 <a href="http://www.w3school.com.cn/cssref/selector_nth-child.asp" target="_blank" rel="noopener">CSS3 :nth-child() 选择器</a>。</p>
-<p><br></p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">thead</span> <span class="selector-tag">tr</span> &#123;</div><div class="line">    <span class="attribute">position</span>: absolute;</div><div class="line">    <span class="attribute">top</span>: -<span class="number">9999px</span>;</div><div class="line">    <span class="attribute">left</span>: -<span class="number">9999px</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>当 <code>mediaQuery</code> 被触发时，使 DOM 树中的 thead，tr 元素移至浏览器可视窗口之外。不使用 <code>display: none</code> 的原因有两点：</p>
-<ul>
-<li>搜索引擎可能认为被隐藏的文字属于垃圾信息而被忽略，不为隐藏的对象保留物理占位空间。</li>
-<li>会被屏幕阅读器所忽略。</li>
+        <script src="/assets/js/APlayer.min.js"> </script><h1 id="执行流程"><a href="#执行流程" class="headerlink" title="执行流程"></a>执行流程</h1><ul>
+<li>node 的初始化<ul>
+<li>初始化 node 环境</li>
+<li>执行输入代码</li>
+<li>执行 <code>process.nextTick</code> 回调</li>
+<li>执行 MicroTask（Promise）</li>
 </ul>
-<p><br></p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">td</span> &#123; </div><div class="line">    <span class="attribute">position</span>: relative;</div><div class="line">    <span class="attribute">padding-left</span>: <span class="number">50%</span>; </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>当 <code>mediaQuery</code> 被触发时，设定 <code>padding-left</code> 为页面 <code>width</code> 的50%。</p>
-<p><br></p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">td</span><span class="selector-pseudo">:before</span> &#123; </div><div class="line">    <span class="attribute">position</span>: absolute;</div><div class="line">    <span class="attribute">left</span>: <span class="number">6px</span>;</div><div class="line">    <span class="attribute">content</span>: <span class="built_in">attr</span>(data-th);</div><div class="line">    <span class="attribute">font-weight</span>: bold;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>当 <code>mediaQuery</code> 被触发时，在 <code>td</code> 元素前设置文字，定位采用绝对定位，内容为 HTML 文档中 <code>data-th</code> 处的文字。详细文档可见 <a href="http://www.w3school.com.cn/cssref/selector_before.asp" target="_blank" rel="noopener">CSS :before 选择器</a> 。</p>
-<p><br></p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">td</span><span class="selector-pseudo">:first-of-type</span> &#123;</div><div class="line">    <span class="attribute">font-weight</span>: bold;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>当 <code>mediaQuery</code> 被触发时，设定 首个 <code>td</code> 元素的字重为 <code>bold</code> 。这里是指表格中的 <code>San Francisco</code> 与 <code>Toronto</code> 。 详细文档可见：  <a href="http://www.w3school.com.cn/cssref/selector_first-of-type.asp" target="_blank" rel="noopener">CSS3 :first-of-type 选择器</a> 。</p>
+</li>
+<li>进入 EventLoop 阶段<ul>
+<li>进入 timer 阶段（执行timer（<code>setTimeout</code>、<code>setInterval</code>）的回调）<ul>
+<li>检查 timer 队列是否有到期的回调，如果有，将到期的 timer 回调按照 timerId 升序执行（<code>setTimeout</code>、<code>setInterval</code>）</li>
+<li>检查是否有 <code>process.nextTick</code> 回调，如果有，全部执行</li>
+<li>检查是否有 MicroTask，如果有，全部执行</li>
+<li>退出该阶段</li>
+</ul>
+</li>
+<li>进入 I/O callback 阶段（执行一些系统调用错误，比如网络通信的错误回调）<ul>
+<li>检查是否有 pending 的 I/O 回调，如果有，执行回调，如果没有，退出阶段</li>
+<li>检查是否有 <code>process.nextTick</code> 任务，如果有，全部执行</li>
+<li>检查是否有 MicroTask，如果有，全部执行</li>
+<li>退出该阶段</li>
+</ul>
+</li>
+<li>进入 idle，prepare 阶段<ul>
+<li>这两个阶段与编程关系不大，按下不表</li>
+</ul>
+</li>
+<li>进入 poll 阶段（获取新的 I/O 事件, 适当的条件下node将阻塞在这里）<ul>
+<li>首先检查是否存在尚未完成的回调，如果存在，那么分为两种情况<ul>
+<li>第一种情况<ul>
+<li>如果有可用回调（到期的定时器和一些 IO 事件），执行所有可用回调</li>
+<li>检查是否有 <code>process.nextTick</code> 回调，如果有，全部执行</li>
+<li>检查是否有 MicroTask 任务，如果有，全部执行</li>
+<li>退出该阶段</li>
+</ul>
+</li>
+<li>第二种情况<ul>
+<li>如果没有可用回调</li>
+<li>检查是否有 <code>setImmediate</code> 任务，如果有，退出 poll 阶段，如果没有，阻塞在此阶段，等待新的事件通知</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>如果不存在尚未完成的回调，退出 poll 阶段</li>
+</ul>
+</li>
+<li>进入 check 阶段（执行 <code>setImmediate()</code> 的回调）<ul>
+<li>如果有 <code>setImmediate</code> 回调，那么执行所有的 immediate 回调</li>
+<li>检查是否有 <code>process.nextTick</code> 回调，如果有，全部执行</li>
+<li>检查是否有 MicroTask 任务，如果有，全部执行</li>
+<li>退出 check 阶段</li>
+</ul>
+</li>
+<li>进入 closing 阶段（执行 <code>socket</code> 的 <code>close</code> 事件回调）<ul>
+<li>如果有 <code>setImmediate</code> 回调，那么执行所有的 immediate 回调</li>
+<li>检查是否有 <code>process.nextTick</code> 回调，如果有，全部执行</li>
+<li>检查是否有 MicroTask 任务，如果有，全部执行</li>
+<li>退出 closing 阶段</li>
+</ul>
+</li>
+<li>检查是否有活跃的 handles（定时器，IO 等事件句柄）<ul>
+<li>如果有，继续下一轮循环</li>
+<li>如果没有，结束事件循环，退出程序</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="setTimeout-和-setImmediate-执行顺序"><a href="#setTimeout-和-setImmediate-执行顺序" class="headerlink" title="setTimeout 和 setImmediate 执行顺序"></a><code>setTimeout</code> 和 <code>setImmediate</code> 执行顺序</h1><h2 id="普通代码中设置定时器"><a href="#普通代码中设置定时器" class="headerlink" title="普通代码中设置定时器"></a>普通代码中设置定时器</h2><p>普通代码执行阶段中设置的这两个执行任务，它们的执行顺序不是固定的</p>
+<ul>
+<li>首先，设置的 <code>setTimeout(callback, 0)</code> 被转换为 <code>setTimeout(callback, 1)</code>，所以进入定时器阶段时，会根据当前时间判断定时是否超过 1ms</li>
+<li>事件循环在进入定时器阶段之前会由系统调用方法来更新当前时间，由于系统中同时运行着其他的程序，系统需要等待其他程序的进程运行结束才能获取准确时间，所以更新得到的时间可能会有一定的延迟</li>
+<li>更新时间时，若没有延迟，定时不到 1ms ,immediate 任务会先执行；如果存在延迟，并且这个时间达到了 1ms 的界限， timeout 任务就会首先执行</li>
+</ul>
+<h2 id="IO-回调中设置定时器"><a href="#IO-回调中设置定时器" class="headerlink" title="IO 回调中设置定时器"></a>IO 回调中设置定时器</h2><p><code>setImmediate</code> 会率先执行</p>
+<ul>
+<li>进入 poll phase 轮询阶段之前会先检查是否有 timer 定时任务。</li>
+<li>如果没有 timer 定时任务，才会执行后面的 IO 回调。</li>
+<li>我们在 IO 回调中设置 setTimeout 定时任务，这时已经过了 timer 检查阶段，所以 timer 定时任务会被推迟到下一个循环中执行。</li>
+</ul>
 
       
     </div>
@@ -365,7 +442,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/CSS/" rel="tag"># CSS</a>
+            <a href="/tags/Javascript/" rel="tag"># Javascript</a>
           
         </div>
       
@@ -378,8 +455,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/09/25/WodeXinBoke/" rel="next" title="WodeXinBoke">
-                <i class="fa fa-chevron-left"></i> WodeXinBoke
+              <a href="/2018-04-21.html" rel="next" title="Javascript 执行机制解析">
+                <i class="fa fa-chevron-left"></i> Javascript 执行机制解析
               </a>
             
           </div>
@@ -387,10 +464,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/10/03/精通CSS笔记-第二章-为样式找到应用目标/" rel="prev" title="第二章--为样式找到应用目标">
-                第二章--为样式找到应用目标 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -442,8 +515,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           
             <img class="site-author-image" itemprop="image"
@@ -529,6 +611,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#执行流程"><span class="nav-number">1.</span> <span class="nav-text">执行流程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#setTimeout-和-setImmediate-执行顺序"><span class="nav-number">2.</span> <span class="nav-text">setTimeout 和 setImmediate 执行顺序</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#普通代码中设置定时器"><span class="nav-number">2.1.</span> <span class="nav-text">普通代码中设置定时器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IO-回调中设置定时器"><span class="nav-number">2.2.</span> <span class="nav-text">IO 回调中设置定时器</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
