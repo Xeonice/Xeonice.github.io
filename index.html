@@ -244,6 +244,216 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/21/2018-06-02/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Helvetica.D">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.PNG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Helve's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/04/21/2018-06-02/" itemprop="url">Node.js 事件循环原理总结</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-21T20:33:24+08:00">
+                2018-04-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Node-js/" itemprop="url" rel="index">
+                    <span itemprop="name">Node.js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <script src="/assets/js/APlayer.min.js"> </script><ul>
+<li>node 的初始化<ul>
+<li>初始化 node 环境</li>
+<li>执行输入代码</li>
+<li>执行 process.nextTick 回调</li>
+<li>执行 MicroTask（Promise）</li>
+</ul>
+</li>
+<li>进入 EventLoop 阶段<ul>
+<li>进入 timer 阶段<ul>
+<li>检查 timer 队列是否有到期的回调，如果有，将到期的 timer 回调按照 timerId 升序执行</li>
+<li>检查是否有 process.nextTick 回调，如果有，全部执行</li>
+<li>检查是否有 MicroTask，如果有，全部执行</li>
+<li>退出该阶段</li>
+</ul>
+</li>
+<li>进入 IO callback 阶段<ul>
+<li>检查是否有 pending 的 I/O 回调，如果有，执行回调，如果没有，退出阶段</li>
+<li>检查是否有 process.nextTick 任务，如果有，全部执行</li>
+<li>检查是否有 MicroTask，如果有，全部执行</li>
+<li>退出该阶段</li>
+</ul>
+</li>
+<li>进入 idle，prepare 阶段<ul>
+<li>这两个阶段与编程关系不大，按下不表</li>
+</ul>
+</li>
+<li>进入 poll 阶段<ul>
+<li>首先检查是否存在尚未完成的回调，如果存在，那么分为两种情况<ul>
+<li>第一种情况<ul>
+<li>如果有可用回调（到期的定时器和一些 IO 事件），执行所有可用回调</li>
+<li>检查是否有 process.nextTick 回调，如果有，全部执行</li>
+<li>检查是否有 MicroTask 任务，如果有，全部执行</li>
+<li>退出该阶段</li>
+</ul>
+</li>
+<li>第二种情况<ul>
+<li>如果没有可用回调</li>
+<li>检查是否有 immediate 回调，如果有，退出 poll 阶段，如果没有，阻塞在此阶段，等待新的事件通知</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>如果不存在尚未完成的回调，退出 poll 阶段</li>
+</ul>
+</li>
+<li>进入 check 阶段<ul>
+<li>如果有 immediate 回调，那么执行所有的 immediate 回调</li>
+<li>检查是否有 process.nextTick 回调，如果有，全部执行</li>
+<li>检查是否有 MicroTask 任务，如果有，全部执行</li>
+<li>退出 check 阶段</li>
+</ul>
+</li>
+<li>进入 closing 阶段<ul>
+<li>如果有 immediate 回调，那么执行所有的 immediate 回调</li>
+<li>检查是否有 process.nextTick 回调，如果有，全部执行</li>
+<li>检查是否有 MicroTask 任务，如果有，全部执行</li>
+<li>退出 closing 阶段</li>
+</ul>
+</li>
+<li>检查是否有活跃的 handles（定时器，IO 等事件句柄）<ul>
+<li>如果有，继续下一轮循环</li>
+<li>如果没有，结束事件循环，退出程序</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>timer =&gt; IO callback =&gt; idle/prepare =&gt; poll =&gt; check =&gt; closing =&gt; 是否有活跃 handles =&gt; 下一轮循环/结束程序÷</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/21/2018-04-21/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2554,145 +2764,13 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/25/WodeXinBoke/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Helvetica.D">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.PNG">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Helve's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/09/25/WodeXinBoke/" itemprop="url">WodeXinBoke</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-25T22:09:33+08:00">
-                2017-09-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <script src="/assets/js/APlayer.min.js"> </script><p>DPlayer 与 Aplayer 插件的简单测试。<br><div id="aplayer0" class="aplayer" style="margin-bottom: 20px;"></div>
-		<script>
-			var ap = new APlayer({
-				element: document.getElementById("aplayer0"),
-				narrow: false,
-				autoplay: false,
-				showlrc: 0,
-				music: {
-					title: "Clock",
-					author: "Jeff Williams",
-					url: "http://7xrad6.com1.z0.glb.clouddn.com/Clocks%20-%20Plaid.mp3",
-					pic: "",
-				}
-			});
-			window.aplayers || (window.aplayers = []);
-			window.aplayers.push(ap);
-		</script></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
 
 
           </div>
@@ -2739,7 +2817,7 @@
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-count">11</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2750,7 +2828,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-count">3</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
