@@ -72,20 +72,20 @@
 
 
 
-<meta name="description" content="为什么要异步编程？Javascript 问世之初便是作为浏览器的辅助语言进行开发的，同时由于 Javascript 普遍用于浏览器的 GUI 开发，因此需要线程不能被阻塞 因此，Javascript 在之后的发展过程中都采用异步非阻塞的编程模式，也就是说，在执行一个指令后不是马上得到结果，继续执行命令，等到特定的事件触发以后，才得到结果，这也是我们常说的：Javascript 是由事件驱动的 异">
+<meta name="description" content="为什么要异步编程？Javascript 问世之初便是作为浏览器的辅助语言进行开发的，同时由于 Javascript 普遍用于浏览器的 GUI 开发，因此需要线程不能被阻塞 因此，Javascript 在之后的发展过程中都采用异步非阻塞的编程模式，也就是说，在执行一个指令后不是马上得到结果，继续执行命令，等到特定的事件触发以后，才得到结果，这也是我们常说的：Javascript 是由事件驱动的 异步">
 <meta name="keywords" content="Javascript">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Javascript 异步编程迷思">
 <meta property="og:url" content="https://www.douglasdong.site/2018-07-29.html">
 <meta property="og:site_name" content="Helve&#39;s Blog">
-<meta property="og:description" content="为什么要异步编程？Javascript 问世之初便是作为浏览器的辅助语言进行开发的，同时由于 Javascript 普遍用于浏览器的 GUI 开发，因此需要线程不能被阻塞 因此，Javascript 在之后的发展过程中都采用异步非阻塞的编程模式，也就是说，在执行一个指令后不是马上得到结果，继续执行命令，等到特定的事件触发以后，才得到结果，这也是我们常说的：Javascript 是由事件驱动的 异">
+<meta property="og:description" content="为什么要异步编程？Javascript 问世之初便是作为浏览器的辅助语言进行开发的，同时由于 Javascript 普遍用于浏览器的 GUI 开发，因此需要线程不能被阻塞 因此，Javascript 在之后的发展过程中都采用异步非阻塞的编程模式，也就是说，在执行一个指令后不是马上得到结果，继续执行命令，等到特定的事件触发以后，才得到结果，这也是我们常说的：Javascript 是由事件驱动的 异步">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://www.douglasdong.site/media/v2-0a8d20afae14a3991283cf6e9050f677_r.jpg">
-<meta property="og:updated_time" content="2018-08-07T09:14:03.461Z">
+<meta property="og:image" content="https://imagetemp.oss-cn-beijing.aliyuncs.com/2018-08-07-v2-0a8d20afae14a3991283cf6e9050f677_r.jpg">
+<meta property="og:updated_time" content="2018-08-07T09:43:42.648Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Javascript 异步编程迷思">
-<meta name="twitter:description" content="为什么要异步编程？Javascript 问世之初便是作为浏览器的辅助语言进行开发的，同时由于 Javascript 普遍用于浏览器的 GUI 开发，因此需要线程不能被阻塞 因此，Javascript 在之后的发展过程中都采用异步非阻塞的编程模式，也就是说，在执行一个指令后不是马上得到结果，继续执行命令，等到特定的事件触发以后，才得到结果，这也是我们常说的：Javascript 是由事件驱动的 异">
-<meta name="twitter:image" content="https://www.douglasdong.site/media/v2-0a8d20afae14a3991283cf6e9050f677_r.jpg">
+<meta name="twitter:description" content="为什么要异步编程？Javascript 问世之初便是作为浏览器的辅助语言进行开发的，同时由于 Javascript 普遍用于浏览器的 GUI 开发，因此需要线程不能被阻塞 因此，Javascript 在之后的发展过程中都采用异步非阻塞的编程模式，也就是说，在执行一个指令后不是马上得到结果，继续执行命令，等到特定的事件触发以后，才得到结果，这也是我们常说的：Javascript 是由事件驱动的 异步">
+<meta name="twitter:image" content="https://imagetemp.oss-cn-beijing.aliyuncs.com/2018-08-07-v2-0a8d20afae14a3991283cf6e9050f677_r.jpg">
 
 
 
@@ -359,7 +359,8 @@
 <h2 id="回调"><a href="#回调" class="headerlink" title="回调"></a>回调</h2><p>这种异步方式是最基础的实现，node 中在前 ES6 时代经常会碰到这种代码</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">fs.readdir(path.join(__dirname,<span class="string">'..'</span>),<span class="function"><span class="keyword">function</span>(<span class="params">err , files</span>)</span>&#123;</div><div class="line">    files.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">filename , index</span>)</span>&#123;</div><div class="line">        fs.readFle(filename , <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            ....</div><div class="line">        &#125;)</div><div class="line">    &#125;)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
 <p>这段代码仅仅用于遍历一个目录，但是过深的嵌套很容易导致理解困难，而且这样回调也无法支持对异常的捕获，js 的嵌套回调也经常被调侃</p>
-<p><img src="media/v2-0a8d20afae14a3991283cf6e9050f677_r.jpg" alt="回调地狱"></p>
+<p><img src="https://imagetemp.oss-cn-beijing.aliyuncs.com/2018-08-07-v2-0a8d20afae14a3991283cf6e9050f677_r.jpg" alt="回调地狱"></p>
+<a id="more"></a>
 <h2 id="Promise"><a href="#Promise" class="headerlink" title="Promise"></a>Promise</h2><p>简单一点理解的话，就是把要执行的回调函数拿到外面进行执行，使代码看起来很同步</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve , reject</span>)</span>&#123;</div><div class="line">    <span class="comment">// 执行异步代码的调用 </span></div><div class="line">    <span class="keyword">async</span>(<span class="function"><span class="keyword">function</span>(<span class="params">err , right</span>)</span>&#123;</div><div class="line">        <span class="comment">// 完全是可以根据返回的数据 , 直接执行相应的逻辑 , 不过为了让代码看着"好看同步" , 决定把数据当作参数传递给外面,&lt;/br&gt;</span></div><div class="line">        去外面(then的回调函数里 , 或者<span class="keyword">catch</span>的回调函数里)执行 </div><div class="line">        <span class="comment">// 根据返回的数据 , 来确定该调用哪个接口 </span></div><div class="line">        <span class="keyword">if</span>(right)&#123;</div><div class="line">            resolve(<span class="string">"data"</span>); </div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span>(err)&#123;</div><div class="line">            reject(<span class="string">'err'</span>) </div><div class="line">        &#125;</div><div class="line">    &#125;)</div><div class="line">&#125;)  </div><div class="line"><span class="comment">// 如果执行了resolve() , 就走到这里 </span></div><div class="line">.then(<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</div><div class="line">    coding..</div><div class="line">&#125;)</div><div class="line"><span class="comment">//如果执行了reject , 就走到了这里 </span></div><div class="line">.catch(<span class="function"><span class="keyword">function</span>(<span class="params">err</span>)</span>&#123;</div><div class="line">    coding..</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
 <p>为什么执行了 resolve(‘data’)，或 reject(‘err’) 后，then 的回调函数，或者 catch 的回调函数就知道，该我执行的时候到了呢？简单点说就是有人’通知’我呗！</p>
