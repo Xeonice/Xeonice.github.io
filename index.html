@@ -351,10 +351,10 @@
 <p>因此，Javascript 在之后的发展过程中都采用异步非阻塞的编程模式，也就是说，<strong>在执行一个指令后不是马上得到结果，继续执行命令，等到特定的事件触发以后，才得到结果</strong>，这也是我们常说的：Javascript 是由事件驱动的</p>
 <h1 id="异步实现"><a href="#异步实现" class="headerlink" title="异步实现"></a>异步实现</h1><p>现目前的异步实现主要有以下几种实现方式：</p>
 <ul>
-<li>回调</li>
-<li>Promise</li>
-<li>Generator</li>
-<li>await/async</li>
+<li><code>回调</code></li>
+<li><code>Promise</code></li>
+<li><code>Generator</code></li>
+<li><code>await/async</code></li>
 </ul>
 <h2 id="回调"><a href="#回调" class="headerlink" title="回调"></a>回调</h2><p>这种异步方式是最基础的实现，node 中在前 ES6 时代经常会碰到这种代码</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">fs.readdir(path.join(__dirname,<span class="string">'..'</span>),<span class="function"><span class="keyword">function</span>(<span class="params">err , files</span>)</span>&#123;</div><div class="line">    files.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">filename , index</span>)</span>&#123;</div><div class="line">        fs.readFle(filename , <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            ....</div><div class="line">        &#125;)</div><div class="line">    &#125;)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
