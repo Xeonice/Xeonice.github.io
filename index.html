@@ -255,6 +255,188 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.douglasdong.site/2018-07-29.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Helvetica.D">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.PNG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Helve's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018-07-29.html" itemprop="url">Javascript 异步编程迷思</a></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-29T22:34:52+08:00">
+                2018-07-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Node-js/" itemprop="url" rel="index">
+                    <span itemprop="name">Node.js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <script src="/assets/js/APlayer.min.js"> </script><h1 id="为什么要异步编程？"><a href="#为什么要异步编程？" class="headerlink" title="为什么要异步编程？"></a>为什么要异步编程？</h1><p>Javascript 问世之初便是作为浏览器的辅助语言进行开发的，同时由于 Javascript 普遍用于浏览器的 GUI 开发，因此需要线程不能被阻塞</p>
+<p>因此，Javascript 在之后的发展过程中都采用异步非阻塞的编程模式，也就是说，<strong>在执行一个指令后不是马上得到结果，继续执行命令，等到特定的事件触发以后，才得到结果</strong>，这也是我们常说的：Javascript 是由事件驱动的</p>
+<h1 id="异步实现"><a href="#异步实现" class="headerlink" title="异步实现"></a>异步实现</h1><p>现目前的异步实现主要有以下几种实现方式：</p>
+<ul>
+<li>回调</li>
+<li>Promise</li>
+<li>Generator</li>
+<li>await/async</li>
+</ul>
+<h2 id="回调"><a href="#回调" class="headerlink" title="回调"></a>回调</h2><p>这种异步方式是最基础的实现，node 中在前 ES6 时代经常会碰到这种代码</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">fs.readdir(path.join(__dirname,<span class="string">'..'</span>),<span class="function"><span class="keyword">function</span>(<span class="params">err , files</span>)</span>&#123;</div><div class="line">    files.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">filename , index</span>)</span>&#123;</div><div class="line">        fs.readFle(filename , <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            ....</div><div class="line">        &#125;)</div><div class="line">    &#125;)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>这段代码仅仅用于遍历一个目录，但是过深的嵌套很容易导致理解困难，而且这样回调也无法支持对异常的捕获，js 的嵌套回调也经常被调侃</p>
+<p><img src="media/v2-0a8d20afae14a3991283cf6e9050f677_r.jpg" alt="回调地狱"></p>
+<h2 id="Promise"><a href="#Promise" class="headerlink" title="Promise"></a>Promise</h2><p>简单一点理解的话，就是把要执行的回调函数拿到外面进行执行，使代码看起来很同步</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve , reject</span>)</span>&#123;</div><div class="line">    <span class="comment">// 执行异步代码的调用 </span></div><div class="line">    <span class="keyword">async</span>(<span class="function"><span class="keyword">function</span>(<span class="params">err , right</span>)</span>&#123;</div><div class="line">        <span class="comment">// 完全是可以根据返回的数据 , 直接执行相应的逻辑 , 不过为了让代码看着"好看同步" , 决定把数据当作参数传递给外面,&lt;/br&gt;</span></div><div class="line">        去外面(then的回调函数里 , 或者<span class="keyword">catch</span>的回调函数里)执行 </div><div class="line">        <span class="comment">// 根据返回的数据 , 来确定该调用哪个接口 </span></div><div class="line">        <span class="keyword">if</span>(right)&#123;</div><div class="line">            resolve(<span class="string">"data"</span>); </div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span>(err)&#123;</div><div class="line">            reject(<span class="string">'err'</span>) </div><div class="line">        &#125;</div><div class="line">    &#125;)</div><div class="line">&#125;)  </div><div class="line"><span class="comment">// 如果执行了resolve() , 就走到这里 </span></div><div class="line">.then(<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</div><div class="line">    coding..</div><div class="line">&#125;)</div><div class="line"><span class="comment">//如果执行了reject , 就走到了这里 </span></div><div class="line">.catch(<span class="function"><span class="keyword">function</span>(<span class="params">err</span>)</span>&#123;</div><div class="line">    coding..</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>为什么执行了 resolve(‘data’)，或 reject(‘err’) 后，then 的回调函数，或者 catch 的回调函数就知道，该我执行的时候到了呢？简单点说就是有人’通知’我呗！</p>
+<p>resolve，reject 本身是 Promise 内部的方法，实现大概是这样</p>
+<p>当调用resolve(‘data’)的时候 , 去通知.then里绑定的回调函数 , 通知你一下 , 你该执行了 , 这是参数   this.emit(‘resolve’ , ‘data’)<br>当调用reject(‘err’)的时候 , 去通知.catch里绑定的回调函数 , 通知你一下 , 你该执行了 , 这是参数   this.emit(‘reject’ , ‘err’)<br>在调用.then(callback)的时候 , callback , 你监听下‘resolve’ , 有人通知(emit)你的时候 , 你就执行<br>在调用.catch(callback)的时候 , callback , 你监听下‘reject’ , 有人通知(emit)你的时候 , 你就执行</p>
+<p>Promise 实现如下：<a href="https://github.com/Tankas/knowledge/blob/master/%E4%BB%A3%E7%A0%81/promise.js" target="_blank" rel="noopener">Promise 简单实现</a></p>
+<h2 id="协程"><a href="#协程" class="headerlink" title="协程"></a>协程</h2><p>定义：协程是一个无优先级的子程序调度组件 , 允许子程序在特定的地方挂起和恢复</p>
+<p>线程包含于进程，协程包含于进程，只要内存足够，一个线程中可以有任意个协程，但某一时刻只能有一个协程在运行，多个协程分享该线程分配到的计算机资源</p>
+<p>协程要做的是什么？异步的代码做着同步的活</p>
+<h3 id="何时挂起？何时恢复？"><a href="#何时挂起？何时恢复？" class="headerlink" title="何时挂起？何时恢复？"></a>何时挂起？何时恢复？</h3><p>挂起：在协程发起异步调用的时候挂起</p>
+<p>恢复：其他协程退出并且异步操作完成时</p>
+<h2 id="Generator-gt-协程在-js-中的实现"><a href="#Generator-gt-协程在-js-中的实现" class="headerlink" title="Generator =&gt; 协程在 js 中的实现"></a>Generator =&gt; 协程在 js 中的实现</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span>* <span class="title">generator</span>(<span class="params">x</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> a = <span class="keyword">yield</span> x+<span class="number">2</span>;</div><div class="line">    <span class="keyword">var</span> b = <span class="keyword">yield</span> a+<span class="number">3</span>;</div><div class="line">    <span class="keyword">var</span> c = <span class="keyword">yield</span> b+<span class="number">2</span>;</div><div class="line">    <span class="keyword">return</span>;</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">function</span>* <span class="title">generator</span>(<span class="params">x</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> a = <span class="keyword">yield</span> x+<span class="number">2</span>;</div><div class="line">    <span class="keyword">var</span> b = <span class="keyword">yield</span> a+<span class="number">3</span>;</div><div class="line">    <span class="keyword">var</span> c = <span class="keyword">yield</span> b+<span class="number">2</span>;</div><div class="line">    <span class="keyword">return</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>最直观的感觉是，当调用 generator(1) 的时候，其实上返回了一个链表，每一个单元中装一些函数片段，以 yield 为界限</p>
+<p>像上面的例子：</p>
+<p><strong>(x+2) =&gt; (a+3) =&gt; (b+2) =&gt; return</strong></p>
+<p>每次通过 next 来移动指针到下一个函数片段，执行函数片段（eval），并返回结果</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> gen = generator(<span class="number">2</span>);</div><div class="line">gen.next(); <span class="comment">// 当调用next(),会先走第一个代码段 , 然后就不执行了 , 交出控制权 .直到啥时候再执行next(),会走下一个代码段.</span></div></pre></td></tr></table></figure>
+<p>我们完全可以在每个代码段都封装一个异步任务， 反正在异步任务执行的时候，我已经交出了控制权，js 主线程的代码继续往下走，等到所有异步任务都完成的时候，通知我一下，看看其他所有协程都退出的时候，就调用 next()，继续往下走。这样显得代码很同步</p>
+<p>继续看下，当调用 next(‘5’) 时，里面可以传入参数，而且传入的参数就是上一个 yield 异步任务的返回结果</p>
+<p>可以说这个特性非常有用，就像上面说的，当异步任务完成的时候，就调用 next()，再执行下面的代码，但是是没法获取到上一个异步任务的结果的，所以这个特性就是做这个的，next(‘异步任务的结果’)</p>
+<h1 id="async-await"><a href="#async-await" class="headerlink" title="async/await"></a>async/await</h1><p>async/await 实质上就是 Generator 的高度封装，是 ES7 为我们提供的语法糖</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> gen = <span class="keyword">async</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;      </div><div class="line">    <span class="keyword">let</span> f1 = <span class="keyword">await</span> readFile(<span class="string">"one"</span>);</div><div class="line">    <span class="keyword">let</span> f2 = <span class="keyword">await</span> readFile2(<span class="number">123123</span>);       </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>简单说，async/await 就是对上面 Generator 自动化流程的封装，让每一个异步任务都是自动化的执行，当第一个异步任务 readFile(‘one’) 执行完，async 内部自己执行 next()，调用第二个任务 readFile2(123123)，以此类推</p>
+<p>这里也许有人会困惑，<strong>为什么 wait 后面返回的必须是 promise？</strong></p>
+<p>上面说了当第一个异步完成的时候通知我一下，我再调用 next()，继续往下执行，但是我是何时完成的？怎么通知你？</p>
+<p>promise 就是做这件事情的，async 内部会在 promise.then(callback) 回调函数中调用 next()… （还有用 thunk 的，也是做这件事情的）</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>无论哪一种处理回调地狱的方式，都是处理回调函数的。只不过真正调用的位置不同而已，上面几种方式都是如何组织回调函数链的执行位置，如何让代码看着更好看</p>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p><a href="https://juejin.im/post/5b68f894e51d45195f0b7945" target="_blank" rel="noopener">浅浅的谈一下回调地狱的问题</a><br><a href="https://github.com/rccoder/blog/issues/17" target="_blank" rel="noopener">回调地狱的今生前世</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://www.douglasdong.site/2018-06-02.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1676,148 +1858,13 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.douglasdong.site/响应式表格分析.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Helvetica.D">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.PNG">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Helve's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/响应式表格分析.html" itemprop="url">响应式表格分析</a></h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-28T13:26:55+08:00">
-                2017-09-28
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>深入分析课程：<strong>响应式表格 - 没有更多表格了</strong> 后，对源码的分析如下：</p>
-<p>test123</p>
-<p><br></p>
-<p><strong>源代码</strong>:</p>
-<iframe height="265" scrolling="no" title="RWDF L5 No More Tables" src="//codepen.io/Xeonice/embed/dVWNRy/?height=265&theme-id=0&default-tab=html,result&embed-version=2" frameborder="no" allowtransparency="true" allowfullscreen="true" style="width: 100%;">See the Pen <a href="https://codepen.io/Xeonice/pen/dVWNRy/" target="_blank" rel="noopener">RWDF L5 No More Tables</a> by DouglasDong (<a href="https://codepen.io/Xeonice" target="_blank" rel="noopener">@Xeonice</a>) on <a href="https://codepen.io" target="_blank" rel="noopener">CodePen</a>.<br></iframe>
-
-<p><br></p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">tr</span><span class="selector-pseudo">:nth-child(odd)</span> &#123;</div><div class="line">  <span class="attribute">background-color</span>: <span class="number">#f9f9f9</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>使用了 nth-child(odd) 选择器对下标是奇数或偶数的 <code>&lt;tr&gt;</code> 进行选择，并设置其背景颜色为 <code>#f9f9f9</code> 。相关文档可参见 <a href="http://www.w3school.com.cn/cssref/selector_nth-child.asp" target="_blank" rel="noopener">CSS3 :nth-child() 选择器</a>。</p>
-<p><br></p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">thead</span> <span class="selector-tag">tr</span> &#123;</div><div class="line">    <span class="attribute">position</span>: absolute;</div><div class="line">    <span class="attribute">top</span>: -<span class="number">9999px</span>;</div><div class="line">    <span class="attribute">left</span>: -<span class="number">9999px</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>当 <code>mediaQuery</code> 被触发时，使 DOM 树中的 thead，tr 元素移至浏览器可视窗口之外。不使用 <code>display: none</code> 的原因有两点：</p>
-<ul>
-<li>搜索引擎可能认为被隐藏的文字属于垃圾信息而被忽略，不为隐藏的对象保留物理占位空间。</li>
-<li>会被屏幕阅读器所忽略。</li>
-</ul>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/响应式表格分析.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
 
 
           </div>
@@ -1864,7 +1911,7 @@
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-count">11</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
