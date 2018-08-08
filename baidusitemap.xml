@@ -4,8 +4,28 @@
 
     
   <url>
+    <loc>https://www.douglasdong.site/2018-08-08.html</loc>
+    <lastmod>2018-08-08T06:42:41.981Z</lastmod>
+    <data>
+        <display>
+        <title>this、apply、call、bind</title>
+        <pubTime>2018-07-29T14:34:52.000Z</pubTime>
+        
+        <tag>Javascript</tag>
+         
+         
+           
+             
+              <breadCrumb title="Javascript 基础" url="https://www.douglasdong.site/categories/Javascript-%E5%9F%BA%E7%A1%80/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://www.douglasdong.site/2018-07-29.html</loc>
-    <lastmod>2018-08-07T09:52:52.471Z</lastmod>
+    <lastmod>2018-08-08T04:41:40.742Z</lastmod>
     <data>
         <display>
         <title>Javascript 异步编程迷思</title>
@@ -16,7 +36,7 @@
          
            
              
-              <breadCrumb title="Node.js" url="https://www.douglasdong.site/categories/Node-js/"/>
+              <breadCrumb title="Javascript 异步执行" url="https://www.douglasdong.site/categories/Javascript-%E5%BC%82%E6%AD%A5%E6%89%A7%E8%A1%8C/"/>
           
         </display>
     </data>
