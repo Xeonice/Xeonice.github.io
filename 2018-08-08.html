@@ -80,7 +80,7 @@
 <meta property="og:site_name" content="Helve&#39;s Blog">
 <meta property="og:description" content="this 的指向ES5 中，this 的指向始终坚持一个原理：this 永远指向最后调用它的那个对象 下面来看一个最简单的例子： 123456789var name = &quot;windowsName&quot;;function a () &amp;#123;    var a = &quot;Cherry&quot;;    console.log(this.name); //windowsName    console.log(&quot;in">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-08-08T09:09:38.289Z">
+<meta property="og:updated_time" content="2018-08-11T07:30:12.354Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="this、apply、call、bind">
 <meta name="twitter:description" content="this 的指向ES5 中，this 的指向始终坚持一个原理：this 永远指向最后调用它的那个对象 下面来看一个最简单的例子： 123456789var name = &quot;windowsName&quot;;function a () &amp;#123;    var a = &quot;Cherry&quot;;    console.log(this.name); //windowsName    console.log(&quot;in">
@@ -355,7 +355,7 @@
 <p>这个例子中，函数 <code>fn</code> 是对象 <code>a</code> 调用的，所以打印的值就是 <code>a</code> 中的 <code>name</code> 值</p>
 <p>我们做一个小小的改动：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> name = <span class="string">"windowsName"</span>;</div><div class="line"><span class="keyword">var</span> a = &#123;</div><div class="line">    name: <span class="string">"Cherry"</span>;</div><div class="line">    fn: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span>.name); <span class="comment">//Cherry</span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="built_in">window</span>.a.fn();</div></pre></td></tr></table></figure>
-<p>这里打印出 Cherry 的原因还是因为刚刚那句话：<code>**this 永远指向最后调用它的那个对象**</code>，最后调用它的还是对象 <code>a</code></p>
+<p>这里打印出 Cherry 的原因还是因为刚刚那句话：<strong><code>this 永远指向最后调用它的那个对象</code></strong>，最后调用它的还是对象 <code>a</code></p>
 <p>我们再来看看这个例子：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> name = <span class="string">"windowsName"</span>;</div><div class="line"><span class="keyword">var</span> a = &#123;</div><div class="line">    <span class="comment">//name: "Cherry";</span></div><div class="line">    fn: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span>.name); <span class="comment">//undefined</span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="built_in">window</span>.a.fn();</div></pre></td></tr></table></figure>
 <p>这里打印 <code>undefined</code> 的原因在于：调用 <code>fn</code> 的是对象 <code>a</code>，也就是说 <code>fn</code> 内部的 <code>this</code> 是对象 <code>a</code>，而对象 <code>a</code> 中并没有对 <code>name</code> 进行定义，所以 log 的 <code>this.name</code> 的值是 <code>undefined</code></p>
