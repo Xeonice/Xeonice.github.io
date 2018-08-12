@@ -54,7 +54,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Javascript," />
+  <meta name="keywords" content="Thunk, Thunk的实现, Thunk的用途" />
 
 
 
@@ -72,18 +72,18 @@
 
 
 
-<meta name="description" content="何为 THUNK？开发者时常会面临一个选择：函数的参数到底应该何时求值？ 12345var x = 1;function f(m) &amp;#123;    return m * 2;&amp;#125;f ( x + 5 ); 上例中的代码非常正常，问题是：什么时候计算参数 x + 5 呢？ 一种策略是立即计算，于是 f(x + 5) 会被转换成 f(6)，然后进入函数 f 内运行函数 另一种策略是延迟计算，">
-<meta name="keywords" content="Javascript">
+<meta name="description" content="Thunk 是什么？Thunk 应该如何被实现？Thunk 的真正用途是什么？在 Javascript 异步编程的 Generator 实现中，Thunk 的作用是怎样的">
+<meta name="keywords" content="Thunk, Thunk的实现, Thunk的用途">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Thunk 解析">
 <meta property="og:url" content="https://www.douglasdong.site/2018-04-11.html">
 <meta property="og:site_name" content="Helve&#39;s Blog">
-<meta property="og:description" content="何为 THUNK？开发者时常会面临一个选择：函数的参数到底应该何时求值？ 12345var x = 1;function f(m) &amp;#123;    return m * 2;&amp;#125;f ( x + 5 ); 上例中的代码非常正常，问题是：什么时候计算参数 x + 5 呢？ 一种策略是立即计算，于是 f(x + 5) 会被转换成 f(6)，然后进入函数 f 内运行函数 另一种策略是延迟计算，">
+<meta property="og:description" content="Thunk 是什么？Thunk 应该如何被实现？Thunk 的真正用途是什么？在 Javascript 异步编程的 Generator 实现中，Thunk 的作用是怎样的">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-08-06T15:01:36.933Z">
+<meta property="og:updated_time" content="2018-08-12T01:55:04.544Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Thunk 解析">
-<meta name="twitter:description" content="何为 THUNK？开发者时常会面临一个选择：函数的参数到底应该何时求值？ 12345var x = 1;function f(m) &amp;#123;    return m * 2;&amp;#125;f ( x + 5 ); 上例中的代码非常正常，问题是：什么时候计算参数 x + 5 呢？ 一种策略是立即计算，于是 f(x + 5) 会被转换成 f(6)，然后进入函数 f 内运行函数 另一种策略是延迟计算，">
+<meta name="twitter:description" content="Thunk 是什么？Thunk 应该如何被实现？Thunk 的真正用途是什么？在 Javascript 异步编程的 Generator 实现中，Thunk 的作用是怎样的">
 
 
 
@@ -93,7 +93,7 @@
     root: '/',
     scheme: 'Mist',
     version: '5.1.2',
-    sidebar: {"position":"left","display":"always","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
     tabs: true,
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn"}},
@@ -164,7 +164,7 @@
       </a>
     </div>
       
-        <h1 class="site-subtitle" itemprop="description"></h1>
+        <h1 class="site-subtitle" itemprop="description">前端学习杂录</h1>
       
   </div>
 
@@ -330,6 +330,10 @@
 
           
 
+          
+              <div class="post-description">
+                  Thunk 是什么？Thunk 应该如何被实现？Thunk 的真正用途是什么？在 Javascript 异步编程的 Generator 实现中，Thunk 的作用是怎样的
+              </div>
           
 
         </div>
@@ -597,7 +601,7 @@
       <div class="footer-inner">
         <div class="copyright" >
   
-  &copy; 
+  &copy;  2017 &mdash; 
   <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>

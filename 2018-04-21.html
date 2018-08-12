@@ -54,7 +54,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Javascript," />
+  <meta name="keywords" content="Promise, 事件循环, 宏任务, 微任务," />
 
 
 
@@ -72,20 +72,20 @@
 
 
 
-<meta name="description" content="关于 JavascriptJavascript 是一门单线程语言，在最新的 HTML5 中提出了 Web-worker，但 Javascript 是单线程这一核心并未改变，所以，一切 Javascript 版的“多线程”都是用单线程模拟出来的。 Javascript 事件循环既然 JS 是单线程，那就像只有一个窗口的银行，客户需要一个一个办理业务，同理 JS 任务也要一个一个顺序执行，如果一个任务">
-<meta name="keywords" content="Javascript">
+<meta name="description" content="Javascript 的异步编程极度依赖事件循环，这一点也是在面试中经常考察的一部分。单线程的 Javascript 中各个事件是如何被调用的？它们之间的执行顺序又是如何？">
+<meta name="keywords" content="Promise, 事件循环, 宏任务, 微任务,">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Javascript 执行机制解析">
 <meta property="og:url" content="https://www.douglasdong.site/2018-04-21.html">
 <meta property="og:site_name" content="Helve&#39;s Blog">
-<meta property="og:description" content="关于 JavascriptJavascript 是一门单线程语言，在最新的 HTML5 中提出了 Web-worker，但 Javascript 是单线程这一核心并未改变，所以，一切 Javascript 版的“多线程”都是用单线程模拟出来的。 Javascript 事件循环既然 JS 是单线程，那就像只有一个窗口的银行，客户需要一个一个办理业务，同理 JS 任务也要一个一个顺序执行，如果一个任务">
+<meta property="og:description" content="Javascript 的异步编程极度依赖事件循环，这一点也是在面试中经常考察的一部分。单线程的 Javascript 中各个事件是如何被调用的？它们之间的执行顺序又是如何？">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://user-gold-cdn.xitu.io/2017/11/21/15fdd88994142347?imageView2/0/w/1280/h/960/ignore-error/1">
 <meta property="og:image" content="https://user-gold-cdn.xitu.io/2017/11/21/15fdcea13361a1ec?imageView2/0/w/1280/h/960/ignore-error/1">
-<meta property="og:updated_time" content="2018-08-06T15:01:00.395Z">
+<meta property="og:updated_time" content="2018-08-12T01:51:26.159Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Javascript 执行机制解析">
-<meta name="twitter:description" content="关于 JavascriptJavascript 是一门单线程语言，在最新的 HTML5 中提出了 Web-worker，但 Javascript 是单线程这一核心并未改变，所以，一切 Javascript 版的“多线程”都是用单线程模拟出来的。 Javascript 事件循环既然 JS 是单线程，那就像只有一个窗口的银行，客户需要一个一个办理业务，同理 JS 任务也要一个一个顺序执行，如果一个任务">
+<meta name="twitter:description" content="Javascript 的异步编程极度依赖事件循环，这一点也是在面试中经常考察的一部分。单线程的 Javascript 中各个事件是如何被调用的？它们之间的执行顺序又是如何？">
 <meta name="twitter:image" content="https://user-gold-cdn.xitu.io/2017/11/21/15fdd88994142347?imageView2/0/w/1280/h/960/ignore-error/1">
 
 
@@ -96,7 +96,7 @@
     root: '/',
     scheme: 'Mist',
     version: '5.1.2',
-    sidebar: {"position":"left","display":"always","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
     tabs: true,
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn"}},
@@ -167,7 +167,7 @@
       </a>
     </div>
       
-        <h1 class="site-subtitle" itemprop="description"></h1>
+        <h1 class="site-subtitle" itemprop="description">前端学习杂录</h1>
       
   </div>
 
@@ -333,6 +333,10 @@
 
           
 
+          
+              <div class="post-description">
+                  Javascript 的异步编程极度依赖事件循环，这一点也是在面试中经常考察的一部分。单线程的 Javascript 中各个事件是如何被调用的？它们之间的执行顺序又是如何？
+              </div>
           
 
         </div>
@@ -752,7 +756,7 @@
       <div class="footer-inner">
         <div class="copyright" >
   
-  &copy; 
+  &copy;  2017 &mdash; 
   <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>

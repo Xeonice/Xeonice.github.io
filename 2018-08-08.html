@@ -54,7 +54,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Javascript," />
+  <meta name="keywords" content="this指向, apply, call, bind," />
 
 
 
@@ -72,18 +72,18 @@
 
 
 
-<meta name="description" content="this 的指向ES5 中，this 的指向始终坚持一个原理：this 永远指向最后调用它的那个对象 下面来看一个最简单的例子： 123456789var name = &quot;windowsName&quot;;function a () &amp;#123;    var a = &quot;Cherry&quot;;    console.log(this.name); //windowsName    console.log(&quot;in">
-<meta name="keywords" content="Javascript">
+<meta name="description" content="Javascript 中的 this，在构造函数构建时时常被使用，但是 this 并不是像我们想象的那样直观，它有自己的一套指向机制。而 apply、call、bind 也经常被用于辅助这一套指向机制。">
+<meta name="keywords" content="this指向, apply, call, bind,">
 <meta property="og:type" content="article">
 <meta property="og:title" content="this、apply、call、bind">
 <meta property="og:url" content="https://www.douglasdong.site/2018-08-08.html">
 <meta property="og:site_name" content="Helve&#39;s Blog">
-<meta property="og:description" content="this 的指向ES5 中，this 的指向始终坚持一个原理：this 永远指向最后调用它的那个对象 下面来看一个最简单的例子： 123456789var name = &quot;windowsName&quot;;function a () &amp;#123;    var a = &quot;Cherry&quot;;    console.log(this.name); //windowsName    console.log(&quot;in">
+<meta property="og:description" content="Javascript 中的 this，在构造函数构建时时常被使用，但是 this 并不是像我们想象的那样直观，它有自己的一套指向机制。而 apply、call、bind 也经常被用于辅助这一套指向机制。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-08-11T07:30:12.354Z">
+<meta property="og:updated_time" content="2018-08-12T01:19:02.487Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="this、apply、call、bind">
-<meta name="twitter:description" content="this 的指向ES5 中，this 的指向始终坚持一个原理：this 永远指向最后调用它的那个对象 下面来看一个最简单的例子： 123456789var name = &quot;windowsName&quot;;function a () &amp;#123;    var a = &quot;Cherry&quot;;    console.log(this.name); //windowsName    console.log(&quot;in">
+<meta name="twitter:description" content="Javascript 中的 this，在构造函数构建时时常被使用，但是 this 并不是像我们想象的那样直观，它有自己的一套指向机制。而 apply、call、bind 也经常被用于辅助这一套指向机制。">
 
 
 
@@ -93,7 +93,7 @@
     root: '/',
     scheme: 'Mist',
     version: '5.1.2',
-    sidebar: {"position":"left","display":"always","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
     tabs: true,
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn"}},
@@ -164,7 +164,7 @@
       </a>
     </div>
       
-        <h1 class="site-subtitle" itemprop="description"></h1>
+        <h1 class="site-subtitle" itemprop="description">前端学习杂录</h1>
       
   </div>
 
@@ -330,6 +330,10 @@
 
           
 
+          
+              <div class="post-description">
+                  Javascript 中的 this，在构造函数构建时时常被使用，但是 this 并不是像我们想象的那样直观，它有自己的一套指向机制。而 apply、call、bind 也经常被用于辅助这一套指向机制。
+              </div>
           
 
         </div>
@@ -680,7 +684,7 @@
       <div class="footer-inner">
         <div class="copyright" >
   
-  &copy; 
+  &copy;  2017 &mdash; 
   <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>

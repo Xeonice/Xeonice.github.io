@@ -54,7 +54,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Javascript," />
+  <meta name="keywords" content="异步, Javascript 异步实现, 回调地狱" />
 
 
 
@@ -72,19 +72,19 @@
 
 
 
-<meta name="description" content="为什么要异步编程？Javascript 问世之初便是作为浏览器的辅助语言进行开发的，同时由于 Javascript 普遍用于浏览器的 GUI 开发，因此需要线程不能被阻塞 因此，Javascript 在之后的发展过程中都采用异步非阻塞的编程模式，也就是说，在执行一个指令后不是马上得到结果，继续执行命令，等到特定的事件触发以后，才得到结果，这也是我们常说的：Javascript 是由事件驱动的 异步">
-<meta name="keywords" content="Javascript">
+<meta name="description" content="我们为什么要在 Javascript 中使用异步模式进行开发？Javascript 中有哪些实现异步模式的方式？如何才能避免陷入回调地狱？Promise、Generator、async/await 的作用是什么？">
+<meta name="keywords" content="异步, Javascript 异步实现, 回调地狱">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Javascript 异步编程迷思">
 <meta property="og:url" content="https://www.douglasdong.site/2018-07-29.html">
 <meta property="og:site_name" content="Helve&#39;s Blog">
-<meta property="og:description" content="为什么要异步编程？Javascript 问世之初便是作为浏览器的辅助语言进行开发的，同时由于 Javascript 普遍用于浏览器的 GUI 开发，因此需要线程不能被阻塞 因此，Javascript 在之后的发展过程中都采用异步非阻塞的编程模式，也就是说，在执行一个指令后不是马上得到结果，继续执行命令，等到特定的事件触发以后，才得到结果，这也是我们常说的：Javascript 是由事件驱动的 异步">
+<meta property="og:description" content="我们为什么要在 Javascript 中使用异步模式进行开发？Javascript 中有哪些实现异步模式的方式？如何才能避免陷入回调地狱？Promise、Generator、async/await 的作用是什么？">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://imagetemp.oss-cn-beijing.aliyuncs.com/2018-08-07-v2-0a8d20afae14a3991283cf6e9050f677_r.jpg">
-<meta property="og:updated_time" content="2018-08-08T04:41:40.742Z">
+<meta property="og:updated_time" content="2018-08-12T01:39:43.461Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Javascript 异步编程迷思">
-<meta name="twitter:description" content="为什么要异步编程？Javascript 问世之初便是作为浏览器的辅助语言进行开发的，同时由于 Javascript 普遍用于浏览器的 GUI 开发，因此需要线程不能被阻塞 因此，Javascript 在之后的发展过程中都采用异步非阻塞的编程模式，也就是说，在执行一个指令后不是马上得到结果，继续执行命令，等到特定的事件触发以后，才得到结果，这也是我们常说的：Javascript 是由事件驱动的 异步">
+<meta name="twitter:description" content="我们为什么要在 Javascript 中使用异步模式进行开发？Javascript 中有哪些实现异步模式的方式？如何才能避免陷入回调地狱？Promise、Generator、async/await 的作用是什么？">
 <meta name="twitter:image" content="https://imagetemp.oss-cn-beijing.aliyuncs.com/2018-08-07-v2-0a8d20afae14a3991283cf6e9050f677_r.jpg">
 
 
@@ -95,7 +95,7 @@
     root: '/',
     scheme: 'Mist',
     version: '5.1.2',
-    sidebar: {"position":"left","display":"always","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
     tabs: true,
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn"}},
@@ -166,7 +166,7 @@
       </a>
     </div>
       
-        <h1 class="site-subtitle" itemprop="description"></h1>
+        <h1 class="site-subtitle" itemprop="description">前端学习杂录</h1>
       
   </div>
 
@@ -332,6 +332,10 @@
 
           
 
+          
+              <div class="post-description">
+                  我们为什么要在 Javascript 中使用异步模式进行开发？Javascript 中有哪些实现异步模式的方式？如何才能避免陷入回调地狱？Promise、Generator、async/await 的作用是什么？
+              </div>
           
 
         </div>
@@ -614,7 +618,7 @@
       <div class="footer-inner">
         <div class="copyright" >
   
-  &copy; 
+  &copy;  2017 &mdash; 
   <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>

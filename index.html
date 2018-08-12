@@ -91,7 +91,7 @@
     root: '/',
     scheme: 'Mist',
     version: '5.1.2',
-    sidebar: {"position":"left","display":"always","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
     tabs: true,
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn"}},
@@ -163,7 +163,7 @@
       </a>
     </div>
       
-        <h1 class="site-subtitle" itemprop="description"></h1>
+        <h1 class="site-subtitle" itemprop="description">前端学习杂录</h1>
       
   </div>
 
@@ -493,24 +493,10 @@
 
       
         
-          <h1 id="this-的指向"><a href="#this-的指向" class="headerlink" title="this 的指向"></a>this 的指向</h1><p>ES5 中，<code>this</code> 的指向始终坚持一个原理：<strong><code>this 永远指向最后调用它的那个对象</code></strong></p>
-<p>下面来看一个最简单的例子：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> name = <span class="string">"windowsName"</span>;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">a</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> a = <span class="string">"Cherry"</span>;</div><div class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.name); <span class="comment">//windowsName</span></div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"inner: "</span> + <span class="keyword">this</span>); <span class="comment">//inner: Window</span></div><div class="line">&#125;</div><div class="line">a();</div><div class="line"><span class="built_in">console</span>.log(<span class="string">"outer: "</span> + <span class="keyword">this</span>); <span class="comment">//outer: Window</span></div></pre></td></tr></table></figure>
-<p>根据刚刚那句话 <strong><code>this 永远指向最后调用它的那个对象</code></strong>，我们再看看最后调用 <code>a</code> 的地方 <code>a();</code>，前面没有调用的对象，那么就是全局对象 <code>Window</code>。这就相当于是 <code>window.a</code></p>
-<p>注意，我们在这里没有使用严格模式，如果使用严格模式，全局对象就是 <code>undefined</code>，那么就会报错 <code>Uncaught TypeError：Cannot read property &#39;name&#39; of undefined</code></p>
-<p>再看看这个例子：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> name = <span class="string">"windowsName"</span>;</div><div class="line"><span class="keyword">var</span> a = &#123;</div><div class="line">    name: <span class="string">"Cherry"</span>;</div><div class="line">    fn: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span>.name); <span class="comment">//Cherry</span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">a.fn();</div></pre></td></tr></table></figure>
-<p>这个例子中，函数 <code>fn</code> 是对象 <code>a</code> 调用的，所以打印的值就是 <code>a</code> 中的 <code>name</code> 值</p>
-<p>我们做一个小小的改动：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> name = <span class="string">"windowsName"</span>;</div><div class="line"><span class="keyword">var</span> a = &#123;</div><div class="line">    name: <span class="string">"Cherry"</span>;</div><div class="line">    fn: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span>.name); <span class="comment">//Cherry</span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="built_in">window</span>.a.fn();</div></pre></td></tr></table></figure>
-<p>这里打印出 Cherry 的原因还是因为刚刚那句话：<strong><code>this 永远指向最后调用它的那个对象</code></strong>，最后调用它的还是对象 <code>a</code></p>
-<p>我们再来看看这个例子：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> name = <span class="string">"windowsName"</span>;</div><div class="line"><span class="keyword">var</span> a = &#123;</div><div class="line">    <span class="comment">//name: "Cherry";</span></div><div class="line">    fn: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span>.name); <span class="comment">//undefined</span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="built_in">window</span>.a.fn();</div></pre></td></tr></table></figure>
-<p>这里打印 <code>undefined</code> 的原因在于：调用 <code>fn</code> 的是对象 <code>a</code>，也就是说 <code>fn</code> 内部的 <code>this</code> 是对象 <code>a</code>，而对象 <code>a</code> 中并没有对 <code>name</code> 进行定义，所以 log 的 <code>this.name</code> 的值是 <code>undefined</code></p>
-<p>这个例子还是说明了：<strong><code>this 永远指向最后调用它的那个对象</code></strong>，因为最后调用的对象是 <code>a</code>，所以就算 <code>a</code> 中没有 <code>name</code> 这个属性，也不会继续向上个对象寻找 <code>this.name</code>，而是直接输出 <code>undefined</code></p>
+          Javascript 中的 this，在构造函数构建时时常被使用，但是 this 并不是像我们想象的那样直观，它有自己的一套指向机制。而 apply、call、bind 也经常被用于辅助这一套指向机制。
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018-08-08.html#more" rel="contents">
+            <a class="btn" href="/2018-08-08.html">
               阅读全文 &raquo;
             </a>
           </div>
@@ -653,22 +639,10 @@
 
       
         
-          <h1 id="为什么要异步编程？"><a href="#为什么要异步编程？" class="headerlink" title="为什么要异步编程？"></a>为什么要异步编程？</h1><p>Javascript 问世之初便是作为浏览器的辅助语言进行开发的，同时由于 Javascript 普遍用于浏览器的 GUI 开发，因此需要线程不能被阻塞</p>
-<p>因此，Javascript 在之后的发展过程中都采用异步非阻塞的编程模式，也就是说，<strong>在执行一个指令后不是马上得到结果，继续执行命令，等到特定的事件触发以后，才得到结果</strong>，这也是我们常说的：Javascript 是由事件驱动的</p>
-<h1 id="异步实现"><a href="#异步实现" class="headerlink" title="异步实现"></a>异步实现</h1><p>现目前的异步实现主要有以下几种实现方式：</p>
-<ul>
-<li><code>回调</code></li>
-<li><code>Promise</code></li>
-<li><code>Generator</code></li>
-<li><code>await/async</code></li>
-</ul>
-<h2 id="回调"><a href="#回调" class="headerlink" title="回调"></a>回调</h2><p>这种异步方式是最基础的实现，node 中在前 ES6 时代经常会碰到这种代码</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">fs.readdir(path.join(__dirname,<span class="string">'..'</span>),<span class="function"><span class="keyword">function</span>(<span class="params">err , files</span>)</span>&#123;</div><div class="line">    files.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">filename , index</span>)</span>&#123;</div><div class="line">        fs.readFle(filename , <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            ....</div><div class="line">        &#125;)</div><div class="line">    &#125;)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
-<p>这段代码仅仅用于遍历一个目录，但是过深的嵌套很容易导致理解困难，而且这样回调也无法支持对异常的捕获，js 的嵌套回调也经常被调侃</p>
-<p><img src="https://imagetemp.oss-cn-beijing.aliyuncs.com/2018-08-07-v2-0a8d20afae14a3991283cf6e9050f677_r.jpg" alt="回调地狱"></p>
+          我们为什么要在 Javascript 中使用异步模式进行开发？Javascript 中有哪些实现异步模式的方式？如何才能避免陷入回调地狱？Promise、Generator、async/await 的作用是什么？
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018-07-29.html#more" rel="contents">
+            <a class="btn" href="/2018-07-29.html">
               阅读全文 &raquo;
             </a>
           </div>
@@ -811,77 +785,10 @@
 
       
         
-          <h1 id="执行流程"><a href="#执行流程" class="headerlink" title="执行流程"></a>执行流程</h1><ul>
-<li>node 的初始化<ul>
-<li>初始化 node 环境</li>
-<li>执行输入代码</li>
-<li>执行 <code>process.nextTick</code> 回调</li>
-<li>执行 MicroTask（Promise）</li>
-</ul>
-</li>
-<li>进入 EventLoop 阶段<ul>
-<li>进入 timer 阶段（执行timer（<code>setTimeout</code>、<code>setInterval</code>）的回调）<ul>
-<li>检查 timer 队列是否有到期的回调，如果有，将到期的 timer 回调按照 timerId 升序执行（<code>setTimeout</code>、<code>setInterval</code>）</li>
-<li>检查是否有 <code>process.nextTick</code> 回调，如果有，全部执行</li>
-<li>检查是否有 MicroTask，如果有，全部执行</li>
-<li>退出该阶段</li>
-</ul>
-</li>
-<li>进入 I/O callback 阶段（执行一些系统调用错误，比如网络通信的错误回调）<ul>
-<li>检查是否有 pending 的 I/O 回调，如果有，执行回调，如果没有，退出阶段</li>
-<li>检查是否有 <code>process.nextTick</code> 任务，如果有，全部执行</li>
-<li>检查是否有 MicroTask，如果有，全部执行</li>
-<li>退出该阶段</li>
-</ul>
-</li>
-<li>进入 idle，prepare 阶段<ul>
-<li>这两个阶段与编程关系不大，按下不表</li>
-</ul>
-</li>
-<li>进入 poll 阶段（获取新的 I/O 事件, 适当的条件下node将阻塞在这里）<ul>
-<li>首先检查是否存在尚未完成的回调，如果存在，那么分为两种情况<ul>
-<li>第一种情况<ul>
-<li>如果有可用回调（到期的定时器和一些 IO 事件），执行所有可用回调</li>
-<li>检查是否有 <code>process.nextTick</code> 回调，如果有，全部执行</li>
-<li>检查是否有 MicroTask 任务，如果有，全部执行</li>
-<li>退出该阶段</li>
-</ul>
-</li>
-<li>第二种情况<ul>
-<li>如果没有可用回调</li>
-<li>检查是否有 <code>setImmediate</code> 任务，如果有，退出 poll 阶段，如果没有，阻塞在此阶段，等待新的事件通知</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>如果不存在尚未完成的回调，退出 poll 阶段</li>
-</ul>
-</li>
-<li>进入 check 阶段（执行 <code>setImmediate()</code> 的回调）<ul>
-<li>如果有 <code>setImmediate</code> 回调，那么执行所有的 immediate 回调</li>
-<li>检查是否有 <code>process.nextTick</code> 回调，如果有，全部执行</li>
-<li>检查是否有 MicroTask 任务，如果有，全部执行</li>
-<li>退出 check 阶段</li>
-</ul>
-</li>
-<li>进入 closing 阶段（执行 <code>socket</code> 的 <code>close</code> 事件回调）<ul>
-<li>如果有 <code>setImmediate</code> 回调，那么执行所有的 immediate 回调</li>
-<li>检查是否有 <code>process.nextTick</code> 回调，如果有，全部执行</li>
-<li>检查是否有 MicroTask 任务，如果有，全部执行</li>
-<li>退出 closing 阶段</li>
-</ul>
-</li>
-<li>检查是否有活跃的 handles（定时器，IO 等事件句柄）<ul>
-<li>如果有，继续下一轮循环</li>
-<li>如果没有，结束事件循环，退出程序</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
+          同样的 Javascript 代码，在 Node.js 与浏览器中分别执行，会得到完全不同的结果。其主要原因在于 Node.js 拥有一套独有的事件循环系统，这套事件循环系统的调用方式是怎样的？
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018-06-02.html#more" rel="contents">
+            <a class="btn" href="/2018-06-02.html">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1024,35 +931,10 @@
 
       
         
-          <h1 id="关于-Javascript"><a href="#关于-Javascript" class="headerlink" title="关于 Javascript"></a>关于 Javascript</h1><p>Javascript 是一门单线程语言，在最新的 HTML5 中提出了 <code>Web-worker</code>，但 Javascript 是单线程这一核心并未改变，所以，一切 Javascript 版的“多线程”都是用单线程模拟出来的。</p>
-<h1 id="Javascript-事件循环"><a href="#Javascript-事件循环" class="headerlink" title="Javascript 事件循环"></a>Javascript 事件循环</h1><p>既然 JS 是单线程，那就像只有一个窗口的银行，客户需要一个一个办理业务，同理 JS 任务也要一个一个顺序执行，如果一个任务耗时过长，那么后一个任务也必须等着，那么问题来了，<strong>假如我们想浏览新闻，但是新闻包含的超清图片加载很慢，难道我们的网页要一直卡着直到图片完全显示出来？</strong>因此聪明的程序员将其分为两类：</p>
-<ul>
-<li>同步任务</li>
-<li>异步任务</li>
-</ul>
-<p><strong>当我们打开网站时，网页的渲染过程就是一大堆同步任务，比如页面骨架和页面元素的渲染，而像加载图片、音乐之类占用资源大，耗时久的任务，就是异步任务</strong></p>
-<p>下面是异步任务定义的导图表示：</p>
-<p><img src="https://user-gold-cdn.xitu.io/2017/11/21/15fdd88994142347?imageView2/0/w/1280/h/960/ignore-error/1" alt="异步执行"></p>
-<p>导图要表达的内容用文字来表述的话：</p>
-<ul>
-<li>同步和异步任务分别进入不同的“场所”，同步的进入主进程，异步的进入 <code>Event Table</code> 并注册函数</li>
-<li>当指定的事情完成时，<code>Event Table</code> 会将这个函数移入 <code>Event Queue</code></li>
-<li>主线程内的任务执行完毕为空，会去 <code>Event Queue</code> 读取对应的函数，进入主进程执行</li>
-<li>上述过程会不断重复，也就是常说的 <code>Event Loop</code>（事件循环）</li>
-</ul>
-<p>怎么知道主线程执行栈为空？JS 引擎存在 <code>monitor process</code> 进程，会持续不断的检查主进程执行栈是否为空，一旦为空，就会去 Event Queue 那里检查是否有等待被调用的函数</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> data = [];</div><div class="line">$ajax(&#123;</div><div class="line">    url: www.javascript.com,</div><div class="line">    data: data,</div><div class="line">    success: <span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'发送成功'</span>);</div><div class="line">    &#125;</div><div class="line">)&#125;</div><div class="line"><span class="built_in">console</span>.log(<span class="string">'代码执行结束'</span>);    </div></pre></td></tr></table></figure>
-<p>上面是一段简易的 <code>ajax</code> 请求代码</p>
-<ul>
-<li><code>ajax</code> 进入 <code>Event Table</code>，注册回调函数 <code>success</code></li>
-<li>执行 <code>console.log(’代码执行结束)</code></li>
-<li><code>ajax</code> 事件完成，回调函数 <code>success</code> 进入 <code>Event Queue</code></li>
-<li>主线程从 <code>Event Queue</code> 读取回调函数 <code>success</code> 并执行</li>
-</ul>
-<p>接下来我们来研究进阶活动：<code>setTimeout</code></p>
+          Javascript 的异步编程极度依赖事件循环，这一点也是在面试中经常考察的一部分。单线程的 Javascript 中各个事件是如何被调用的？它们之间的执行顺序又是如何？
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018-04-21.html#more" rel="contents">
+            <a class="btn" href="/2018-04-21.html">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1195,620 +1077,10 @@
 
       
         
-          <h1 id="何为-THUNK？"><a href="#何为-THUNK？" class="headerlink" title="何为 THUNK？"></a>何为 THUNK？</h1><p>开发者时常会面临一个选择：函数的参数到底应该何时求值？</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> x = <span class="number">1</span>;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params">m</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> m * <span class="number">2</span>;</div><div class="line">&#125;</div><div class="line">f ( x + <span class="number">5</span> );</div></pre></td></tr></table></figure>
-<p>上例中的代码非常正常，问题是：<strong>什么时候计算参数 x + 5 呢</strong>？</p>
-<p>一种策略是立即计算，于是 <code>f(x + 5)</code> 会被转换成 <code>f(6)</code>，然后进入函数 <code>f</code> 内运行函数</p>
-<p>另一种策略是延迟计算，在进入函数 <code>f</code> 之前并不计算参数值，而是进入函数体之后才计算，因此函数体内的 <code>return m * 2;</code> 会被转换为 <code>return (x + 5) * 2;</code>，此时才开始计算</p>
-<p>如果不考虑开发成本，延迟计算是比较好的，否则如果函数体内走了某 if 分支并没有用到该参数，就白计算了，浪费性能。延迟到真正用到参数时才开始计算，这也是程序开发的一种流行的风格：<strong>越懒越好</strong><br>
+          Thunk 是什么？Thunk 应该如何被实现？Thunk 的真正用途是什么？在 Javascript 异步编程的 Generator 实现中，Thunk 的作用是怎样的
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018-04-11.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.douglasdong.site/2018-02-05.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Helvetica.D">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.PNG">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Helve's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018-02-05.html" itemprop="url">第八章 -- 布局</a></h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-05T04:35:24+08:00">
-                2018-02-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/精通CSS-高级Web标准解决方案/" itemprop="url" rel="index">
-                    <span itemprop="name">精通CSS-高级Web标准解决方案</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="计划布局"><a href="#计划布局" class="headerlink" title="计划布局"></a>计划布局</h1><p>在开始把设计转换为功能完整的模板时，设计者往往很想马上开始编写页面和处理图像。但是，这样做很快就会遇到麻烦。相反，先做一点儿计划可以避免很多问题。</p>
-<p>要想创建可伸缩且容易维护的 CSS 系统，首先应该检查设计，寻找重复的模式，这包括页面结构中的模式或在站点中元素反复出现的方式。在这个阶段，不应该太关注表现方式，而是应该注意结构和意义。我喜欢打印出每个设计，圈出模式，然后在每个页面上随便写上批注。但是，有些人喜欢在 Phootoshop 文件上加批注或是使用灰色框设计图。</p>
-<p>先把页面划分为大的结构性区域，比如容器、页眉、内容区域和页脚。这些区域在整个站点中往往是一致的，很少改变。如果用建筑来类比，可以把这些区域看做建筑物的外墙。</p>
-<p>然后，将注意力转移到内容区域本身，开始建立网格结构。设计有多少个不同的内容区域？它们有什么差异？从布局的角度来说，内容区域是确实不一样，还是可以被同等看待？大多数设计只有几个独特的内容区域，所以应该寻找共同的特征而不是视觉表现。你可以把这些内容区域看做建筑物的内部承重墙。</p>
-<p>最后，在各个内容区域中寻找不同的布局结构。是否需要把某些信息分为两列、三列或四列？与前面不同，这些布局结构往往非常灵活，在各个页面之间常常有变化。可以把它们看做建筑物的隔断墙。将这些结构与前一步相结合，可以形成每个页面的结构计划。现在，要拿起绘图纸和彩色铅笔，开始详细设计结构和尺寸。</p>
-<p>结构设计完以后，现在可以开始关注不同类型的内容。内容是新闻稿、文章还是公告？给每个内容块起一个有意义的名称，然后分析它们的关系。可能新闻稿和公告实际上没什么差别，在这种情况下，把它们组合成一个内容类型是有道理的。</p>
-<p>查看每个内容块的结构，看看不同的类型中是否有共同的模式。例如，文章和新闻稿可能都有醒目的页眉和页脚，所以可以加上相应的标识。即使页眉和页脚看起来不一样，实际上也没关系，因为以后可以根据上下文应用样式。对于错误消息、搜索框和菜单项等也是这样。应该尽量采用一般的类名，然后根据上下文应用样式。</p>
-<p>找出模式并确定命名约定之后，最好马上开始定义将使用的元素，这是有好处的。例如，链接列表可能是一个无序列表，而文章可能是一个 <code>div</code>，其中包含 <code>h2</code>、段落和锚元素。与几位同事一起提前定义元素，比随时添加元素容易得多。我还发现应该记下颜色编码、尺寸等信息，这在开发阶段会有帮助。另外，可以在设计的打印稿上添加批注以便快速参考。<br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018-02-05.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.douglasdong.site/2018-01-21.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Helvetica.D">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.PNG">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Helve's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018-01-21.html" itemprop="url">第六章 -- 对列表应用样式和创建导航条</a></h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-21T21:31:24+08:00">
-                2018-01-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/精通CSS-高级Web标准解决方案/" itemprop="url" rel="index">
-                    <span itemprop="name">精通CSS-高级Web标准解决方案</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="对列表应用样式和创建导航条"><a href="#对列表应用样式和创建导航条" class="headerlink" title="对列表应用样式和创建导航条"></a>对列表应用样式和创建导航条</h1><p>列表让我们能够对相关的元素进行分组，并由此给它们添加意义和结构。大多数网页都包含某种形式的列表，比如最近的新闻列表、喜欢的网页的链接列表或到站点其他部分的链接列表。将这些条目标识为列表并且加上标记会在 <code>HTML</code> 文档中增加结构，提供应用样式的钩子（hook）<br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018-01-21.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.douglasdong.site/2018-01-14.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Helvetica.D">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.PNG">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Helve's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018-01-14.html" itemprop="url">第五章 -- 对链接应用样式</a></h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-14T21:04:55+08:00">
-                2018-01-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/精通CSS-高级Web标准解决方案/" itemprop="url" rel="index">
-                    <span itemprop="name">精通CSS-高级Web标准解决方案</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="简单的链接样式"><a href="#简单的链接样式" class="headerlink" title="简单的链接样式"></a>简单的链接样式</h1><p>对链接应用样式最容易的方式是使用锚类型选择器。例如，以下规则使所有锚显示为红色：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">a</span> &#123;<span class="attribute">color</span>: red;&#125;</div></pre></td></tr></table></figure>
-<p>但是，锚可以作为内部引用，也可以作为外部链接，所以使用类型选择器不总是理想的。例如，下面的第一个锚包含一个片段标识符，当用户单击这个锚时，页面将跳转到第二个锚的位置：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span> = <span class="string">"#mainContent"</span>&gt;</span>Skip to main content<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">...</div><div class="line"><span class="tag">&lt;<span class="name">h1</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">name</span> = <span class="string">"mainContent"</span>&gt;</span>Welcome<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div></pre></td></tr></table></figure>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018-01-14.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.douglasdong.site/4-1.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Helvetica.D">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.PNG">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Helve's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/4-1.html" itemprop="url">第四章 -- 背景图像效果</a></h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-19T22:23:55+08:00">
-                2017-11-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/精通CSS-高级Web标准解决方案/" itemprop="url" rel="index">
-                    <span itemprop="name">精通CSS-高级Web标准解决方案</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h1><p>对 image 标签的滥用导致纯修饰性的图像把页面弄乱了。好在 CSS 使我们能够在页面上显示图像，而不需要让图像成为标记的一部分，即将图像作为背景添加到现有的元素中。本章将通过一系列实际示例讲解如何使使用背景图像创建各种有意思且有用的技术。</p>
-<p>本章将介绍以下内容：</p>
-<ul>
-<li>固定宽度和可变宽度的圆角框</li>
-<li>滑动门技术</li>
-<li>多个背景图像和 <code>border-radius</code> 属性</li>
-<li>CSS 投影</li>
-<li>不透明度和 RGBa</li>
-<li>让 PNG 适用于 <code>IE</code> 的老版本</li>
-<li>视差滚动</li>
-<li>图像替换</li>
-</ul>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/4-1.html#more" rel="contents">
+            <a class="btn" href="/2018-04-11.html">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1850,7 +1122,7 @@
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1983,7 +1255,7 @@
       <div class="footer-inner">
         <div class="copyright" >
   
-  &copy; 
+  &copy;  2017 &mdash; 
   <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
