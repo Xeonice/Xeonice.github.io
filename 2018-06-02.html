@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+<meta name="google-site-verification" content="1AN0l5FFDH_bGnLzRh2TsBOsw54Rl3zuA7kUviXkk6o" />
+
+
+
+
+
+
+  
+  
+    
+      
+    
+    
+      
+    
+  <script src="https://cdn.staticfile.org/pace/1.0.2/pace.min.js"></script>
+  <link href="https://cdn.staticfile.org/pace/1.0.2/themes/blue/pace-theme-flash.min.css" rel="stylesheet">
+
+
+
+
+  
+  
+  <link rel="stylesheet" media="all" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+  <link href="https://cdn.bootcss.com/fancybox/3.3.5/jquery.fancybox.min.css" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+  
+
+<link href="https://cdn.staticfile.org/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.4.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.4.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.4.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.4.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":true},
+    fancybox: true,
+    fastclick: false,
+    lazyload: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="同样的 Javascript 代码，在 Node.js 与浏览器中分别执行，会得到完全不同的结果。其主要原因在于 Node.js 拥有一套独有的事件循环系统，这套事件循环系统的调用方式是怎样的？">
+<meta name="keywords" content="Node.js, 事件循环">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Node.js 事件循环原理总结">
+<meta property="og:url" content="https://www.douglasdong.site/2018-06-02.html">
+<meta property="og:site_name" content="Helve&#39;s Blog">
+<meta property="og:description" content="同样的 Javascript 代码，在 Node.js 与浏览器中分别执行，会得到完全不同的结果。其主要原因在于 Node.js 拥有一套独有的事件循环系统，这套事件循环系统的调用方式是怎样的？">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-08-12T01:55:52.002Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Node.js 事件循环原理总结">
+<meta name="twitter:description" content="同样的 Javascript 代码，在 Node.js 与浏览器中分别执行，会得到完全不同的结果。其主要原因在于 Node.js 拥有一套独有的事件循环系统，这套事件循环系统的调用方式是怎样的？">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Helve's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="canonical" href="https://www.douglasdong.site/2018-06-02.html"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Node.js 事件循环原理总结 | Helve's Blog</title>
+  
+
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?381279f888e646c9a4386fba79ee174b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Helve's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">前端学习杂录</h1>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签<span class="badge">2</span></a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类<span class="badge">4</span></a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">14</span></a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+    <div class="reading-progress-bar"></div>
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.douglasdong.site/2018-06-02.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Helvetica.D">
+      <meta itemprop="description" content="P5天下第一！！">
+      <meta itemprop="image" content="/images/avatar.PNG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Helve's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Node.js 事件循环原理总结
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-06-02 20:33:24" itemprop="dateCreated datePublished" datetime="2018-06-02T20:33:24+08:00">2018-06-02</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Node-js/" itemprop="url" rel="index"><span itemprop="name">Node.js</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">1.7k字</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">2 分钟</span>
+              
+            </div>
+          
+
+          
+              <div class="post-description">同样的 Javascript 代码，在 Node.js 与浏览器中分别执行，会得到完全不同的结果。其主要原因在于 Node.js 拥有一套独有的事件循环系统，这套事件循环系统的调用方式是怎样的？</div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <script src="/assets/js/APlayer.min.js"> </script><h1 id="执行流程"><a href="#执行流程" class="headerlink" title="执行流程"></a>执行流程</h1><ul>
+<li>node 的初始化<ul>
+<li>初始化 node 环境</li>
+<li>执行输入代码</li>
+<li>执行 <code>process.nextTick</code> 回调</li>
+<li>执行 MicroTask（Promise）</li>
+</ul>
+</li>
+<li>进入 EventLoop 阶段<ul>
+<li>进入 timer 阶段（执行timer（<code>setTimeout</code>、<code>setInterval</code>）的回调）<ul>
+<li>检查 timer 队列是否有到期的回调，如果有，将到期的 timer 回调按照 timerId 升序执行（<code>setTimeout</code>、<code>setInterval</code>）</li>
+<li>检查是否有 <code>process.nextTick</code> 回调，如果有，全部执行</li>
+<li>检查是否有 MicroTask，如果有，全部执行</li>
+<li>退出该阶段</li>
+</ul>
+</li>
+<li>进入 I/O callback 阶段（执行一些系统调用错误，比如网络通信的错误回调）<ul>
+<li>检查是否有 pending 的 I/O 回调，如果有，执行回调，如果没有，退出阶段</li>
+<li>检查是否有 <code>process.nextTick</code> 任务，如果有，全部执行</li>
+<li>检查是否有 MicroTask，如果有，全部执行</li>
+<li>退出该阶段</li>
+</ul>
+</li>
+<li>进入 idle，prepare 阶段<ul>
+<li>这两个阶段与编程关系不大，按下不表</li>
+</ul>
+</li>
+<li>进入 poll 阶段（获取新的 I/O 事件, 适当的条件下node将阻塞在这里）<ul>
+<li>首先检查是否存在尚未完成的回调，如果存在，那么分为两种情况<ul>
+<li>第一种情况<ul>
+<li>如果有可用回调（到期的定时器和一些 IO 事件），执行所有可用回调</li>
+<li>检查是否有 <code>process.nextTick</code> 回调，如果有，全部执行</li>
+<li>检查是否有 MicroTask 任务，如果有，全部执行</li>
+<li>退出该阶段</li>
+</ul>
+</li>
+<li>第二种情况<ul>
+<li>如果没有可用回调</li>
+<li>检查是否有 <code>setImmediate</code> 任务，如果有，退出 poll 阶段，如果没有，阻塞在此阶段，等待新的事件通知</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>如果不存在尚未完成的回调，退出 poll 阶段</li>
+</ul>
+</li>
+<li>进入 check 阶段（执行 <code>setImmediate()</code> 的回调）<ul>
+<li>如果有 <code>setImmediate</code> 回调，那么执行所有的 immediate 回调</li>
+<li>检查是否有 <code>process.nextTick</code> 回调，如果有，全部执行</li>
+<li>检查是否有 MicroTask 任务，如果有，全部执行</li>
+<li>退出 check 阶段</li>
+</ul>
+</li>
+<li>进入 closing 阶段（执行 <code>socket</code> 的 <code>close</code> 事件回调）<ul>
+<li>如果有 <code>setImmediate</code> 回调，那么执行所有的 immediate 回调</li>
+<li>检查是否有 <code>process.nextTick</code> 回调，如果有，全部执行</li>
+<li>检查是否有 MicroTask 任务，如果有，全部执行</li>
+<li>退出 closing 阶段</li>
+</ul>
+</li>
+<li>检查是否有活跃的 handles（定时器，IO 等事件句柄）<ul>
+<li>如果有，继续下一轮循环</li>
+<li>如果没有，结束事件循环，退出程序</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<a id="more"></a>
+<h1 id="setTimeout-和-setImmediate-执行顺序"><a href="#setTimeout-和-setImmediate-执行顺序" class="headerlink" title="setTimeout 和 setImmediate 执行顺序"></a><code>setTimeout</code> 和 <code>setImmediate</code> 执行顺序</h1><h2 id="普通代码中设置定时器"><a href="#普通代码中设置定时器" class="headerlink" title="普通代码中设置定时器"></a>普通代码中设置定时器</h2><p>普通代码执行阶段中设置的这两个执行任务，它们的执行顺序不是固定的</p>
+<ul>
+<li>首先，设置的 <code>setTimeout(callback, 0)</code> 被转换为 <code>setTimeout(callback, 1)</code>，所以进入定时器阶段时，会根据当前时间判断定时是否超过 1ms</li>
+<li>事件循环在进入定时器阶段之前会由系统调用方法来更新当前时间，由于系统中同时运行着其他的程序，系统需要等待其他程序的进程运行结束才能获取准确时间，所以更新得到的时间可能会有一定的延迟</li>
+<li>更新时间时，若没有延迟，定时不到 1ms ,immediate 任务会先执行；如果存在延迟，并且这个时间达到了 1ms 的界限， timeout 任务就会首先执行</li>
+</ul>
+<h2 id="IO-回调中设置定时器"><a href="#IO-回调中设置定时器" class="headerlink" title="IO 回调中设置定时器"></a>IO 回调中设置定时器</h2><p><code>setImmediate</code> 会率先执行</p>
+<ul>
+<li>进入 poll phase 轮询阶段之前会先检查是否有 timer 定时任务。</li>
+<li>如果没有 timer 定时任务，才会执行后面的 IO 回调。</li>
+<li>我们在 IO 回调中设置 setTimeout 定时任务，这时已经过了 timer 检查阶段，所以 timer 定时任务会被推迟到下一个循环中执行。</li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Helvetica.D</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://www.douglasdong.site/2018-06-02.html" title="Node.js 事件循环原理总结">https://www.douglasdong.site/2018-06-02.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Javascript/" rel="tag"># Javascript</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018-04-21.html" rel="next" title="Javascript 执行机制解析">
+                <i class="fa fa-chevron-left"></i> Javascript 执行机制解析
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018-07-29.html" rel="prev" title="Javascript 异步编程迷思">
+                Javascript 异步编程迷思 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.PNG"
+                alt="Helvetica.D" />
+            
+              <p class="site-author-name" itemprop="name">Helvetica.D</p>
+              <p class="site-description motion-element" itemprop="description">P5天下第一！！</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">14</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/Xeonice" target="_blank" title="GitHub" rel="external nofollow"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:ad546971975@gmail.com" target="_blank" title="E-Mail" rel="external nofollow"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#执行流程"><span class="nav-number">1.</span> <span class="nav-text">执行流程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#setTimeout-和-setImmediate-执行顺序"><span class="nav-number">2.</span> <span class="nav-text">setTimeout 和 setImmediate 执行顺序</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#普通代码中设置定时器"><span class="nav-number">2.1.</span> <span class="nav-text">普通代码中设置定时器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IO-回调中设置定时器"><span class="nav-number">2.2.</span> <span class="nav-text">IO 回调中设置定时器</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2017 – <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Helvetica.D</span>
+  <div class="powered-by">  </div>
+  <span>Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a></span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="站点总字数">111k</span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    
+    <span title="站点阅读时长">1:41</span>
+  
+</div>
+
+
+  
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" rel="external nofollow" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a class="theme-link" target="_blank" rel="external nofollow" href="https://theme-next.org">NexT.Mist</a> v6.4.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  
+    <script type="text/javascript" src="https://cdn.staticfile.org/jquery/2.1.3/jquery.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery_lazyload/1.9.7/jquery.lazyload.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="https://cdn.staticfile.org/velocity/1.2.1/velocity.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="https://cdn.staticfile.org/velocity/1.2.1/velocity.ui.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="https://cdn.bootcss.com/fancybox/3.3.5/jquery.fancybox.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/reading_progress/reading_progress.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+  
+  
+  <script src="/lib/bookmark/bookmark.min.js?v=1.0"></script>
+  <script type="text/javascript">
+  
+    bookmark.scrollToMark('auto', "#更多");
+  
+  </script>
+
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function (i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap')
+      $(e).after($wrap)
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function (e) {
+        var code = $(this).parent().find('.code').find('.line').map(function (i, e) {
+          return $(e).text()
+        }).toArray().join('\n')
+        var ta = document.createElement('textarea')
+        document.body.appendChild(ta)
+        ta.style.position = 'absolute'
+        ta.style.top = '0px'
+        ta.style.left = '0px'
+        ta.value = code
+        ta.select()
+        ta.focus()
+        var result = document.execCommand('copy')
+        document.body.removeChild(ta)
+        
+          if(result)$(this).text('复制成功')
+          else $(this).text('复制失败')
+        
+        $(this).blur()
+      })).on('mouseleave', function (e) {
+        var $b = $(this).find('.copy-btn')
+        setTimeout(function () {
+          $b.text('复制')
+        }, 300)
+      }).append(e)
+    })
+  </script>
+
+
+</body>
+</html>
