@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<meta name="google-site-verification" content="1AN0l5FFDH_bGnLzRh2TsBOsw54Rl3zuA7kUviXkk6o" />
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="闭包, Javascript, 作用域" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Helve's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="Javascript 中的闭包是什么？闭包具有什么特点？我们为什么需要闭包？我们可以用 Javascript 中的闭包做到什么？">
+<meta name="keywords" content="闭包, Javascript, 作用域">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Javascript 闭包">
+<meta property="og:url" content="https://www.douglasdong.site/2018-08-12.html">
+<meta property="og:site_name" content="Helve&#39;s Blog">
+<meta property="og:description" content="Javascript 中的闭包是什么？闭包具有什么特点？我们为什么需要闭包？我们可以用 Javascript 中的闭包做到什么？">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-08-12T08:27:17.504Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Javascript 闭包">
+<meta name="twitter:description" content="Javascript 中的闭包是什么？闭包具有什么特点？我们为什么需要闭包？我们可以用 Javascript 中的闭包做到什么？">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.2',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://www.douglasdong.site/2018-08-12.html"/>
+
+
+
+
+
+  <title>Javascript 闭包 | Helve's Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?381279f888e646c9a4386fba79ee174b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Helve's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">前端学习杂录</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.douglasdong.site/2018-08-12.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Helvetica.D">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.PNG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Helve's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Javascript 闭包</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-12T12:14:33+08:00">
+                2018-08-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+              <div class="post-description">
+                  Javascript 中的闭包是什么？闭包具有什么特点？我们为什么需要闭包？我们可以用 Javascript 中的闭包做到什么？
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <script src="/assets/js/APlayer.min.js"> </script><h1 id="变量的作用域"><a href="#变量的作用域" class="headerlink" title="变量的作用域"></a>变量的作用域</h1><p>Javascript 拥有特殊的变量作用域，即全局作用域和函数作用域，它的特异之处在于，函数内部可以直接读取全局变量。这一点是借助作用域链这一机制实现的</p>
+<p>假如说我们在函数内调用一个全局变量，如下列代码所示：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = <span class="number">100</span></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">F1</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="keyword">var</span> b = <span class="number">200</span></div><div class="line">        <span class="function"><span class="keyword">function</span> <span class="title">F2</span>(<span class="params"></span>) </span>&#123;</div><div class="line">            <span class="keyword">var</span> c = <span class="number">300</span></div><div class="line">            <span class="built_in">console</span>.log(a) <span class="comment">// 自由变量，顺作用域链向父作用域找</span></div><div class="line">            <span class="built_in">console</span>.log(b) <span class="comment">// 自由变量，顺作用域链向父作用域找</span></div><div class="line">            <span class="built_in">console</span>.log(c) <span class="comment">// 本作用域的变量</span></div><div class="line">        &#125;</div><div class="line">        F2()</div><div class="line">    &#125;</div><div class="line">    F1()</div></pre></td></tr></table></figure>
+<p><code>F2</code> 中不存在 <code>a</code> 这个变量，因此会按照作用域链向上查找，直到查找到全局作用域为止，这种一层一层的关系，就叫做作用域链</p>
+<p>ES6 中对作用域问题进行了一部分改良，加入了 <code>let</code> 和 <code>const</code> 关键字，用于定义确定的块级作用域。这里不对其进行详细考证</p>
+<p>我们可以通过作用域链一层层向上查找，在内层函数读取外层函数的变量。但是，如果我们反其道而行之呢？如果我们希望在函数外部访问函数内部的变量呢？</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = <span class="number">100</span></div><div class="line">　　<span class="function"><span class="keyword">function</span> <span class="title">f1</span>(<span class="params"></span>)</span>&#123;</div><div class="line">　　　　<span class="keyword">var</span> n=<span class="number">999</span>;</div><div class="line">　　&#125;</div><div class="line"></div><div class="line">　　alert(n); <span class="comment">// error</span></div></pre></td></tr></table></figure>
+<p>按照上述方法是一定行不通的，函数作用域的这种特殊机制也给了 ES5 变相实现块级作用域的方法：通过 <code>IIFE</code>（立即执行函数）在程序内定义相互分离的函数作用域</p>
+<h1 id="如何从外部读取局部变量？"><a href="#如何从外部读取局部变量？" class="headerlink" title="如何从外部读取局部变量？"></a>如何从外部读取局部变量？</h1><p>正常情况下，我们是无法从外部读取局部变量的。但是，我们可以通过变通的方法实现：<strong>在函数的内部，再定义一个函数并返回</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = <span class="number">100</span></div><div class="line">　　<span class="function"><span class="keyword">function</span> <span class="title">f1</span>(<span class="params"></span>)</span>&#123;</div><div class="line"></div><div class="line">　　　　<span class="keyword">var</span> n=<span class="number">999</span>;</div><div class="line"></div><div class="line">　　　　<span class="function"><span class="keyword">function</span> <span class="title">f2</span>(<span class="params"></span>)</span>&#123;</div><div class="line">　　　　　　alert(n); <span class="comment">// 999</span></div><div class="line">　　　　&#125;</div></pre></td></tr></table></figure>
+<p>上述代码中，函数 <code>f2</code> 被包含在 <code>f1</code> 内部，这时所有 <code>f1</code> 的局部变量，对 <code>f2</code> 都是可见的。但是反过来就不行，这也是 Javascript 的链式作用域结构决定的</p>
+<p>既然 <code>f2</code> 可以访问 <code>f1</code> 的变量，那么<strong>只要把 <code>f2</code> 作为返回值，我们不就可以在 <code>f1</code> 外部访问它的变量了吗！</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">　　<span class="function"><span class="keyword">function</span> <span class="title">f1</span>(<span class="params"></span>)</span>&#123;</div><div class="line">　　　　<span class="keyword">var</span> n=<span class="number">999</span>;</div><div class="line">　　　　<span class="function"><span class="keyword">function</span> <span class="title">f2</span>(<span class="params"></span>)</span>&#123;</div><div class="line">　　　　　　alert(n); </div><div class="line">　　　　&#125;</div><div class="line">　　　　<span class="keyword">return</span> f2;</div><div class="line">　　&#125;</div><div class="line">　　<span class="keyword">var</span> result=f1();</div><div class="line">　　result(); <span class="comment">// 999</span></div></pre></td></tr></table></figure>
+<h1 id="闭包的概念"><a href="#闭包的概念" class="headerlink" title="闭包的概念"></a>闭包的概念</h1><h2 id="什么是闭包？"><a href="#什么是闭包？" class="headerlink" title="什么是闭包？"></a>什么是闭包？</h2><p>上一节中最后的 <code>f2</code> 函数，就是闭包，简单来说，闭包就是指可以访问另一个函数作用域变量的函数，就如同上一节中用于访问 <code>f1</code> 中变量的 <code>f2</code> 函数一样。</p>
+<h2 id="为什么需要闭包？"><a href="#为什么需要闭包？" class="headerlink" title="为什么需要闭包？"></a>为什么需要闭包？</h2><p>局部变量无法共享和长期保存（js 的垃圾回收机制导致函数会被定期回收），而全局变量可能会造成变量污染（变量重名），所以我们希望有一种机制既可以长久的保存变量，又不会造成全局污染</p>
+<h2 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h2><ul>
+<li>占用更多内存</li>
+<li>不容易被释放（与 Javascript 的垃圾回收机制相关，具体内容将在之后的文章中涉及）</li>
+</ul>
+<h2 id="何时使用？"><a href="#何时使用？" class="headerlink" title="何时使用？"></a>何时使用？</h2><p>既要反复使用，又想避免全局变量污染</p>
+<h2 id="如何使用？"><a href="#如何使用？" class="headerlink" title="如何使用？"></a>如何使用？</h2><ul>
+<li>定义外层函数，封装被保护的局部变量</li>
+<li>定义内层函数，执行对外部函数变量的操作</li>
+<li>外层函数返回内层函数的对象，并且外层函数调用，结果保存在一个全局的变量中</li>
+</ul>
+<h2 id="函数生命周期"><a href="#函数生命周期" class="headerlink" title="函数生命周期"></a>函数生命周期</h2><ul>
+<li>定义时<ul>
+<li>创建函数对象（封装了函数的定义）</li>
+<li>创建作用域对象（默认存在了一个 window 引用）</li>
+</ul>
+</li>
+<li>调用时<ul>
+<li>创建一个活动对象（包含局部变量）</li>
+<li>将活动对象的引用加到作用域对象中</li>
+<li>创建执行环境（包含了作用域链（scope chain）属性指向作用域对象）</li>
+</ul>
+</li>
+<li>调用后<ul>
+<li>活动对象释放</li>
+<li>作用域链中的活动对象出栈</li>
+<li>执行环境出栈</li>
+</ul>
+</li>
+</ul>
+<h1 id="闭包有什么作用？"><a href="#闭包有什么作用？" class="headerlink" title="闭包有什么作用？"></a>闭包有什么作用？</h1><p>事实上，通过使用闭包，我们可以做很多事情。比如模拟面向对象的代码风格；更优雅，更简洁的表达出代码；在某些方面提升代码的执行效率。</p>
+<h2 id="封装私有变量"><a href="#封装私有变量" class="headerlink" title="封装私有变量"></a>封装私有变量</h2><p>我们来看一个例子：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> person = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;    </div><div class="line"></div><div class="line">    <span class="comment">//变量作用域为函数内部，外部无法访问    </span></div><div class="line">    </div><div class="line">    <span class="keyword">var</span> name = <span class="string">"default"</span>;       </div><div class="line">       </div><div class="line">    <span class="keyword">return</span> &#123;    </div><div class="line">       getName : <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;    </div><div class="line">           <span class="keyword">return</span> name;    </div><div class="line">       &#125;,    </div><div class="line">       setName : <span class="function"><span class="keyword">function</span>(<span class="params">newName</span>)</span>&#123;    </div><div class="line">           name = newName;    </div><div class="line">       &#125;    </div><div class="line">    &#125;    </div><div class="line">&#125;();    </div><div class="line">     </div><div class="line"><span class="built_in">console</span>.log(person.name);<span class="comment">//直接访问，结果为undefined    </span></div><div class="line"><span class="built_in">console</span>.log(person.getName()); <span class="comment">// default</span></div><div class="line">person.setName(<span class="string">"abruzzi"</span>); </div><div class="line"><span class="built_in">console</span>.log(person.getName()); <span class="comment">// abruzzi</span></div></pre></td></tr></table></figure>
+<p>这个例子中，函数通过闭包返回了两个方法。外层函数可以通过返回的方法操作内部变量，但是无法直接访问内部的变量，从而实现了变量的私有化</p>
+<h2 id="匿名自执行函数"><a href="#匿名自执行函数" class="headerlink" title="匿名自执行函数"></a>匿名自执行函数</h2><p>所有的变量，如果不加 <code>var</code> 关键字，则会被默认添加到全局对象的属性上去。这样的临时变量加入全局对象有很多坏处，比如：别的函数可能误用这些变量；全局对象过于庞大，影响访问速度（因为变量的取值是需要从原型链上遍历的）</p>
+<p>实际情况下，我们经常会遇到这种情况 —— <code>所有的函数只需要执行一次，其内部变量无需维护</code></p>
+<p>比如 UI 的初始化，我们就可以使用闭包：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> data= &#123;    </div><div class="line">    table : [],    </div><div class="line">    tree : &#123;&#125;    </div><div class="line">&#125;;</div><div class="line">(<span class="function"><span class="keyword">function</span>(<span class="params">dm</span>)</span>&#123;    </div><div class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; dm.table.rows; i++)&#123;    </div><div class="line">       <span class="keyword">var</span> row = dm.table.rows[i];    </div><div class="line">       <span class="keyword">for</span>(<span class="keyword">var</span> j = <span class="number">0</span>; j &lt; row.cells; i++)&#123;    </div><div class="line">           drawCell(i, j);    </div><div class="line">       &#125;    </div><div class="line">    &#125;           </div><div class="line">&#125;)(data);  </div></pre></td></tr></table></figure>
+<p>我们创建了一个匿名的函数，并立即执行它，由于<strong>外界无法引用它的变量，因此在函数执行完以后会立即释放资源</strong>，关键是不污染全局对象</p>
+<h2 id="结果缓存"><a href="#结果缓存" class="headerlink" title="结果缓存"></a>结果缓存</h2><p>设想我们有一个处理过程很耗时的函数对象，每次调用都会花费很长时间</p>
+<p>我们可以将计算出来的值存储起来，当调用这个函数的时候，首先在缓存中查找，如果找不到，则进行计算，然后更新缓存并返回值。如果找到了，直接返回查找到的值即可。闭包正是可以做到这一点，因为<strong>它不会释放外部的引用，从而使函数内部的值得以保留</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> CachedSearchBox = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;    </div><div class="line">    <span class="keyword">var</span> cache = &#123;&#125;,    </div><div class="line">       count = [];    </div><div class="line">    <span class="keyword">return</span> &#123;    </div><div class="line">       attachSearchBox : <span class="function"><span class="keyword">function</span>(<span class="params">dsid</span>)</span>&#123;    </div><div class="line">           <span class="keyword">if</span>(dsid <span class="keyword">in</span> cache)&#123;<span class="comment">//如果结果在缓存中    </span></div><div class="line">              <span class="keyword">return</span> cache[dsid];<span class="comment">//直接返回缓存中的对象    </span></div><div class="line">           &#125;    </div><div class="line">           <span class="keyword">var</span> fsb = <span class="keyword">new</span> uikit.webctrl.SearchBox(dsid);<span class="comment">//新建    </span></div><div class="line">           cache[dsid] = fsb;<span class="comment">//更新缓存    </span></div><div class="line">           <span class="keyword">if</span>(count.length &gt; <span class="number">100</span>)&#123;<span class="comment">//保正缓存的大小&lt;=100    </span></div><div class="line">              <span class="keyword">delete</span> cache[count.shift()];    </div><div class="line">           &#125;    </div><div class="line">           <span class="keyword">return</span> fsb;          </div><div class="line">       &#125;,    </div><div class="line">     </div><div class="line">       clearSearchBox : <span class="function"><span class="keyword">function</span>(<span class="params">dsid</span>)</span>&#123;    </div><div class="line">           <span class="keyword">if</span>(dsid <span class="keyword">in</span> cache)&#123;    </div><div class="line">              cache[dsid].clearSelection();      </div><div class="line">           &#125;    </div><div class="line">       &#125;    </div><div class="line">    &#125;;    </div><div class="line">&#125;)();    </div><div class="line">     </div><div class="line">CachedSearchBox.attachSearchBox(<span class="string">"input"</span>);</div></pre></td></tr></table></figure>
+<p>这样我们第二次调用的时候，就会从缓存中读取到该对象</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>Javascript 的闭包给予了我们在函数外访问函数内变量的可能，Javascript 自身的垃圾回收机制也允许我们运用闭包保存一些不希望被内存回收的变量，不过在使用闭包的时候，一定要注意内存泄露问题。在真正需要使用闭包的时候再调用闭包</p>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p><a href="https://www.cnblogs.com/yunfeifei/p/4019504.html" target="_blank" rel="noopener">全面理解Javascript闭包和闭包的几种写法及用途</a><br><a href="https://zhuanlan.zhihu.com/p/27857268" target="_blank" rel="noopener">图解JS闭包</a><br><a href="http://www.ruanyifeng.com/blog/2009/08/learning_javascript_closures.html" target="_blank" rel="noopener">学习Javascript闭包（Closure）</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Javascript/" rel="tag"># Javascript</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018-08-11.html" rel="next" title="类，原型链与 Class">
+                <i class="fa fa-chevron-left"></i> 类，原型链与 Class
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          
+            <img class="site-author-image" itemprop="image"
+              src="/images/avatar.PNG"
+              alt="Helvetica.D" />
+          
+            <p class="site-author-name" itemprop="name">Helvetica.D</p>
+            <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+            
+              <a href="/archives/">
+            
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Xeonice" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>GitHub</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:ad546971975@gmail.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#变量的作用域"><span class="nav-number">1.</span> <span class="nav-text">变量的作用域</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#如何从外部读取局部变量？"><span class="nav-number">2.</span> <span class="nav-text">如何从外部读取局部变量？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#闭包的概念"><span class="nav-number">3.</span> <span class="nav-text">闭包的概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是闭包？"><span class="nav-number">3.1.</span> <span class="nav-text">什么是闭包？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么需要闭包？"><span class="nav-number">3.2.</span> <span class="nav-text">为什么需要闭包？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#特点"><span class="nav-number">3.3.</span> <span class="nav-text">特点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#何时使用？"><span class="nav-number">3.4.</span> <span class="nav-text">何时使用？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何使用？"><span class="nav-number">3.5.</span> <span class="nav-text">如何使用？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#函数生命周期"><span class="nav-number">3.6.</span> <span class="nav-text">函数生命周期</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#闭包有什么作用？"><span class="nav-number">4.</span> <span class="nav-text">闭包有什么作用？</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#封装私有变量"><span class="nav-number">4.1.</span> <span class="nav-text">封装私有变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#匿名自执行函数"><span class="nav-number">4.2.</span> <span class="nav-text">匿名自执行函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结果缓存"><span class="nav-number">4.3.</span> <span class="nav-text">结果缓存</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文献"><span class="nav-number">6.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2017 &mdash; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Helvetica.D</span>
+  <div class="powered-by">  </div>
+  <span>Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a></span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" href="http://hexo.io" rel="external nofollow">Hexo</a> 强力驱动</div>
+
+  <span class="post-meta-divider">|</span>
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" rel="external nofollow>NexT.Mist</a> v5.1.2</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
