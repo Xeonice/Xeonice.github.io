@@ -133,19 +133,19 @@
 
 
 
-  <meta name="description" content="Javascript 为什么会有原型链？ES6 中为什么会新增 Class ？和 ES5 中的原型链有何不同？">
-<meta name="keywords" content="ES6, class, Javascript, 原型链">
+  <meta name="description" content="JavaScript 为什么会有原型链？ES6 中为什么会新增 Class ？和 ES5 中的原型链有何不同？">
+<meta name="keywords" content="ES6, class, JavaScript, 原型链">
 <meta property="og:type" content="article">
 <meta property="og:title" content="类，原型链与 Class">
 <meta property="og:url" content="https://www.douglasdong.site/2018-08-11.html">
 <meta property="og:site_name" content="Helve&#39;s Blog">
-<meta property="og:description" content="Javascript 为什么会有原型链？ES6 中为什么会新增 Class ？和 ES5 中的原型链有何不同？">
+<meta property="og:description" content="JavaScript 为什么会有原型链？ES6 中为什么会新增 Class ？和 ES5 中的原型链有何不同？">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://imagetemp.oss-cn-beijing.aliyuncs.com/2018-08-11-2018-08-11-exp1.png">
-<meta property="og:updated_time" content="2018-08-12T01:18:35.469Z">
+<meta property="og:updated_time" content="2018-08-13T07:25:20.145Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="类，原型链与 Class">
-<meta name="twitter:description" content="Javascript 为什么会有原型链？ES6 中为什么会新增 Class ？和 ES5 中的原型链有何不同？">
+<meta name="twitter:description" content="JavaScript 为什么会有原型链？ES6 中为什么会新增 Class ？和 ES5 中的原型链有何不同？">
 <meta name="twitter:image" content="https://imagetemp.oss-cn-beijing.aliyuncs.com/2018-08-11-2018-08-11-exp1.png">
 
 
@@ -402,7 +402,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Javascript-基础/" itemprop="url" rel="index"><span itemprop="name">Javascript 基础</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/JavaScript-基础/" itemprop="url" rel="index"><span itemprop="name">JavaScript 基础</span></a></span>
 
                 
                 
@@ -460,7 +460,7 @@
           
 
           
-              <div class="post-description">Javascript 为什么会有原型链？ES6 中为什么会新增 Class ？和 ES5 中的原型链有何不同？</div>
+              <div class="post-description">JavaScript 为什么会有原型链？ES6 中为什么会新增 Class ？和 ES5 中的原型链有何不同？</div>
           
 
         </div>
@@ -476,19 +476,19 @@
       
 
       
-        <script src="/assets/js/APlayer.min.js"> </script><p>Javascript 的继承机制一直是很难理解的一部分，它没有子类和父类的概念，也没有类（”<code>class</code>“）和实例（”<code>instance</code>“）的区分，继承部分全部依靠奇特的 ”原型链” 来进行实现</p>
-<p>那么，为什么 Javascript 会采取这样一种奇特的方式实现继承呢？这要从 Javascript 的诞生说起</p>
+        <script src="/assets/js/APlayer.min.js"> </script><p>JavaScript 的继承机制一直是很难理解的一部分，它没有子类和父类的概念，也没有类（”<code>class</code>“）和实例（”<code>instance</code>“）的区分，继承部分全部依靠奇特的 ”原型链” 来进行实现</p>
+<p>那么，为什么 JavaScript 会采取这样一种奇特的方式实现继承呢？这要从 JavaScript 的诞生说起</p>
 <h1 id="从古代说起"><a href="#从古代说起" class="headerlink" title="从古代说起"></a>从古代说起</h1><p>1994 年，网景公司发布了 Navigator 0.9，这是历史上第一个比较成熟的浏览器。但是这个版本的浏览器只能用来浏览，与页面进行交互只能交于服务端进行判断。</p>
 <p>比如，如果网页上有一栏 “用户名” 要求填写，浏览器是无法进行判断的，只能将请求发给服务器，让服务器进行判断，如果用户没有填写，服务端就返回错误，要求用户重新填写，这太浪费时间和服务器资源了</p>
 <p>因此，网景公司急需一款网页脚本语言，使得浏览器可以与网页互动。Berndan Eich 负责开发这一款新语言，他认为没有必要设计的很复杂，只要能完成一些简单操作就行了，比如判断用户有没有填写表单</p>
-<p>1994 年是面向对象（object-oriented programming）编程最兴盛的时候，Berndan Eich 很明显受其影响，Javascript 里面的所有数据类型都是对象。这一点与 Java 非常相似，但这款语言是否需要设计继承呢？</p>
-<h2 id="Berndan-Eich-的选择"><a href="#Berndan-Eich-的选择" class="headerlink" title="Berndan Eich 的选择"></a>Berndan Eich 的选择</h2><p>如果只是单纯的脚本语言，其实上也不需要有继承机制。但是，Javascript 里面都是对象，必须要有一种机制，将所有对象联系起来。因此，Berndan Eich 最终还是设计了继承</p>
-<p>但是，他不准备引入 “类” 的概念，因为有了 “类” 以后，Javascript 就是一款标准的面向对象语言了，这与其易于上手的目标不符</p>
+<p>1994 年是面向对象（object-oriented programming）编程最兴盛的时候，Berndan Eich 很明显受其影响，JavaScript 里面的所有数据类型都是对象。这一点与 Java 非常相似，但这款语言是否需要设计继承呢？</p>
+<h2 id="Berndan-Eich-的选择"><a href="#Berndan-Eich-的选择" class="headerlink" title="Berndan Eich 的选择"></a>Berndan Eich 的选择</h2><p>如果只是单纯的脚本语言，其实上也不需要有继承机制。但是，JavaScript 里面都是对象，必须要有一种机制，将所有对象联系起来。因此，Berndan Eich 最终还是设计了继承</p>
+<p>但是，他不准备引入 “类” 的概念，因为有了 “类” 以后，JavaScript 就是一款标准的面向对象语言了，这与其易于上手的目标不符</p>
 <p>他考虑到，C++ 和 Java 中都使用 <code>new</code> 命令，生成实例</p>
 <p>C++ 中的写法：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ClassName *object = <span class="keyword">new</span> ClassName(param);</span><br></pre></td></tr></table></figure></p>
 <p>Java 中的写法：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　Foo foo = <span class="keyword">new</span> Foo();</span><br></pre></td></tr></table></figure></p>
-<p>因此，他就把 <code>new</code> 命令引入了 Javascript，用来从一个原型对象生成一个实例对象。但是，Javascript 没有 ”类“，怎么来表示原型对象呢？</p>
-<p>C++ 和 Java 在生成 ”类“ 的时候，都会调用 ”类“ 的构造函数，于是他就做了一个简化设计，在 Javascript 后面，<code>new</code> 跟的不是类，而是构造函数</p>
+<p>因此，他就把 <code>new</code> 命令引入了 JavaScript，用来从一个原型对象生成一个实例对象。但是，JavaScript 没有 ”类“，怎么来表示原型对象呢？</p>
+<p>C++ 和 Java 在生成 ”类“ 的时候，都会调用 ”类“ 的构造函数，于是他就做了一个简化设计，在 JavaScript 后面，<code>new</code> 跟的不是类，而是构造函数</p>
 <p>举例来说，现在有一个叫做 Dog 的构造函数，用来表示狗对象的原型</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">DOG</span>(<span class="params">name</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>对这个构造函数用 new，就会生成一个新的实例：</p>
@@ -511,8 +511,8 @@
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">　　<span class="function"><span class="keyword">function</span> <span class="title">DOG</span>(<span class="params">name</span>)</span>&#123;</span><br><span class="line">　　　　<span class="keyword">this</span>.name = name;</span><br><span class="line">　　&#125;</span><br><span class="line"></span><br><span class="line">　　DOG.prototype = &#123; <span class="attr">species</span> : <span class="string">'犬科'</span> &#125;;</span><br><span class="line"></span><br><span class="line">　　<span class="keyword">var</span> dogA = <span class="keyword">new</span> DOG(<span class="string">'大毛'</span>);</span><br><span class="line">　　<span class="keyword">var</span> dogB = <span class="keyword">new</span> DOG(<span class="string">'二毛'</span>);</span><br><span class="line">　　alert(dogA.species); <span class="comment">// 犬科</span></span><br><span class="line">　　alert(dogB.species); <span class="comment">// 犬科</span></span><br></pre></td></tr></table></figure>
 <p>现在，<code>species</code> 属性放在 <code>prototype</code> 对象中，是两个实例对象共享的。只要修改了 prototype 对象，就会同时影响到两个对象</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">　　DOG.prototype.species = <span class="string">'猫科'</span>;</span><br><span class="line"></span><br><span class="line">　　alert(dogA.species); <span class="comment">// 猫科</span></span><br><span class="line">　　alert(dogB.species); <span class="comment">// 猫科</span></span><br></pre></td></tr></table></figure>
-<p>借助于原型，Berndan Eich 在 Javascript 中以一种奇特的方式实现了对象属性的继承。</p>
-<p>现在 Javascript 中的原型，一般指的是构造函数中的显式原型 <code>prototype</code>，以及对象中的隐式原型 <code>_proto_</code>，且对象中的 <code>_proto</code> 指向构造函数中的 <code>prototype</code></p>
+<p>借助于原型，Berndan Eich 在 JavaScript 中以一种奇特的方式实现了对象属性的继承。</p>
+<p>现在 JavaScript 中的原型，一般指的是构造函数中的显式原型 <code>prototype</code>，以及对象中的隐式原型 <code>_proto_</code>，且对象中的 <code>_proto</code> 指向构造函数中的 <code>prototype</code></p>
 <h1 id="原型链"><a href="#原型链" class="headerlink" title="原型链"></a>原型链</h1><p>理解了原型的产生原因后，理解原型链就变的简单多了。还是拿刚才的 Dog 构造函数举例：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">　　<span class="function"><span class="keyword">function</span> <span class="title">DOG</span>(<span class="params">name</span>)</span>&#123;</span><br><span class="line">　　　　<span class="keyword">this</span>.name = name;</span><br><span class="line">　　&#125;</span><br><span class="line"></span><br><span class="line">　　DOG.prototype = &#123; <span class="attr">species</span> : <span class="string">'犬科'</span> &#125;;</span><br><span class="line"></span><br><span class="line">　　<span class="keyword">var</span> dogA = <span class="keyword">new</span> DOG(<span class="string">'大毛'</span>);</span><br><span class="line">　　<span class="keyword">var</span> dogB = <span class="keyword">new</span> DOG(<span class="string">'二毛'</span>);</span><br><span class="line">　　alert(dogA.species); <span class="comment">// 犬科</span></span><br><span class="line">　　alert(dogB.species); <span class="comment">// 犬科</span></span><br></pre></td></tr></table></figure>
 <p>如果我现在对 <code>dogA.name</code> 进行 <code>toString</code> 操作，会发生什么呢？</p>
@@ -525,18 +525,18 @@
 <h2 id="复杂的原型链"><a href="#复杂的原型链" class="headerlink" title="复杂的原型链"></a>复杂的原型链</h2><p>下列代码是一个较为复杂的原型链，可以通过它来直观的体会原型链的继承关系</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Animal</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.gender = <span class="string">"male"</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Human.prototype = <span class="keyword">new</span> Animal();</span><br><span class="line">Human.prototype.constructor = Human;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Human</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.actionWay = <span class="string">"走路"</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Teacher.prototype = <span class="keyword">new</span> Human();</span><br><span class="line">Teacher.prototype.constructor = Teacher;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Teacher</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.skill = <span class="string">"教书"</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">BadTeacher.prototype = <span class="keyword">new</span> Teacher();</span><br><span class="line">BadTeacher.prototype.constructor = BadTeacher;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">BadTeacher</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.name = <span class="string">"吕超"</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> t = <span class="keyword">new</span> BadTeacher();</span><br><span class="line"><span class="built_in">console</span>.log(t);</span><br></pre></td></tr></table></figure>
 <p><img src="https://imagetemp.oss-cn-beijing.aliyuncs.com/2018-08-11-2018-08-11-exp1.png" alt="2018-08-11-exp1"></p>
-<p>原型链作为 Javascript 固有的继承实现方式固然很好，但是对于习惯面向对象编程的程序员来说，Javascript 原型链继承的方式还是非常难以理解，因此，Javascript 在 ES6 标准加入了 ”类“ 这一概念。</p>
-<h1 id="Class"><a href="#Class" class="headerlink" title="Class"></a>Class</h1><p>Javascript 在 ES6 中新加入的 <code>Class</code>，本质上来说只是原型链继承的语法糖而已，这也是之前花大量篇幅介绍原型链继承的原因。我们可以通过以下代码进行证明</p>
+<p>原型链作为 JavaScript 固有的继承实现方式固然很好，但是对于习惯面向对象编程的程序员来说，JavaScript 原型链继承的方式还是非常难以理解，因此，JavaScript 在 ES6 标准加入了 ”类“ 这一概念。</p>
+<h1 id="Class"><a href="#Class" class="headerlink" title="Class"></a>Class</h1><p>JavaScript 在 ES6 中新加入的 <code>Class</code>，本质上来说只是原型链继承的语法糖而已，这也是之前花大量篇幅介绍原型链继承的原因。我们可以通过以下代码进行证明</p>
 <p>首先，我们用构造函数与原型建立一个类：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">MathHandle</span>(<span class="params">x, y</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.x = x;</span><br><span class="line">    <span class="keyword">this</span>.y = y;</span><br><span class="line">&#125;</span><br><span class="line">  MathHandle.prototype.add = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.x + <span class="keyword">this</span>.y;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> m = <span class="keyword">new</span> MathHandle(<span class="number">1</span>,<span class="number">2</span>);</span><br><span class="line"><span class="keyword">typeof</span> MathHandle  <span class="comment">// function</span></span><br><span class="line">MathHandle.prototype.constructor === MathHandle; <span class="comment">//true</span></span><br><span class="line">m._proto_ = MathHandle.prototype <span class="comment">//true</span></span><br></pre></td></tr></table></figure>
 <p>以上代码中，<code>MathHandle</code> 作为构造函数等同于 <code>MathHandle.prototype.constructor</code>，这点毋庸置疑，我们用相同的代码对 ES6 创建的 <code>Class</code> 进行验证</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MathHandle</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span> (x, y) &#123;</span><br><span class="line">        <span class="keyword">this</span>.x = x;</span><br><span class="line">        <span class="keyword">this</span>.y = y;</span><br><span class="line">    &#125;</span><br><span class="line">    add() &#123;</span><br><span class="line">        reutrn <span class="keyword">this</span>.x + <span class="keyword">this</span>.y;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> m = <span class="keyword">new</span> MathHandle(<span class="number">1</span>,<span class="number">2</span>);</span><br><span class="line"><span class="keyword">typeof</span> MathHandle  <span class="comment">// function</span></span><br><span class="line">MathHandle.prototype.constructor === MathHandle; <span class="comment">//true</span></span><br><span class="line">m._proto_ = MathHandle.prototype <span class="comment">//true</span></span><br></pre></td></tr></table></figure>
 <p>可以发现，以上代码的执行内容和前一种方式构建的 ”类“ 返回的内容完全相同</p>
-<p>因此，Javascript 在 ES6 时期依旧不存在 ”类“ 这一概念，它只是将原有的原型链继承机制转换成了更简单易懂的 <code>class</code> 而已，本质上还是原型 + 构造函数创建对象的那一套方法。</p>
+<p>因此，JavaScript 在 ES6 时期依旧不存在 ”类“ 这一概念，它只是将原有的原型链继承机制转换成了更简单易懂的 <code>class</code> 而已，本质上还是原型 + 构造函数创建对象的那一套方法。</p>
 <h2 id="如何在-ES6-的-Class-中继承类？"><a href="#如何在-ES6-的-Class-中继承类？" class="headerlink" title="如何在 ES6 的 Class 中继承类？"></a>如何在 ES6 的 Class 中继承类？</h2><p>ES6 中，对类的继承采用了与 Java 类似的书写方式，我们可以通过以下代码实现类的继承</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Animal</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span> (name) &#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">    eat() &#123;</span><br><span class="line">        alert(<span class="keyword">this</span>.name + <span class="string">"eat"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dog</span> <span class="keyword">extends</span> <span class="title">Animal</span></span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span> (name) &#123;</span><br><span class="line">        <span class="keyword">super</span>(name); <span class="comment">// 调用 Animal 的构造函数 constructor</span></span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">    bark () &#123;</span><br><span class="line">        alert(<span class="keyword">this</span>.name + <span class="string">"bark"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> dog = <span class="keyword">new</span> Dog(<span class="string">'hashiqi'</span>);</span><br><span class="line">dog.bark(); <span class="comment">// hashiqi bark</span></span><br><span class="line">dog.eat(); <span class="comment">// hashiqi eat</span></span><br></pre></td></tr></table></figure>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>ES6 中的 <code>Class</code>，实质上还是原型链继承的产物。这次我们深入探究了原型链的产生原因，ES6为何要加入 <code>Class</code>这一概念，<code>Class</code> 与原型链之间的联系，以及如何用原型链 + 构造函数、ES6 中的 Class 创建一个 ”类“。下一篇文章中，我们会探究如何用 Javascript 构造一个标准的类，包含静态方法，私有成员变量</p>
-<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p><a href="http://www.ruanyifeng.com/blog/2011/06/designing_ideas_of_inheritance_mechanism_in_javascript.html" target="_blank" rel="noopener">Javascript继承机制的设计思想</a></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>ES6 中的 <code>Class</code>，实质上还是原型链继承的产物。这次我们深入探究了原型链的产生原因，ES6为何要加入 <code>Class</code>这一概念，<code>Class</code> 与原型链之间的联系，以及如何用原型链 + 构造函数、ES6 中的 Class 创建一个 ”类“。下一篇文章中，我们会探究如何用 JavaScript 构造一个标准的类，包含静态方法，私有成员变量</p>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p><a href="http://www.ruanyifeng.com/blog/2011/06/designing_ideas_of_inheritance_mechanism_in_JavaScript.html" target="_blank" rel="noopener">JavaScript继承机制的设计思想</a></p>
 
       
     </div>
@@ -571,7 +571,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Javascript/" rel="tag"># Javascript</a>
+            <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
           
         </div>
       
@@ -594,8 +594,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018-08-12.html" rel="prev" title="Javascript 闭包">
-                Javascript 闭包 <i class="fa fa-chevron-right"></i>
+              <a href="/2018-08-12.html" rel="prev" title="JavaScript 闭包">
+                JavaScript 闭包 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -808,7 +808,7 @@
       <i class="fa fa-area-chart"></i>
     </span>
     
-    <span title="站点总字数">111k</span>
+    <span title="站点总字数">120k</span>
   
 
   
@@ -817,7 +817,7 @@
       <i class="fa fa-coffee"></i>
     </span>
     
-    <span title="站点阅读时长">1:41</span>
+    <span title="站点阅读时长">1:49</span>
   
 </div>
 

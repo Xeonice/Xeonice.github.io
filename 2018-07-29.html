@@ -133,19 +133,19 @@
 
 
 
-  <meta name="description" content="我们为什么要在 Javascript 中使用异步模式进行开发？Javascript 中有哪些实现异步模式的方式？如何才能避免陷入回调地狱？Promise、Generator、async/await 的作用是什么？">
-<meta name="keywords" content="异步, Javascript 异步实现, 回调地狱">
+  <meta name="description" content="我们为什么要在 JavaScript 中使用异步模式进行开发？JavaScript 中有哪些实现异步模式的方式？如何才能避免陷入回调地狱？Promise、Generator、async/await 的作用是什么？">
+<meta name="keywords" content="异步, JavaScript 异步实现, 回调地狱">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Javascript 异步编程迷思">
+<meta property="og:title" content="JavaScript 异步编程迷思">
 <meta property="og:url" content="https://www.douglasdong.site/2018-07-29.html">
 <meta property="og:site_name" content="Helve&#39;s Blog">
-<meta property="og:description" content="我们为什么要在 Javascript 中使用异步模式进行开发？Javascript 中有哪些实现异步模式的方式？如何才能避免陷入回调地狱？Promise、Generator、async/await 的作用是什么？">
+<meta property="og:description" content="我们为什么要在 JavaScript 中使用异步模式进行开发？JavaScript 中有哪些实现异步模式的方式？如何才能避免陷入回调地狱？Promise、Generator、async/await 的作用是什么？">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://imagetemp.oss-cn-beijing.aliyuncs.com/2018-08-07-v2-0a8d20afae14a3991283cf6e9050f677_r.jpg">
-<meta property="og:updated_time" content="2018-08-12T01:39:43.461Z">
+<meta property="og:updated_time" content="2018-08-13T07:25:41.611Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Javascript 异步编程迷思">
-<meta name="twitter:description" content="我们为什么要在 Javascript 中使用异步模式进行开发？Javascript 中有哪些实现异步模式的方式？如何才能避免陷入回调地狱？Promise、Generator、async/await 的作用是什么？">
+<meta name="twitter:title" content="JavaScript 异步编程迷思">
+<meta name="twitter:description" content="我们为什么要在 JavaScript 中使用异步模式进行开发？JavaScript 中有哪些实现异步模式的方式？如何才能避免陷入回调地狱？Promise、Generator、async/await 的作用是什么？">
 <meta name="twitter:image" content="https://imagetemp.oss-cn-beijing.aliyuncs.com/2018-08-07-v2-0a8d20afae14a3991283cf6e9050f677_r.jpg">
 
 
@@ -165,7 +165,7 @@
   };
 </script>
 
-  <title>Javascript 异步编程迷思 | Helve's Blog</title>
+  <title>JavaScript 异步编程迷思 | Helve's Blog</title>
   
 
 
@@ -359,7 +359,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">Javascript 异步编程迷思
+          <h2 class="post-title" itemprop="name headline">JavaScript 异步编程迷思
               
             
           </h2>
@@ -402,7 +402,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Javascript-异步执行/" itemprop="url" rel="index"><span itemprop="name">Javascript 异步执行</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/JavaScript-异步执行/" itemprop="url" rel="index"><span itemprop="name">JavaScript 异步执行</span></a></span>
 
                 
                 
@@ -460,7 +460,7 @@
           
 
           
-              <div class="post-description">我们为什么要在 Javascript 中使用异步模式进行开发？Javascript 中有哪些实现异步模式的方式？如何才能避免陷入回调地狱？Promise、Generator、async/await 的作用是什么？</div>
+              <div class="post-description">我们为什么要在 JavaScript 中使用异步模式进行开发？JavaScript 中有哪些实现异步模式的方式？如何才能避免陷入回调地狱？Promise、Generator、async/await 的作用是什么？</div>
           
 
         </div>
@@ -476,8 +476,8 @@
       
 
       
-        <script src="/assets/js/APlayer.min.js"> </script><h1 id="为什么要异步编程？"><a href="#为什么要异步编程？" class="headerlink" title="为什么要异步编程？"></a>为什么要异步编程？</h1><p>Javascript 问世之初便是作为浏览器的辅助语言进行开发的，同时由于 Javascript 普遍用于浏览器的 GUI 开发，因此需要线程不能被阻塞</p>
-<p>因此，Javascript 在之后的发展过程中都采用异步非阻塞的编程模式，也就是说，<strong>在执行一个指令后不是马上得到结果，继续执行命令，等到特定的事件触发以后，才得到结果</strong>，这也是我们常说的：Javascript 是由事件驱动的</p>
+        <script src="/assets/js/APlayer.min.js"> </script><h1 id="为什么要异步编程？"><a href="#为什么要异步编程？" class="headerlink" title="为什么要异步编程？"></a>为什么要异步编程？</h1><p>JavaScript 问世之初便是作为浏览器的辅助语言进行开发的，同时由于 JavaScript 普遍用于浏览器的 GUI 开发，因此需要线程不能被阻塞</p>
+<p>因此，JavaScript 在之后的发展过程中都采用异步非阻塞的编程模式，也就是说，<strong>在执行一个指令后不是马上得到结果，继续执行命令，等到特定的事件触发以后，才得到结果</strong>，这也是我们常说的：JavaScript 是由事件驱动的</p>
 <h1 id="异步实现"><a href="#异步实现" class="headerlink" title="异步实现"></a>异步实现</h1><p>现目前的异步实现主要有以下几种实现方式：</p>
 <ul>
 <li><code>回调</code></li>
@@ -542,7 +542,7 @@
     <strong>本文作者： </strong>Helvetica.D</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://www.douglasdong.site/2018-07-29.html" title="Javascript 异步编程迷思">https://www.douglasdong.site/2018-07-29.html</a>
+    <a href="https://www.douglasdong.site/2018-07-29.html" title="JavaScript 异步编程迷思">https://www.douglasdong.site/2018-07-29.html</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -555,7 +555,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Javascript/" rel="tag"># Javascript</a>
+            <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
           
         </div>
       
@@ -792,7 +792,7 @@
       <i class="fa fa-area-chart"></i>
     </span>
     
-    <span title="站点总字数">111k</span>
+    <span title="站点总字数">120k</span>
   
 
   
@@ -801,7 +801,7 @@
       <i class="fa fa-coffee"></i>
     </span>
     
-    <span title="站点阅读时长">1:41</span>
+    <span title="站点阅读时长">1:49</span>
   
 </div>
 

@@ -133,20 +133,20 @@
 
 
 
-  <meta name="description" content="Javascript 的异步编程极度依赖事件循环，这一点也是在面试中经常考察的一部分。单线程的 Javascript 中各个事件是如何被调用的？它们之间的执行顺序又是如何？">
+  <meta name="description" content="JavaScript 的异步编程极度依赖事件循环，这一点也是在面试中经常考察的一部分。单线程的 JavaScript 中各个事件是如何被调用的？它们之间的执行顺序又是如何？">
 <meta name="keywords" content="Promise, 事件循环, 宏任务, 微任务,">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Javascript 执行机制解析">
+<meta property="og:title" content="JavaScript 执行机制解析">
 <meta property="og:url" content="https://www.douglasdong.site/2018-04-21.html">
 <meta property="og:site_name" content="Helve&#39;s Blog">
-<meta property="og:description" content="Javascript 的异步编程极度依赖事件循环，这一点也是在面试中经常考察的一部分。单线程的 Javascript 中各个事件是如何被调用的？它们之间的执行顺序又是如何？">
+<meta property="og:description" content="JavaScript 的异步编程极度依赖事件循环，这一点也是在面试中经常考察的一部分。单线程的 JavaScript 中各个事件是如何被调用的？它们之间的执行顺序又是如何？">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://user-gold-cdn.xitu.io/2017/11/21/15fdd88994142347?imageView2/0/w/1280/h/960/ignore-error/1">
 <meta property="og:image" content="https://user-gold-cdn.xitu.io/2017/11/21/15fdcea13361a1ec?imageView2/0/w/1280/h/960/ignore-error/1">
-<meta property="og:updated_time" content="2018-08-12T01:51:26.159Z">
+<meta property="og:updated_time" content="2018-08-13T07:25:57.400Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Javascript 执行机制解析">
-<meta name="twitter:description" content="Javascript 的异步编程极度依赖事件循环，这一点也是在面试中经常考察的一部分。单线程的 Javascript 中各个事件是如何被调用的？它们之间的执行顺序又是如何？">
+<meta name="twitter:title" content="JavaScript 执行机制解析">
+<meta name="twitter:description" content="JavaScript 的异步编程极度依赖事件循环，这一点也是在面试中经常考察的一部分。单线程的 JavaScript 中各个事件是如何被调用的？它们之间的执行顺序又是如何？">
 <meta name="twitter:image" content="https://user-gold-cdn.xitu.io/2017/11/21/15fdd88994142347?imageView2/0/w/1280/h/960/ignore-error/1">
 
 
@@ -166,7 +166,7 @@
   };
 </script>
 
-  <title>Javascript 执行机制解析 | Helve's Blog</title>
+  <title>JavaScript 执行机制解析 | Helve's Blog</title>
   
 
 
@@ -360,7 +360,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">Javascript 执行机制解析
+          <h2 class="post-title" itemprop="name headline">JavaScript 执行机制解析
               
             
           </h2>
@@ -403,7 +403,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Javascript-异步执行/" itemprop="url" rel="index"><span itemprop="name">Javascript 异步执行</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/JavaScript-异步执行/" itemprop="url" rel="index"><span itemprop="name">JavaScript 异步执行</span></a></span>
 
                 
                 
@@ -461,7 +461,7 @@
           
 
           
-              <div class="post-description">Javascript 的异步编程极度依赖事件循环，这一点也是在面试中经常考察的一部分。单线程的 Javascript 中各个事件是如何被调用的？它们之间的执行顺序又是如何？</div>
+              <div class="post-description">JavaScript 的异步编程极度依赖事件循环，这一点也是在面试中经常考察的一部分。单线程的 JavaScript 中各个事件是如何被调用的？它们之间的执行顺序又是如何？</div>
           
 
         </div>
@@ -477,8 +477,8 @@
       
 
       
-        <script src="/assets/js/APlayer.min.js"> </script><h1 id="关于-Javascript"><a href="#关于-Javascript" class="headerlink" title="关于 Javascript"></a>关于 Javascript</h1><p>Javascript 是一门单线程语言，在最新的 HTML5 中提出了 <code>Web-worker</code>，但 Javascript 是单线程这一核心并未改变，所以，一切 Javascript 版的“多线程”都是用单线程模拟出来的。</p>
-<h1 id="Javascript-事件循环"><a href="#Javascript-事件循环" class="headerlink" title="Javascript 事件循环"></a>Javascript 事件循环</h1><p>既然 JS 是单线程，那就像只有一个窗口的银行，客户需要一个一个办理业务，同理 JS 任务也要一个一个顺序执行，如果一个任务耗时过长，那么后一个任务也必须等着，那么问题来了，<strong>假如我们想浏览新闻，但是新闻包含的超清图片加载很慢，难道我们的网页要一直卡着直到图片完全显示出来？</strong>因此聪明的程序员将其分为两类：</p>
+        <script src="/assets/js/APlayer.min.js"> </script><h1 id="关于-JavaScript"><a href="#关于-JavaScript" class="headerlink" title="关于 JavaScript"></a>关于 JavaScript</h1><p>JavaScript 是一门单线程语言，在最新的 HTML5 中提出了 <code>Web-worker</code>，但 JavaScript 是单线程这一核心并未改变，所以，一切 JavaScript 版的“多线程”都是用单线程模拟出来的。</p>
+<h1 id="JavaScript-事件循环"><a href="#JavaScript-事件循环" class="headerlink" title="JavaScript 事件循环"></a>JavaScript 事件循环</h1><p>既然 JS 是单线程，那就像只有一个窗口的银行，客户需要一个一个办理业务，同理 JS 任务也要一个一个顺序执行，如果一个任务耗时过长，那么后一个任务也必须等着，那么问题来了，<strong>假如我们想浏览新闻，但是新闻包含的超清图片加载很慢，难道我们的网页要一直卡着直到图片完全显示出来？</strong>因此聪明的程序员将其分为两类：</p>
 <ul>
 <li>同步任务</li>
 <li>异步任务</li>
@@ -494,7 +494,7 @@
 <li>上述过程会不断重复，也就是常说的 <code>Event Loop</code>（事件循环）</li>
 </ul>
 <p>怎么知道主线程执行栈为空？JS 引擎存在 <code>monitor process</code> 进程，会持续不断的检查主进程执行栈是否为空，一旦为空，就会去 Event Queue 那里检查是否有等待被调用的函数</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> data = [];</span><br><span class="line">$ajax(&#123;</span><br><span class="line">    url: www.javascript.com,</span><br><span class="line">    data: data,</span><br><span class="line">    success: <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'发送成功'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">)&#125;</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'代码执行结束'</span>);    </span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> data = [];</span><br><span class="line">$ajax(&#123;</span><br><span class="line">    url: www.JavaScript.com,</span><br><span class="line">    data: data,</span><br><span class="line">    success: <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'发送成功'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">)&#125;</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'代码执行结束'</span>);    </span><br></pre></td></tr></table></figure>
 <p>上面是一段简易的 <code>ajax</code> 请求代码</p>
 <ul>
 <li><code>ajax</code> 进入 <code>Event Table</code>，注册回调函数 <code>success</code></li>
@@ -646,17 +646,17 @@
 </ul>
 <p>整段代码，共进行了三次事件循环，完整的输出为 1、7、6、8、2、4、3、5、9、11、10、12（请注意，node 环境下的事件监听依赖 libuv 和前端环境不完全相同，输出顺序可能会有误差）</p>
 <h1 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h1><p><strong>（1）js 的异步</strong></p>
-<p>我们从最开头就说 Javascript 是一门单线程语言，不管是什么新框架新语法糖实现的所谓异步，其实都是用同步的方法去模拟的，牢牢把握住单线程这点非常重要</p>
+<p>我们从最开头就说 JavaScript 是一门单线程语言，不管是什么新框架新语法糖实现的所谓异步，其实都是用同步的方法去模拟的，牢牢把握住单线程这点非常重要</p>
 <p><strong>（2）事件循环 Event loop</strong></p>
 <p>事件循环是 js 实现异步的一种方法，也是 js 的执行机制</p>
-<p><strong>（3）Javascript 的执行和运行</strong></p>
-<p>执行和运行有很大的区别，Javascript 在不同的环境下，比如 node，浏览器，Ringo 等等，执行方式是不同的，而运行大多指 Javascript 解析引擎，是统一的</p>
+<p><strong>（3）JavaScript 的执行和运行</strong></p>
+<p>执行和运行有很大的区别，JavaScript 在不同的环境下，比如 node，浏览器，Ringo 等等，执行方式是不同的，而运行大多指 JavaScript 解析引擎，是统一的</p>
 <p><strong>（4）settimemediate</strong></p>
 <p>微任务和宏任务还有很多种类，比如 <code>setImmediate</code> 等等，执行都是有共同点的，有兴趣的同学可以自行了解</p>
 <p><strong>（5）最后的最后</strong></p>
 <ul>
-<li>Javascript 是一门单线程语言</li>
-<li><code>Event Loop</code> 是 Javascript 的执行机制</li>
+<li>JavaScript 是一门单线程语言</li>
+<li><code>Event Loop</code> 是 JavaScript 的执行机制</li>
 </ul>
 <p>转载至：<br>作者：ssssyoki<br>链接：<a href="https://juejin.im/post/59e85eebf265da430d571f89" target="_blank" rel="noopener">https://juejin.im/post/59e85eebf265da430d571f89</a><br>来源：掘金<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
 
@@ -680,7 +680,7 @@
     <strong>本文作者： </strong>Helvetica.D</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://www.douglasdong.site/2018-04-21.html" title="Javascript 执行机制解析">https://www.douglasdong.site/2018-04-21.html</a>
+    <a href="https://www.douglasdong.site/2018-04-21.html" title="JavaScript 执行机制解析">https://www.douglasdong.site/2018-04-21.html</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -693,7 +693,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Javascript/" rel="tag"># Javascript</a>
+            <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
           
         </div>
       
@@ -896,7 +896,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#关于-Javascript"><span class="nav-number">1.</span> <span class="nav-text">关于 Javascript</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Javascript-事件循环"><span class="nav-number">2.</span> <span class="nav-text">Javascript 事件循环</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#又爱又恨的-setTimeout"><span class="nav-number">3.</span> <span class="nav-text">又爱又恨的 setTimeout</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#又恨又爱的-setInterval"><span class="nav-number">4.</span> <span class="nav-text">又恨又爱的 setInterval</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Promise-与-process-nextTick-callback"><span class="nav-number">5.</span> <span class="nav-text">Promise 与 process.nextTick(callback)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#写在最后"><span class="nav-number">6.</span> <span class="nav-text">写在最后</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#关于-JavaScript"><span class="nav-number">1.</span> <span class="nav-text">关于 JavaScript</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JavaScript-事件循环"><span class="nav-number">2.</span> <span class="nav-text">JavaScript 事件循环</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#又爱又恨的-setTimeout"><span class="nav-number">3.</span> <span class="nav-text">又爱又恨的 setTimeout</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#又恨又爱的-setInterval"><span class="nav-number">4.</span> <span class="nav-text">又恨又爱的 setInterval</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Promise-与-process-nextTick-callback"><span class="nav-number">5.</span> <span class="nav-text">Promise 与 process.nextTick(callback)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#写在最后"><span class="nav-number">6.</span> <span class="nav-text">写在最后</span></a></li></ol></div>
             
 
           </div>
@@ -930,7 +930,7 @@
       <i class="fa fa-area-chart"></i>
     </span>
     
-    <span title="站点总字数">111k</span>
+    <span title="站点总字数">120k</span>
   
 
   
@@ -939,7 +939,7 @@
       <i class="fa fa-coffee"></i>
     </span>
     
-    <span title="站点阅读时长">1:41</span>
+    <span title="站点阅读时长">1:49</span>
   
 </div>
 
