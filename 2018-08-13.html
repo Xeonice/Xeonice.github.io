@@ -144,7 +144,7 @@
 <meta property="og:image" content="https://imagetemp.oss-cn-beijing.aliyuncs.com/2018-08-13-1.png">
 <meta property="og:image" content="https://imagetemp.oss-cn-beijing.aliyuncs.com/2018-08-13-2.png">
 <meta property="og:image" content="https://imagetemp.oss-cn-beijing.aliyuncs.com/2018-08-13-3.png">
-<meta property="og:updated_time" content="2018-08-13T11:49:42.800Z">
+<meta property="og:updated_time" content="2018-08-13T11:57:25.909Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DOM 事件详解">
 <meta name="twitter:description" content="JavaScript 中的 DOM 是什么？我们应该如何利用浏览器提供的 DOM 对象？JavaScript 的 DOM 有什么实际运用？什么是事件冒泡？什么是事件代理？">
@@ -532,8 +532,7 @@
 <p><img src="https://imagetemp.oss-cn-beijing.aliyuncs.com/2018-08-13-2.png" alt="2"></p>
 <p>如上图所示，<code>click</code> 首先会在 <code>div</code> 元素上发生，然后沿着 <code>DOM</code> 树向上传播，每一级节点都会发生，直至传到 <code>document</code> 对象</p>
 <p>示例：</p>
-<p></p><p data-height="300" data-theme-id="31829" data-slug-hash="VBRrQJ" data-default-tab="JavaScript,result" data-user="Xeonice" data-pen-title="VBRrQJ" class="codepen">See the Pen <a href="https://codepen.io/Xeonice/pen/VBRrQJ/" target="_blank" rel="noopener">VBRrQJ</a> by DouglasDong (<a href="https://codepen.io/Xeonice" target="_blank" rel="noopener">@Xeonice</a>) on <a href="https://codepen.io" target="_blank" rel="noopener">CodePen</a>.</p><p></p>
-<script async src="https://static.codepen.io/assets/embed/ei.JavaScript"></script>
+<iframe height="489" scrolling="no" title="VBRrQJ" src="//codepen.io/Xeonice/embed/VBRrQJ/?height=489&theme-id=31829&default-tab=js,result&embed-version=2" frameborder="no" allowtransparency="true" allowfullscreen="true" style="width: 100%;">See the Pen <a href="https://codepen.io/Xeonice/pen/VBRrQJ/" target="_blank" rel="noopener">VBRrQJ</a> by DouglasDong (<a href="https://codepen.io/Xeonice" target="_blank" rel="noopener">@Xeonice</a>) on <a href="https://codepen.io" target="_blank" rel="noopener">CodePen</a>.<br></iframe>
 
 <p>PS：几乎所有的现代浏览器都支持事件冒泡，不过有一些细微的区别</p>
 <p><code>IE5.5</code> 和 <code>IE5.5 -</code> 版本的事件冒泡会跳过 HTML 元素（<code>body</code> 直接到 <code>document</code>）<br><code>IE9</code>、<code>Firefox</code>、<code>Chrome</code>、<code>Safari</code> 则一直冒泡到 <code>window</code> 对象。</p>
@@ -550,8 +549,7 @@
 </ul>
 <p>在 <code>DOM 2 级事件流</code>中，一旦我们点击之前代码中的 <code>div</code>，在事件捕获阶段从 <code>document -&gt;html -&gt;body</code> 就停止了（<code>div</code> 元素在这个阶段并不会接收到点击事件）。紧接着，事件在 <code>div</code> 上发生，并把事件真正的处理看成是冒泡阶段的一部分，然后，冒泡阶段发生，事件又回传到 <code>document</code>。</p>
 <p>示例：</p>
-<p></p><p data-height="300" data-theme-id="31829" data-slug-hash="rrRpxP" data-default-tab="JavaScript,result" data-user="Xeonice" data-pen-title="rrRpxP" class="codepen">See the Pen <a href="https://codepen.io/Xeonice/pen/rrRpxP/" target="_blank" rel="noopener">rrRpxP</a> by DouglasDong (<a href="https://codepen.io/Xeonice" target="_blank" rel="noopener">@Xeonice</a>) on <a href="https://codepen.io" target="_blank" rel="noopener">CodePen</a>.</p><p></p>
-<script async src="https://static.codepen.io/assets/embed/ei.JavaScript"></script>
+<iframe height="505" scrolling="no" title="rrRpxP" src="//codepen.io/Xeonice/embed/rrRpxP/?height=505&theme-id=31829&default-tab=js,result&embed-version=2" frameborder="no" allowtransparency="true" allowfullscreen="true" style="width: 100%;">See the Pen <a href="https://codepen.io/Xeonice/pen/rrRpxP/" target="_blank" rel="noopener">rrRpxP</a> by DouglasDong (<a href="https://codepen.io/Xeonice" target="_blank" rel="noopener">@Xeonice</a>) on <a href="https://codepen.io" target="_blank" rel="noopener">CodePen</a>.<br></iframe>
 
 <h2 id="事件流的典型应用-——-事件代理"><a href="#事件流的典型应用-——-事件代理" class="headerlink" title="事件流的典型应用 —— 事件代理"></a>事件流的典型应用 —— 事件代理</h2><p>传统的事件处理中，需要为每个元素添加事件处理器。JavaScript 事件代理则是一种简单有效的技巧，通过它可以把事件处理器添加到一个父级元素上，从而避免把事件处理器添加到多个子级元素上。</p>
 <p>事件代理的原理用到的就是事件冒泡和目标元素，把事件处理器添加到父元素，等待子元素事件冒泡，并且父元素能够通过 <code>target</code>（IE 为 <code>srcElement</code>）判断是哪个子元素，从而做相应处理, 下面举例说明：</p>
