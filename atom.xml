@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://www.douglasdong.site/"/>
-  <updated>2018-08-13T01:37:22.451Z</updated>
+  <updated>2018-08-13T02:15:06.951Z</updated>
   <id>https://www.douglasdong.site/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>DOM 事件详解</title>
+    <link href="https://www.douglasdong.site/2018-08-13.html"/>
+    <id>https://www.douglasdong.site/2018-08-13.html</id>
+    <published>2018-08-13T01:38:42.000Z</published>
+    <updated>2018-08-13T02:15:06.951Z</updated>
+    
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h1 id="什么是-DOM？"><a href="#什么是-DOM？" class="headerlink" title="什么是 DOM？"></a>什么是 DOM？</h1>]]></content>
+    
+    <summary type="html">
+    
+      Javascript 中的 DOM 是什么？我们应该如何利用浏览器提供的 DOM 对象？Javascript 的 DOM 有什么实际运用？什么是事件冒泡？什么是事件代理？
+    
+    </summary>
+    
+      <category term="Javascript基础" scheme="https://www.douglasdong.site/categories/Javascript%E5%9F%BA%E7%A1%80/"/>
+    
+    
+      <category term="Javascript" scheme="https://www.douglasdong.site/tags/Javascript/"/>
+    
+  </entry>
   
   <entry>
     <title>Javascript 闭包</title>
