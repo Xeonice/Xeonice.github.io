@@ -144,7 +144,7 @@
 <meta property="og:image" content="https://imagetemp.oss-cn-beijing.aliyuncs.com/2018-08-13-1.png">
 <meta property="og:image" content="https://imagetemp.oss-cn-beijing.aliyuncs.com/2018-08-13-2.png">
 <meta property="og:image" content="https://imagetemp.oss-cn-beijing.aliyuncs.com/2018-08-13-3.png">
-<meta property="og:updated_time" content="2018-08-13T11:35:23.230Z">
+<meta property="og:updated_time" content="2018-08-13T11:46:09.303Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DOM 事件详解">
 <meta name="twitter:description" content="JavaScript 中的 DOM 是什么？我们应该如何利用浏览器提供的 DOM 对象？JavaScript 的 DOM 有什么实际运用？什么是事件冒泡？什么是事件代理？">
@@ -520,10 +520,10 @@
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;button id=<span class="string">"btn"</span> type=<span class="string">"button"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line"><span class="keyword">var</span> btn = <span class="built_in">document</span>.getElementById(<span class="string">'btn'</span>);</span><br><span class="line">btn.onclick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'Hello World'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>以上的代码中，我们给 <code>button</code> 定义了一个 <code>id</code>，通过 JavaScript 原生的 api 获取按钮，将一个函数赋值给了一个事件处理属性 <code>onclick</code> 这样的方法就是 <code>DOM 0 级事件处理</code>的体现。我们可以通过给事件处理属性赋值 <code>null</code> 来解绑事件。</p>
 <p><code>DOM 0 级事件处理程序</code>的缺点在于一个处理程序无法同时绑定多个处理函数，比如我还想再点击按钮事件上加上另外一个函数，这也是为什么后来会发展出 <code>DOM 2 级事件处理</code>的原因</p>
-<h1 id="DOM-2-级事件"><a href="#DOM-2-级事件" class="headerlink" title="DOM 2 级事件"></a>DOM 2 级事件</h1><p>在提到 <code>`DOM</code> 2 级事件`之前，我们要先来聊聊事件流</p>
+<h1 id="DOM-2-级事件"><a href="#DOM-2-级事件" class="headerlink" title="DOM 2 级事件"></a>DOM 2 级事件</h1><p>在提到 <code>DOM 2 级事件</code> 之前，我们要先来聊聊事件流</p>
 <h2 id="事件流"><a href="#事件流" class="headerlink" title="事件流"></a>事件流</h2><p>首先，我们思考一个很有意思的事情：</p>
 <p>一张纸上画了两个同心圆，当我们把手指放到圆心上时，手指指向的不是一个圆，而是纸上的两个圆，同理之，当我们单击网页上的一个 <code>div</code> 块的时候（代码片段一），单击事件会仅仅作用在这个 <code>div</code> 上面吗？ </p>
-<p>在浏览器发展到第四代时，IE 和 Netscape 的开发团队都遇到这个问题，他们都一致认为，除了单击 <code>div</code> 块，我们也单击了 <code>body</code>、 HTML、甚至是整个 <code>document</code>，但不幸的是两个团队针对事件流模型产生了两个完全相反的概念。</p>
+<p>在浏览器发展到第四代时，IE 和 Netscape 的开发团队都遇到这个问题，他们都一致认为，除了单击 <code>div</code> 块，我们也单击了 <code>body</code>、 <code>html</code>、甚至是整个 <code>document</code>，但不幸的是两个团队针对事件流模型产生了两个完全相反的概念。</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>事件流<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"box"</span>&gt;</span>Click me<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <h3 id="事件冒泡"><a href="#事件冒泡" class="headerlink" title="事件冒泡"></a>事件冒泡</h3><p>IE 团队提出的解决方案称为事件冒泡</p>
 <p>即：事件由最具体的元素接收（<code>div</code>），逐级向上传播到不具体的节点（<code>document</code>）</p>
@@ -563,7 +563,7 @@
 <ul>
 <li><p>将多个事件处理器减少到一个，因为事件处理器要驻留内存，这样就提高了性能。想象如果有一个 100 行的表格，对比传统的为每个单元格绑定事件处理器的方式和事件代理（即 <code>table</code> 上添加一个事件处理器），不难得出结论，事件代理确实避免了一些潜在的风险，提高了性能。</p>
 </li>
-<li><p><code>DOM</code>更新无需重新绑定事件处理器，因为事件代理对不同子元素可采用不同处理方法。如果新增其他子元素（<code>a</code>, <code>span</code>, <code>div</code>等），直接修改事件代理的事件处理函数即可，不需要重新绑定处理器，不需要再次循环遍历。</p>
+<li><p><code>DOM</code> 更新无需重新绑定事件处理器，因为事件代理对不同子元素可采用不同处理方法。如果新增其他子元素（<code>a</code>, <code>span</code>, <code>div</code>等），直接修改事件代理的事件处理函数即可，不需要重新绑定处理器，不需要再次循环遍历。</p>
 </li>
 </ul>
 <h2 id="阻止事件冒泡"><a href="#阻止事件冒泡" class="headerlink" title="阻止事件冒泡"></a>阻止事件冒泡</h2><p>事件冒泡是可以被阻止的，防止事件冒泡带来的不必要困扰</p>
@@ -572,7 +572,7 @@
 <p>事件到达具体元素后会停止冒泡，但不影响父元素的事件捕获</p>
 <h2 id="阻止默认行为"><a href="#阻止默认行为" class="headerlink" title="阻止默认行为"></a>阻止默认行为</h2><p>同样的，开发过程中经常需要阻止元素的默认行为，这时候需要调用 <code>preventDefault()</code></p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">button.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// event为事件对象</span></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'1. You click Button'</span>);</span><br><span class="line">    event.preventDefault();</span><br><span class="line">&#125;, <span class="literal">false</span>);</span><br></pre></td></tr></table></figure>
-<h1 id="DOM-3-级事件"><a href="#DOM-3-级事件" class="headerlink" title="DOM 3 级事件"></a><code>DOM</code> 3 级事件</h1><p><code>DOM 3 级事件在``DOM 2 级事件</code>的基础上添加了很多事件类型。</p>
+<h1 id="DOM-3-级事件"><a href="#DOM-3-级事件" class="headerlink" title="DOM 3 级事件"></a>DOM 3 级事件</h1><p><code>DOM 3 级事件</code> 在 <code>DOM 2 级事件</code>的基础上添加了很多事件类型。</p>
 <ul>
 <li>UI事件，当用户与页面上的元素交互时触发，如：<code>load</code>、<code>scroll</code></li>
 <li>焦点事件，当元素获得或失去焦点时触发，如：<code>blur</code>、<code>focus</code></li>
