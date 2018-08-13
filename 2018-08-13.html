@@ -144,7 +144,7 @@
 <meta property="og:image" content="https://imagetemp.oss-cn-beijing.aliyuncs.com/2018-08-13-1.png">
 <meta property="og:image" content="https://imagetemp.oss-cn-beijing.aliyuncs.com/2018-08-13-2.png">
 <meta property="og:image" content="https://imagetemp.oss-cn-beijing.aliyuncs.com/2018-08-13-3.png">
-<meta property="og:updated_time" content="2018-08-13T11:46:09.303Z">
+<meta property="og:updated_time" content="2018-08-13T11:49:42.800Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DOM 事件详解">
 <meta name="twitter:description" content="JavaScript 中的 DOM 是什么？我们应该如何利用浏览器提供的 DOM 对象？JavaScript 的 DOM 有什么实际运用？什么是事件冒泡？什么是事件代理？">
@@ -515,7 +515,7 @@
 <p>为什么没有 <code>DOM 1 级事件处理</code>？因为 1 级 <code>DOM</code> 标准中并没有定义事件相关的内容，所以没有所谓的 <code>1 级 DOM 事件模型</code>。</p>
 <h2 id="DOM-0-级事件"><a href="#DOM-0-级事件" class="headerlink" title="DOM 0 级事件"></a>DOM 0 级事件</h2><p>HTML 程序是最早的事件处理程序方式，如下文所示</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;button type=<span class="string">"button"</span> onclick=<span class="string">"showFn()"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">showFn</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  alert(<span class="string">'Hello World'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>我们通过直接在 HTML 代码里面定义了一个 <code>onclick</code> 属性触发 <code>showFn</code>，这样的事件处理程序最大的缺点就是 HTML 和 <code>JavaScriptJavaScript</code> 耦合性太强，我们如果需要修改函数名就必须修改两个地方，优点是不需要操作 <code>DOM</code> 来完成事件的绑定</p>
+<p>我们通过直接在 HTML 代码里面定义了一个 <code>onclick</code> 属性触发 <code>showFn</code>，这样的事件处理程序最大的缺点就是 HTML 和 Javascript 耦合性太强，我们如果需要修改函数名就必须修改两个地方，优点是不需要操作 <code>DOM</code> 来完成事件的绑定</p>
 <p><strong>DOM 0 级事件就是将一个函数赋值给一个事件处理属性</strong></p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;button id=<span class="string">"btn"</span> type=<span class="string">"button"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line"><span class="keyword">var</span> btn = <span class="built_in">document</span>.getElementById(<span class="string">'btn'</span>);</span><br><span class="line">btn.onclick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'Hello World'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>以上的代码中，我们给 <code>button</code> 定义了一个 <code>id</code>，通过 JavaScript 原生的 api 获取按钮，将一个函数赋值给了一个事件处理属性 <code>onclick</code> 这样的方法就是 <code>DOM 0 级事件处理</code>的体现。我们可以通过给事件处理属性赋值 <code>null</code> 来解绑事件。</p>
