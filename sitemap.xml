@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://www.douglasdong.site/categories/index.html</loc>
+    
+    <lastmod>2018-08-14T03:13:43.330Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.douglasdong.site/tags/index.html</loc>
+    
+    <lastmod>2018-08-14T03:13:35.153Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://www.douglasdong.site/2018-08-13.html</loc>
     
     <lastmod>2018-08-13T11:57:25.909Z</lastmod>
@@ -103,20 +117,6 @@
     <loc>https://www.douglasdong.site/2018-02-05.html</loc>
     
     <lastmod>2018-08-06T15:01:52.535Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://www.douglasdong.site/tags/index.html</loc>
-    
-    <lastmod>2017-09-25T14:55:04.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://www.douglasdong.site/categories/index.html</loc>
-    
-    <lastmod>2017-09-25T14:32:59.000Z</lastmod>
     
   </url>
   
