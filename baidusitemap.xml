@@ -4,8 +4,48 @@
 
     
   <url>
+    <loc>https://www.douglasdong.site/2018-04-21.html</loc>
+    <lastmod>2018-08-14T10:11:45.977Z</lastmod>
+    <data>
+        <display>
+        <title>JavaScript 执行机制解析</title>
+        <pubTime>2018-04-21T12:33:24.000Z</pubTime>
+        
+        <tag>JavaScript</tag>
+         
+         
+           
+             
+              <breadCrumb title="JavaScript 异步执行" url="https://www.douglasdong.site/categories/JavaScript-%E5%BC%82%E6%AD%A5%E6%89%A7%E8%A1%8C/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://www.douglasdong.site/2018-08-08.html</loc>
+    <lastmod>2018-08-14T10:10:42.857Z</lastmod>
+    <data>
+        <display>
+        <title>this、apply、call、bind</title>
+        <pubTime>2018-08-08T06:44:52.000Z</pubTime>
+        
+        <tag>JavaScript</tag>
+         
+         
+           
+             
+              <breadCrumb title="JavaScript 基础" url="https://www.douglasdong.site/categories/JavaScript-%E5%9F%BA%E7%A1%80/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://www.douglasdong.site/2018-08-14.html</loc>
-    <lastmod>2018-08-14T10:07:31.326Z</lastmod>
+    <lastmod>2018-08-14T10:10:26.835Z</lastmod>
     <data>
         <display>
         <title>Cookie、Session、LocalStorage、SessionStorage 详解</title>
@@ -66,26 +106,6 @@
 
     
   <url>
-    <loc>https://www.douglasdong.site/2018-04-21.html</loc>
-    <lastmod>2018-08-13T07:25:57.400Z</lastmod>
-    <data>
-        <display>
-        <title>JavaScript 执行机制解析</title>
-        <pubTime>2018-04-21T12:33:24.000Z</pubTime>
-        
-        <tag>JavaScript</tag>
-         
-         
-           
-             
-              <breadCrumb title="JavaScript 异步执行" url="https://www.douglasdong.site/categories/JavaScript-%E5%BC%82%E6%AD%A5%E6%89%A7%E8%A1%8C/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>https://www.douglasdong.site/2018-06-02.html</loc>
     <lastmod>2018-08-13T07:25:50.383Z</lastmod>
     <data>
@@ -119,26 +139,6 @@
            
              
               <breadCrumb title="JavaScript 异步执行" url="https://www.douglasdong.site/categories/JavaScript-%E5%BC%82%E6%AD%A5%E6%89%A7%E8%A1%8C/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://www.douglasdong.site/2018-08-08.html</loc>
-    <lastmod>2018-08-13T07:25:30.849Z</lastmod>
-    <data>
-        <display>
-        <title>this、apply、call、bind</title>
-        <pubTime>2018-08-08T06:44:52.000Z</pubTime>
-        
-        <tag>JavaScript</tag>
-         
-         
-           
-             
-              <breadCrumb title="JavaScript 基础" url="https://www.douglasdong.site/categories/JavaScript-%E5%9F%BA%E7%A1%80/"/>
           
         </display>
     </data>
