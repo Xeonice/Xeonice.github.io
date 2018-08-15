@@ -141,7 +141,7 @@
 <meta property="og:site_name" content="Helve&#39;s Blog">
 <meta property="og:description" content="如何优化开发完成的前端项目？使之在浏览器中的加载速度更快？从而达成更好的用户体验？">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-08-15T11:27:40.861Z">
+<meta property="og:updated_time" content="2018-08-15T13:21:58.396Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="浅谈浏览器常用优化方法">
 <meta name="twitter:description" content="如何优化开发完成的前端项目？使之在浏览器中的加载速度更快？从而达成更好的用户体验？">
@@ -438,7 +438,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">212字</span>
+                <span title="本文字数">3.5k字</span>
               
 
               
@@ -452,7 +452,7 @@
                 
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
-                <span title="阅读时长">1 分钟</span>
+                <span title="阅读时长">3 分钟</span>
               
             </div>
           
@@ -485,6 +485,50 @@
 <li>减少页面体积，提升网络加载速度</li>
 <li>优化页面渲染</li>
 </ol>
+<h1 id="减少页面体积，提升网络加载速度"><a href="#减少页面体积，提升网络加载速度" class="headerlink" title="减少页面体积，提升网络加载速度"></a>减少页面体积，提升网络加载速度</h1><h2 id="静态资源的压缩合并"><a href="#静态资源的压缩合并" class="headerlink" title="静态资源的压缩合并"></a>静态资源的压缩合并</h2><p>如果不合并，每个都会走一遍 HTTP 请求过程</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src=<span class="string">"a.js"</span>&gt;&lt;/script&gt;</span><br><span class="line">&lt;script src=<span class="string">"b.js"</span>&gt;&lt;/script&gt;</span><br><span class="line">&lt;script src=<span class="string">"c.js"</span>&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p>如果合并了，就只走一遍请求过程</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src=<span class="string">"a.js"</span>&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p>PS：Head of line blocking 是 HTTP 1.0 的最大性能瓶颈所在，静态资源压缩合并就是为了应对这一问题而产生的。而在最新的 HTTP2.0 中，这一问题已被多路复用很好的解决。</p>
+<h2 id="静态资源缓存"><a href="#静态资源缓存" class="headerlink" title="静态资源缓存"></a>静态资源缓存</h2><p>通过链接名称控制缓存</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src=<span class="string">"abc_1.js"</span>&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p>只有内容改变的时候，链接名称才会改变</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src=<span class="string">"abc_2.js"</span>&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p>这个名称不用手动改，可通过前端构建工具根据文件内容，为文件名称添加 MD5 后缀。</p>
+<p>这一部分的优化可能主要取决于服务器端，前端能做的非常有限，后期在深入讲解的时候会做详细讨论</p>
+<h2 id="使用-CDN-让资源加载更快"><a href="#使用-CDN-让资源加载更快" class="headerlink" title="使用 CDN 让资源加载更快"></a>使用 CDN 让资源加载更快</h2><p>CDN 会提供专业的加载优化方案，静态资源要尽量放在 CDN 上，例如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src=<span class="string">"https://cdn.bootcss.com/zepto/1.0rc1/zepto.min.js"</span>&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<h1 id="优化页面渲染"><a href="#优化页面渲染" class="headerlink" title="优化页面渲染"></a>优化页面渲染</h1><p>谈这部分之前，我们先来谈谈页面在浏览器的渲染流程</p>
+<h2 id="页面渲染"><a href="#页面渲染" class="headerlink" title="页面渲染"></a>页面渲染</h2><p>页面渲染要点如下：</p>
+<ul>
+<li>根据 HTML 结构生成 DOM 树</li>
+<li>根据 CSS 生成 CSSOM</li>
+<li>将 DOM 和 CSSOM 整合形成 RenderTree</li>
+<li>根据 RenderTree 开始渲染和展示</li>
+<li>遇到 <code>&lt;script&gt;</code> 时，会执行并阻塞渲染</li>
+</ul>
+<p>上文中，浏览器已经拿到了 server 端返回的 HTML 内容，开始解析并渲染。最初拿到的内容就是一堆字符串，必须先结构化成计算机擅长处理的基本数据结构，因此要把 HTML 字符串转化成 DOM 树 —— 树是最基本的数据结构之一。</p>
+<p>解析过程中，如果遇到 <code>&lt;link href=&quot;...&quot;&gt;</code> 和 <code>&lt;script src=&quot;...&quot;&gt;</code> 这种外链加载 CSS 和 JS 的标签，浏览器会异步下载，下载过程和上文中下载 HTML 的流程一样。只不过，这里下载下来的字符串是 CSS 或者 JS 格式的。</p>
+<p>浏览器将 CSS 生成 CSSOM，再将 DOM 和 CSSOM 整合成 RenderTree ，然后针对 RenderTree 即可进行渲染了</p>
+<h2 id="CSS-放前面，JavaScript-放后面"><a href="#CSS-放前面，JavaScript-放后面" class="headerlink" title="CSS 放前面，JavaScript 放后面"></a>CSS 放前面，JavaScript 放后面</h2><p>为何要将 CSS 放在网站头部？因为页面需要 CSS 生成 RenderTree，如果放在页面最后，页面会先根据默认选项渲染出 RenderTree</p>
+<p>等到加载到页面最后的 CSS 时，浏览器需要重新生成 CSSOM，再 DOM 配合生成 RenderTree，这一点可能会导致渲染卡顿的情况，影响页面浏览体验。而放在开头就能避免这种问题</p>
+<p>为何要将 JavaScript 放在最后？因为 JavaScript 的加载是阻塞渲染的，浏览器必须要先执行完 JavaScript 后才能继续渲染工作。因此，为了不阻塞渲染，让用户先看到内容，就会把 JavaScript放在页面最后执行。</p>
+<p>另外，JavaScript 执行如果涉及 DOM 操作，得等待 DOM 解析完成才行，JavaScript 放在底部执行时，HTML 肯定都解析成了 DOM 结构。如果放在 HTML 顶部，执行的时候 HTML 还没来得及转换为 DOM 结构，可能会报错。</p>
+<h2 id="懒加载（图片懒加载）"><a href="#懒加载（图片懒加载）" class="headerlink" title="懒加载（图片懒加载）"></a>懒加载（图片懒加载）</h2><p>一开始先将 <code>src</code> 赋值为一个通用的预览图，下拉的时候再动态赋值成正式的图片。如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;img src=<span class="string">"preview.png"</span> data-realsrc=<span class="string">"abc.png"</span>/&gt;</span><br></pre></td></tr></table></figure>
+<p><code>preview.png</code> 是预览图片，比较小，加载很快，而且很多图片都共用这个 <code>preview.png</code>，加载一次即可。待页面下拉，图片显示出来时，再去替换 <code>src</code> 为 <code>data-realsrc</code> 的值。</p>
+<p>另外，这里为何要用 <code>data-</code> 开头的属性值？—— 所有 HTML 中自定义的属性，都应该用 <code>data-</code> 开头，因为 <code>data-</code> 开头的属性浏览器渲染的时候会忽略掉，提高渲染性能。</p>
+<h2 id="减少-DOM-查询，对-DOM-查询做缓存"><a href="#减少-DOM-查询，对-DOM-查询做缓存" class="headerlink" title="减少 DOM 查询，对 DOM 查询做缓存"></a>减少 DOM 查询，对 DOM 查询做缓存</h2><p>两段代码作为对比：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> pList = <span class="built_in">document</span>.getElementsByTagName(<span class="string">'p'</span>)  <span class="comment">// 只查询一个 DOM ，缓存在 pList 中了</span></span><br><span class="line"><span class="keyword">var</span> i</span><br><span class="line"><span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; pList.length; i++) &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> i</span><br><span class="line"><span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="built_in">document</span>.getElementsByTagName(<span class="string">'p'</span>).length; i++) &#123;  <span class="comment">// 每次循环，都会查询 DOM ，耗费性能</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>DOM 操作，无论是查找还是修改，都是非常消耗性能的，应该尽量减少</p>
+<h2 id="减少-DOM-操作，多个操作尽量合并在一起执行（DocumentFragment）"><a href="#减少-DOM-操作，多个操作尽量合并在一起执行（DocumentFragment）" class="headerlink" title="减少 DOM 操作，多个操作尽量合并在一起执行（DocumentFragment）"></a>减少 DOM 操作，多个操作尽量合并在一起执行（<code>DocumentFragment</code>）</h2><p>DOM 操作是非常耗费性能的，因此插入多个标签时，先插入 Fragment 然后再统一插入 DOM。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> listNode = <span class="built_in">document</span>.getElementById(<span class="string">'list'</span>)</span><br><span class="line"><span class="comment">// 要插入 10 个 li 标签</span></span><br><span class="line"><span class="keyword">var</span> frag = <span class="built_in">document</span>.createDocumentFragment();</span><br><span class="line"><span class="keyword">var</span> x, li;</span><br><span class="line"><span class="keyword">for</span>(x = <span class="number">0</span>; x &lt; <span class="number">10</span>; x++) &#123;</span><br><span class="line">    li = <span class="built_in">document</span>.createElement(<span class="string">"li"</span>);</span><br><span class="line">    li.innerHTML = <span class="string">"List item "</span> + x;</span><br><span class="line">    frag.appendChild(li);  <span class="comment">// 先放在 frag 中，最后一次性插入到 DOM 结构中。</span></span><br><span class="line">&#125;</span><br><span class="line">listNode.appendChild(frag);</span><br></pre></td></tr></table></figure>
+<h2 id="事件节流"><a href="#事件节流" class="headerlink" title="事件节流"></a>事件节流</h2><p>例如要在文字改变的时候触发一个 <code>change</code> 事件，通过 <code>keyup</code> 来监听，使用节流</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> textarea = <span class="built_in">document</span>.getElementById(<span class="string">'text'</span>)</span><br><span class="line"><span class="keyword">var</span> timeoutId</span><br><span class="line">textarea.addEventListener(<span class="string">'keyup'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (timeoutId) &#123;</span><br><span class="line">        clearTimeout(timeoutId)</span><br><span class="line">    &#125;</span><br><span class="line">    timeoutId = setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="comment">// 触发 change 事件</span></span><br><span class="line">    &#125;, <span class="number">100</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="尽早执行操作（DOMContented）"><a href="#尽早执行操作（DOMContented）" class="headerlink" title="尽早执行操作（DOMContented）"></a>尽早执行操作（DOMContented）</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">window</span>.addEventListener(<span class="string">'load'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 页面的全部资源加载完才会执行，包括图片、视频等</span></span><br><span class="line">&#125;)</span><br><span class="line"><span class="built_in">document</span>.addEventListener(<span class="string">'DOMContentLoaded'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// DOM 渲染完即可执行，此时图片、视频还可能没有加载完</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>本文对于前端的优化做了一些粗浅的解读，后续还会更新文章做进一步的完善</p>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p><a href="https://juejin.im/book/5a8f9ddcf265da4e9f6fb959/section/5a8f9f7bf265da4e82635e46" target="_blank" rel="noopener">Web 前端面试指南与高频考题解析</a></p>
 
       
     </div>
@@ -721,7 +765,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#性能优化原则与方向"><span class="nav-number">1.</span> <span class="nav-text">性能优化原则与方向</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#性能优化原则与方向"><span class="nav-number">1.</span> <span class="nav-text">性能优化原则与方向</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#减少页面体积，提升网络加载速度"><span class="nav-number">2.</span> <span class="nav-text">减少页面体积，提升网络加载速度</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#静态资源的压缩合并"><span class="nav-number">2.1.</span> <span class="nav-text">静态资源的压缩合并</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#静态资源缓存"><span class="nav-number">2.2.</span> <span class="nav-text">静态资源缓存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-CDN-让资源加载更快"><span class="nav-number">2.3.</span> <span class="nav-text">使用 CDN 让资源加载更快</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#优化页面渲染"><span class="nav-number">3.</span> <span class="nav-text">优化页面渲染</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#页面渲染"><span class="nav-number">3.1.</span> <span class="nav-text">页面渲染</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CSS-放前面，JavaScript-放后面"><span class="nav-number">3.2.</span> <span class="nav-text">CSS 放前面，JavaScript 放后面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#懒加载（图片懒加载）"><span class="nav-number">3.3.</span> <span class="nav-text">懒加载（图片懒加载）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#减少-DOM-查询，对-DOM-查询做缓存"><span class="nav-number">3.4.</span> <span class="nav-text">减少 DOM 查询，对 DOM 查询做缓存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#减少-DOM-操作，多个操作尽量合并在一起执行（DocumentFragment）"><span class="nav-number">3.5.</span> <span class="nav-text">减少 DOM 操作，多个操作尽量合并在一起执行（DocumentFragment）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事件节流"><span class="nav-number">3.6.</span> <span class="nav-text">事件节流</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#尽早执行操作（DOMContented）"><span class="nav-number">3.7.</span> <span class="nav-text">尽早执行操作（DOMContented）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文献"><span class="nav-number">5.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
             
 
           </div>
@@ -755,7 +799,7 @@
       <i class="fa fa-area-chart"></i>
     </span>
     
-    <span title="站点总字数">127k</span>
+    <span title="站点总字数">130k</span>
   
 
   
@@ -764,7 +808,7 @@
       <i class="fa fa-coffee"></i>
     </span>
     
-    <span title="站点阅读时长">1:55</span>
+    <span title="站点阅读时长">1:58</span>
   
 </div>
 
