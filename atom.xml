@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://www.douglasdong.site/"/>
-  <updated>2018-08-14T10:22:57.664Z</updated>
+  <updated>2018-08-15T11:27:40.861Z</updated>
   <id>https://www.douglasdong.site/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>浅谈浏览器常用优化方法</title>
+    <link href="https://www.douglasdong.site/2018-08-15.html"/>
+    <id>https://www.douglasdong.site/2018-08-15.html</id>
+    <published>2018-08-15T08:47:11.000Z</published>
+    <updated>2018-08-15T11:27:40.861Z</updated>
+    
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><p>前端性能优化是一个深度与广度都极广的话题，如果想要深入了解其中的每个细节，没有 3-5 年以上的开发经验是无法做到的。因此，本文仅仅探讨一些前端优化的大体方向，与前端优化中较为基本的实现点</p><h1 id="性能优化原则与方向"><a href="#性能优化原则与方向" class="headerlink" title="性能优化原则与方向"></a>性能优化原则与方向</h1><p>性能优化的原则是以实现更好的用户体验为标准，具体就是实现以下的目标：</p><ol><li>多使用内存、缓存和其他方法</li><li>减少 CPU 和 GPU 运算，更快展现</li></ol><p>优化的方向有两个：</p><ol><li>减少页面体积，提升网络加载速度</li><li>优化页面渲染</li></ol>]]></content>
+    
+    <summary type="html">
+    
+      如何优化开发完成的前端项目？使之在浏览器中的加载速度更快？从而达成更好的用户体验？
+    
+    </summary>
+    
+      <category term="前端" scheme="https://www.douglasdong.site/categories/%E5%89%8D%E7%AB%AF/"/>
+    
+    
+      <category term="前端" scheme="https://www.douglasdong.site/tags/%E5%89%8D%E7%AB%AF/"/>
+    
+  </entry>
   
   <entry>
     <title>Cookie、Session、LocalStorage、SessionStorage 详解</title>
