@@ -429,7 +429,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">1.6k字</span>
+                <span title="本文字数">6.7k字</span>
               
 
               
@@ -443,7 +443,7 @@
                 
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
-                <span title="阅读时长">1 分钟</span>
+                <span title="阅读时长">6 分钟</span>
               
             </div>
           
@@ -464,13 +464,14 @@
 
       
         
-          
-            <script src="/assets/js/APlayer.min.js"> </script><h1 id="index-js"><a href="#index-js" class="headerlink" title="index.js"></a>index.js</h1><p>分析一个项目的源码，首先应该从它的入口文件看起，所以我们需要先从项目中的 <code>index.js</code> 文件开始</p>
-<h1 id="分析开始"><a href="#分析开始" class="headerlink" title="分析开始"></a>分析开始</h1><p>整个 <code>index.js</code> 只有 28 行代码，其中包含了一个 <code>camelCase</code> 函数，一个 <code>req</code> 变量，对 <code>req</code> 变量的操作和 <code>export</code> 操作</p>
-<p>源代码如下：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ES-Lint 自定配置，禁止调用 console</span></span><br><span class="line"><span class="comment">/* eslint no-console:0 */</span></span><br><span class="line"><span class="comment">// 驼峰大小写</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">camelCase</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 首字母大写</span></span><br><span class="line">  <span class="keyword">return</span> name.charAt(<span class="number">0</span>).toUpperCase() +</span><br><span class="line">    <span class="comment">//取出 [1] 之后的字符作为数组</span></span><br><span class="line">    <span class="comment">//判断每个字符是否符合 -w 这个匹配模式（access-bin=&gt;Access-Bin），符合的进行大写处理</span></span><br><span class="line">    name.slice(<span class="number">1</span>).replace(<span class="regexp">/-(\w)/g</span>, (m, n) =&gt; &#123;</span><br><span class="line">      <span class="keyword">return</span> n.toUpperCase();</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Just import style for https://github.com/ant-design/ant-design/issues/3745</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//（创建了）一个包含了 components 文件夹（含子目录）下面的、所有路径符合 `/style/test/index.tsx` 模式的、能被 require 请求到的文件的上下文，返回值为一个函数</span></span><br><span class="line"><span class="keyword">const</span> req = <span class="built_in">require</span>.context(<span class="string">'./components'</span>, <span class="literal">true</span>, /^\.\/[^_][\w-]+\/style\/index\.tsx?$/);</span><br><span class="line"></span><br><span class="line"><span class="comment">// req.keys =&gt; 所有符合 req 定义模式的目录，类型为数组</span></span><br><span class="line"><span class="comment">// 这一部分都是用来输出 dist 文件中的 css 的</span></span><br><span class="line">req.keys().forEach(<span class="function">(<span class="params">mod</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// 如果存在 default 入口，则定义 default 为输出</span></span><br><span class="line">  <span class="keyword">let</span> v = req(mod);</span><br><span class="line">  <span class="keyword">if</span> (v &amp;&amp; v.default) &#123;</span><br><span class="line">    v = v.default;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 抛出组件 这个正则是匹配当前目录下的所有 index.tsx 文件 / 循环引用？</span></span><br><span class="line">  <span class="keyword">const</span> match = mod.match(<span class="regexp">/^\.\/([^_][\w-]+)\/index\.tsx?$/</span>);</span><br><span class="line">  <span class="keyword">if</span> (match &amp;&amp; match[<span class="number">1</span>]) &#123;</span><br><span class="line">    <span class="comment">// 修复 Bug -- #1968 中错误将 message 和 notification 至为首字母大写的错误</span></span><br><span class="line">    <span class="keyword">if</span> (match[<span class="number">1</span>] === <span class="string">'message'</span> || match[<span class="number">1</span>] === <span class="string">'notification'</span>) &#123;</span><br><span class="line">      <span class="comment">// message &amp; notification should not be capitalized</span></span><br><span class="line">      exports[match[<span class="number">1</span>]] = v;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      exports[camelCase(match[<span class="number">1</span>])] = v;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// keep index.js as an entry =&gt; Styles should be exported as well</span></span><br><span class="line"><span class="comment">// 为了同时输出组件和 CSS 从而导出两次</span></span><br><span class="line"><span class="built_in">module</span>.exports = <span class="built_in">require</span>(<span class="string">'./components'</span>);</span><br></pre></td></tr></table></figure>
-
-          
+          AntD 是十分优秀的前端项目，研究它的组件书写方式对今后 React 组件的书写非常有帮助，因此本系列将以 AntD 3.2.1 版本为基础，逐步分析其中的源代码
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018-09-29.html">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1609,7 +1610,7 @@
       <i class="fa fa-area-chart"></i>
     </span>
     
-    <span title="站点总字数">132k</span>
+    <span title="站点总字数">137k</span>
   
 
   
@@ -1618,7 +1619,7 @@
       <i class="fa fa-coffee"></i>
     </span>
     
-    <span title="站点阅读时长">2:01</span>
+    <span title="站点阅读时长">2:04</span>
   
 </div>
 
