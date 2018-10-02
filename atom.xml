@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://www.douglasdong.site/"/>
-  <updated>2018-08-15T13:23:25.066Z</updated>
+  <updated>2018-10-02T11:25:44.657Z</updated>
   <id>https://www.douglasdong.site/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>AntD/Choerodon-UI 源码分析（1）- index.js</title>
+    <link href="https://www.douglasdong.site/2018-09-29.html"/>
+    <id>https://www.douglasdong.site/2018-09-29.html</id>
+    <published>2018-10-02T11:24:36.000Z</published>
+    <updated>2018-10-02T11:25:44.657Z</updated>
+    
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h1 id="index-js"><a href="#index-js" class="headerlink" title="index.js"></a>index.js</h1><p>分析一个项目的源码，首先应该从它的入口文件看起，所以我们需要先从项目中的 <code>index.js</code> 文件开始</p><h1 id="分析开始"><a href="#分析开始" class="headerlink" title="分析开始"></a>分析开始</h1><p>整个 <code>index.js</code> 只有 28 行代码，其中包含了一个 <code>camelCase</code> 函数，一个 <code>req</code> 变量，对 <code>req</code> 变量的操作和 <code>export</code> 操作</p><p>源代码如下：</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ES-Lint 自定配置，禁止调用 console</span></span><br><span class="line"><span class="comment">/* eslint no-console:0 */</span></span><br><span class="line"><span class="comment">// 驼峰大小写</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">camelCase</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 首字母大写</span></span><br><span class="line">  <span class="keyword">return</span> name.charAt(<span class="number">0</span>).toUpperCase() +</span><br><span class="line">    <span class="comment">//取出 [1] 之后的字符作为数组</span></span><br><span class="line">    <span class="comment">//判断每个字符是否符合 -w 这个匹配模式（access-bin=&gt;Access-Bin），符合的进行大写处理</span></span><br><span class="line">    name.slice(<span class="number">1</span>).replace(<span class="regexp">/-(\w)/g</span>, (m, n) =&gt; &#123;</span><br><span class="line">      <span class="keyword">return</span> n.toUpperCase();</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Just import style for https://github.com/ant-design/ant-design/issues/3745</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//（创建了）一个包含了 components 文件夹（含子目录）下面的、所有路径符合 `/style/test/index.tsx` 模式的、能被 require 请求到的文件的上下文，返回值为一个函数</span></span><br><span class="line"><span class="keyword">const</span> req = <span class="built_in">require</span>.context(<span class="string">'./components'</span>, <span class="literal">true</span>, /^\.\/[^_][\w-]+\/style\/index\.tsx?$/);</span><br><span class="line"></span><br><span class="line"><span class="comment">// req.keys =&gt; 所有符合 req 定义模式的目录，类型为数组</span></span><br><span class="line"><span class="comment">// 这一部分都是用来输出 dist 文件中的 css 的</span></span><br><span class="line">req.keys().forEach(<span class="function">(<span class="params">mod</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// 如果存在 default 入口，则定义 default 为输出</span></span><br><span class="line">  <span class="keyword">let</span> v = req(mod);</span><br><span class="line">  <span class="keyword">if</span> (v &amp;&amp; v.default) &#123;</span><br><span class="line">    v = v.default;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 抛出组件 这个正则是匹配当前目录下的所有 index.tsx 文件 / 循环引用？</span></span><br><span class="line">  <span class="keyword">const</span> match = mod.match(<span class="regexp">/^\.\/([^_][\w-]+)\/index\.tsx?$/</span>);</span><br><span class="line">  <span class="keyword">if</span> (match &amp;&amp; match[<span class="number">1</span>]) &#123;</span><br><span class="line">    <span class="comment">// 修复 Bug -- #1968 中错误将 message 和 notification 至为首字母大写的错误</span></span><br><span class="line">    <span class="keyword">if</span> (match[<span class="number">1</span>] === <span class="string">'message'</span> || match[<span class="number">1</span>] === <span class="string">'notification'</span>) &#123;</span><br><span class="line">      <span class="comment">// message &amp; notification should not be capitalized</span></span><br><span class="line">      exports[match[<span class="number">1</span>]] = v;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      exports[camelCase(match[<span class="number">1</span>])] = v;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// keep index.js as an entry =&gt; Styles should be exported as well</span></span><br><span class="line"><span class="comment">// 为了同时输出组件和 CSS 从而导出两次</span></span><br><span class="line"><span class="built_in">module</span>.exports = <span class="built_in">require</span>(<span class="string">'./components'</span>);</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;script src=&quot;/assets/js/APlayer.min.js&quot;&gt; &lt;/script&gt;&lt;h1 id=&quot;index-js&quot;&gt;&lt;a href=&quot;#index-js&quot; class=&quot;headerlink&quot; title=&quot;index.js&quot;&gt;&lt;/a&gt;index.js&lt;/h1
+      
+    
+    </summary>
+    
+      <category term="AntD 源码分析" scheme="https://www.douglasdong.site/categories/AntD-%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/"/>
+    
+    
+      <category term="JavaScript, AntD, Choerodon-UI" scheme="https://www.douglasdong.site/tags/JavaScript-AntD-Choerodon-UI/"/>
+    
+  </entry>
   
   <entry>
     <title>浅谈浏览器常用优化方法</title>

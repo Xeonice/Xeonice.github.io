@@ -133,18 +133,18 @@
 
 
 
-  <meta name="description" content="深入分析课程：响应式表格 - 没有更多表格了 后，对源码的分析如下： test123  源代码: See the Pen RWDF L5 No More Tables by DouglasDong (@Xeonice) on CodePen.   123tr:nth-child(odd) &amp;#123;  background-color: #f9f9f9;&amp;#125; 使用了 nth-child(">
-<meta name="keywords" content="CSS">
+  <meta name="description" content="index.js分析一个项目的源码，首先应该从它的入口文件看起，所以我们需要先从项目中的 index.js 文件开始 分析开始整个 index.js 只有 28 行代码，其中包含了一个 camelCase 函数，一个 req 变量，对 req 变量的操作和 export 操作 源代码如下： 12345678910111213141516171819202122232425262728293031">
+<meta name="keywords" content="AntD, Choerodon-UI, JavaScript, WebPack, export">
 <meta property="og:type" content="article">
-<meta property="og:title" content="响应式表格分析">
-<meta property="og:url" content="https://www.douglasdong.site/响应式表格分析.html">
+<meta property="og:title" content="AntD&#x2F;Choerodon-UI 源码分析（1）- index.js">
+<meta property="og:url" content="https://www.douglasdong.site/2018-09-29.html">
 <meta property="og:site_name" content="Helve&#39;s Blog">
-<meta property="og:description" content="深入分析课程：响应式表格 - 没有更多表格了 后，对源码的分析如下： test123  源代码: See the Pen RWDF L5 No More Tables by DouglasDong (@Xeonice) on CodePen.   123tr:nth-child(odd) &amp;#123;  background-color: #f9f9f9;&amp;#125; 使用了 nth-child(">
+<meta property="og:description" content="index.js分析一个项目的源码，首先应该从它的入口文件看起，所以我们需要先从项目中的 index.js 文件开始 分析开始整个 index.js 只有 28 行代码，其中包含了一个 camelCase 函数，一个 req 变量，对 req 变量的操作和 export 操作 源代码如下： 12345678910111213141516171819202122232425262728293031">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-08-06T15:03:05.710Z">
+<meta property="og:updated_time" content="2018-10-02T11:25:44.657Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="响应式表格分析">
-<meta name="twitter:description" content="深入分析课程：响应式表格 - 没有更多表格了 后，对源码的分析如下： test123  源代码: See the Pen RWDF L5 No More Tables by DouglasDong (@Xeonice) on CodePen.   123tr:nth-child(odd) &amp;#123;  background-color: #f9f9f9;&amp;#125; 使用了 nth-child(">
+<meta name="twitter:title" content="AntD&#x2F;Choerodon-UI 源码分析（1）- index.js">
+<meta name="twitter:description" content="index.js分析一个项目的源码，首先应该从它的入口文件看起，所以我们需要先从项目中的 index.js 文件开始 分析开始整个 index.js 只有 28 行代码，其中包含了一个 camelCase 函数，一个 req 变量，对 req 变量的操作和 export 操作 源代码如下： 12345678910111213141516171819202122232425262728293031">
 
 
 
@@ -153,7 +153,7 @@
 
 
 
-  <link rel="canonical" href="https://www.douglasdong.site/响应式表格分析.html"/>
+  <link rel="canonical" href="https://www.douglasdong.site/2018-09-29.html"/>
 
 
 
@@ -163,7 +163,7 @@
   };
 </script>
 
-  <title>响应式表格分析 | Helve's Blog</title>
+  <title>AntD/Choerodon-UI 源码分析（1）- index.js | Helve's Blog</title>
   
 
 
@@ -340,7 +340,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.douglasdong.site/响应式表格分析.html">
+    <link itemprop="mainEntityOfPage" href="https://www.douglasdong.site/2018-09-29.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Helvetica.D">
@@ -357,7 +357,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">响应式表格分析
+          <h2 class="post-title" itemprop="name headline">AntD/Choerodon-UI 源码分析（1）- index.js
               
             
           </h2>
@@ -382,12 +382,30 @@
                 
               
 
-              <time title="创建时间：2017-09-28 13:26:55" itemprop="dateCreated datePublished" datetime="2017-09-28T13:26:55+08:00">2017-09-28</time>
+              <time title="创建时间：2018-10-02 19:24:36" itemprop="dateCreated datePublished" datetime="2018-10-02T19:24:36+08:00">2018-10-02</time>
             
 
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/AntD-源码分析/" itemprop="url" rel="index"><span itemprop="name">AntD 源码分析</span></a></span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -397,8 +415,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/响应式表格分析.html#comments" itemprop="discussionUrl">
-                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count gitment-comments-count" data-xid="/响应式表格分析.html" itemprop="commentsCount"></span>
+                <a href="/2018-09-29.html#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count gitment-comments-count" data-xid="/2018-09-29.html" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -420,7 +438,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">998字</span>
+                <span title="本文字数">1.6k字</span>
               
 
               
@@ -454,32 +472,10 @@
       
 
       
-        <script src="/assets/js/APlayer.min.js"> </script><p>深入分析课程：<strong>响应式表格 - 没有更多表格了</strong> 后，对源码的分析如下：</p>
-<p>test123</p>
-<p><br></p>
-<p><strong>源代码</strong>:</p>
-<iframe height="265" scrolling="no" title="RWDF L5 No More Tables" src="//codepen.io/Xeonice/embed/dVWNRy/?height=265&theme-id=0&default-tab=html,result&embed-version=2" frameborder="no" allowtransparency="true" allowfullscreen="true" style="width: 100%;">See the Pen <a href="https://codepen.io/Xeonice/pen/dVWNRy/" target="_blank" rel="noopener">RWDF L5 No More Tables</a> by DouglasDong (<a href="https://codepen.io/Xeonice" target="_blank" rel="noopener">@Xeonice</a>) on <a href="https://codepen.io" target="_blank" rel="noopener">CodePen</a>.<br></iframe>
-
-<p><br></p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">tr</span><span class="selector-pseudo">:nth-child(odd)</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#f9f9f9</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>使用了 nth-child(odd) 选择器对下标是奇数或偶数的 <code>&lt;tr&gt;</code> 进行选择，并设置其背景颜色为 <code>#f9f9f9</code> 。相关文档可参见 <a href="http://www.w3school.com.cn/cssref/selector_nth-child.asp" target="_blank" rel="noopener">CSS3 :nth-child() 选择器</a>。</p>
-<p><br></p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">thead</span> <span class="selector-tag">tr</span> &#123;</span><br><span class="line">    <span class="attribute">position</span>: absolute;</span><br><span class="line">    <span class="attribute">top</span>: -<span class="number">9999px</span>;</span><br><span class="line">    <span class="attribute">left</span>: -<span class="number">9999px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>当 <code>mediaQuery</code> 被触发时，使 DOM 树中的 thead，tr 元素移至浏览器可视窗口之外。不使用 <code>display: none</code> 的原因有两点：</p>
-<ul>
-<li>搜索引擎可能认为被隐藏的文字属于垃圾信息而被忽略，不为隐藏的对象保留物理占位空间。</li>
-<li>会被屏幕阅读器所忽略。</li>
-</ul>
-<a id="more"></a>
-<p><br></p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">td</span> &#123; </span><br><span class="line">    <span class="attribute">position</span>: relative;</span><br><span class="line">    <span class="attribute">padding-left</span>: <span class="number">50%</span>; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>当 <code>mediaQuery</code> 被触发时，设定 <code>padding-left</code> 为页面 <code>width</code> 的50%。</p>
-<p><br></p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">td</span><span class="selector-pseudo">:before</span> &#123; </span><br><span class="line">    <span class="attribute">position</span>: absolute;</span><br><span class="line">    <span class="attribute">left</span>: <span class="number">6px</span>;</span><br><span class="line">    <span class="attribute">content</span>: <span class="built_in">attr</span>(data-th);</span><br><span class="line">    <span class="attribute">font-weight</span>: bold;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>当 <code>mediaQuery</code> 被触发时，在 <code>td</code> 元素前设置文字，定位采用绝对定位，内容为 HTML 文档中 <code>data-th</code> 处的文字。详细文档可见 <a href="http://www.w3school.com.cn/cssref/selector_before.asp" target="_blank" rel="noopener">CSS :before 选择器</a> 。</p>
-<p><br></p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">td</span><span class="selector-pseudo">:first-of-type</span> &#123;</span><br><span class="line">    <span class="attribute">font-weight</span>: bold;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>当 <code>mediaQuery</code> 被触发时，设定 首个 <code>td</code> 元素的字重为 <code>bold</code> 。这里是指表格中的 <code>San Francisco</code> 与 <code>Toronto</code> 。 详细文档可见：  <a href="http://www.w3school.com.cn/cssref/selector_first-of-type.asp" target="_blank" rel="noopener">CSS3 :first-of-type 选择器</a> 。</p>
+        <script src="/assets/js/APlayer.min.js"> </script><h1 id="index-js"><a href="#index-js" class="headerlink" title="index.js"></a>index.js</h1><p>分析一个项目的源码，首先应该从它的入口文件看起，所以我们需要先从项目中的 <code>index.js</code> 文件开始</p>
+<h1 id="分析开始"><a href="#分析开始" class="headerlink" title="分析开始"></a>分析开始</h1><p>整个 <code>index.js</code> 只有 28 行代码，其中包含了一个 <code>camelCase</code> 函数，一个 <code>req</code> 变量，对 <code>req</code> 变量的操作和 <code>export</code> 操作</p>
+<p>源代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ES-Lint 自定配置，禁止调用 console</span></span><br><span class="line"><span class="comment">/* eslint no-console:0 */</span></span><br><span class="line"><span class="comment">// 驼峰大小写</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">camelCase</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 首字母大写</span></span><br><span class="line">  <span class="keyword">return</span> name.charAt(<span class="number">0</span>).toUpperCase() +</span><br><span class="line">    <span class="comment">//取出 [1] 之后的字符作为数组</span></span><br><span class="line">    <span class="comment">//判断每个字符是否符合 -w 这个匹配模式（access-bin=&gt;Access-Bin），符合的进行大写处理</span></span><br><span class="line">    name.slice(<span class="number">1</span>).replace(<span class="regexp">/-(\w)/g</span>, (m, n) =&gt; &#123;</span><br><span class="line">      <span class="keyword">return</span> n.toUpperCase();</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Just import style for https://github.com/ant-design/ant-design/issues/3745</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//（创建了）一个包含了 components 文件夹（含子目录）下面的、所有路径符合 `/style/test/index.tsx` 模式的、能被 require 请求到的文件的上下文，返回值为一个函数</span></span><br><span class="line"><span class="keyword">const</span> req = <span class="built_in">require</span>.context(<span class="string">'./components'</span>, <span class="literal">true</span>, /^\.\/[^_][\w-]+\/style\/index\.tsx?$/);</span><br><span class="line"></span><br><span class="line"><span class="comment">// req.keys =&gt; 所有符合 req 定义模式的目录，类型为数组</span></span><br><span class="line"><span class="comment">// 这一部分都是用来输出 dist 文件中的 css 的</span></span><br><span class="line">req.keys().forEach(<span class="function">(<span class="params">mod</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// 如果存在 default 入口，则定义 default 为输出</span></span><br><span class="line">  <span class="keyword">let</span> v = req(mod);</span><br><span class="line">  <span class="keyword">if</span> (v &amp;&amp; v.default) &#123;</span><br><span class="line">    v = v.default;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 抛出组件 这个正则是匹配当前目录下的所有 index.tsx 文件 / 循环引用？</span></span><br><span class="line">  <span class="keyword">const</span> match = mod.match(<span class="regexp">/^\.\/([^_][\w-]+)\/index\.tsx?$/</span>);</span><br><span class="line">  <span class="keyword">if</span> (match &amp;&amp; match[<span class="number">1</span>]) &#123;</span><br><span class="line">    <span class="comment">// 修复 Bug -- #1968 中错误将 message 和 notification 至为首字母大写的错误</span></span><br><span class="line">    <span class="keyword">if</span> (match[<span class="number">1</span>] === <span class="string">'message'</span> || match[<span class="number">1</span>] === <span class="string">'notification'</span>) &#123;</span><br><span class="line">      <span class="comment">// message &amp; notification should not be capitalized</span></span><br><span class="line">      exports[match[<span class="number">1</span>]] = v;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      exports[camelCase(match[<span class="number">1</span>])] = v;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// keep index.js as an entry =&gt; Styles should be exported as well</span></span><br><span class="line"><span class="comment">// 为了同时输出组件和 CSS 从而导出两次</span></span><br><span class="line"><span class="built_in">module</span>.exports = <span class="built_in">require</span>(<span class="string">'./components'</span>);</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -501,7 +497,7 @@
     <strong>本文作者： </strong>Helvetica.D</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://www.douglasdong.site/响应式表格分析.html" title="响应式表格分析">https://www.douglasdong.site/响应式表格分析.html</a>
+    <a href="https://www.douglasdong.site/2018-09-29.html" title="AntD/Choerodon-UI 源码分析（1）- index.js">https://www.douglasdong.site/2018-09-29.html</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -514,7 +510,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/CSS/" rel="tag"># CSS</a>
+            <a href="/tags/JavaScript-AntD-Choerodon-UI/" rel="tag"># JavaScript, AntD, Choerodon-UI</a>
           
         </div>
       
@@ -527,15 +523,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2018-08-15.html" rel="next" title="浅谈浏览器常用优化方法">
+                <i class="fa fa-chevron-left"></i> 浅谈浏览器常用优化方法
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/精通CSS笔记-第二章-为样式找到应用目标.html" rel="prev" title="第二章--为样式找到应用目标">
-                第二章--为样式找到应用目标 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -588,8 +584,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -701,6 +706,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#index-js"><span class="nav-number">1.</span> <span class="nav-text">index.js</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#分析开始"><span class="nav-number">2.</span> <span class="nav-text">分析开始</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
