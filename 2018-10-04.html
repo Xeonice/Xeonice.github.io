@@ -141,7 +141,7 @@
 <meta property="og:site_name" content="Helve&#39;s Blog">
 <meta property="og:description" content="Button 组件的配套组件 ButtonGroup 内部的逻辑又是如何运行的？">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-10-04T07:01:31.263Z">
+<meta property="og:updated_time" content="2018-10-04T07:18:18.862Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="AntD&#x2F;Choerodon-UI 源码分析（4）- ButtonGroup 组件">
 <meta name="twitter:description" content="Button 组件的配套组件 ButtonGroup 内部的逻辑又是如何运行的？">
@@ -438,7 +438,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">865字</span>
+                <span title="本文字数">1.1k字</span>
               
 
               
@@ -475,15 +475,7 @@
 
       
         <script src="/assets/js/APlayer.min.js"> </script><h1 id="Button-Group"><a href="#Button-Group" class="headerlink" title="Button Group"></a>Button Group</h1><p>作为 Button 的配套组件，<code>ButtonGroup</code> 的内部逻辑非常简单，毕竟只是一个将 <code>Button</code> 组件包裹起来的一个容器，我们在这里只需要了解其中一个部分即可</p>
-<p>import * as React from ‘react’;<br>import classNames from ‘classnames’;<br>import { ButtonSize } from ‘./button’;</p>
-<p>export interface ButtonGroupProps {<br>  size?: ButtonSize;<br>  style?: React.CSSProperties;<br>  className?: string;<br>  prefixCls?: string;<br>}</p>
-<p>// 无状态组件，组件内部不保存任何状态，也被称为纯函数组件<br>// Typescript 中用 SFC 进行定义<br>const ButtonGroup: React.SFC<buttongroupprops> = (props) =&gt; {<br>  const { prefixCls = ‘ant-btn-group’, size, className, …others } = props;</buttongroupprops></p>
-<p>  // large =&gt; lg<br>  // small =&gt; sm<br>  let sizeCls = ‘’;<br>  switch (size) {<br>    case ‘large’:<br>      sizeCls = ‘lg’;<br>      break;<br>    case ‘small’:<br>      sizeCls = ‘sm’;<br>    default:<br>      break;<br>  }</p>
-<p>  const classes = classNames(prefixCls, {</p>
-<pre><code>[`${prefixCls}-${sizeCls}`]: sizeCls,
-</code></pre><p>  }, className);</p>
-<p>  return <div {...others}="" classname="{classes}">;<br>};</div></p>
-<p>export default ButtonGroup;</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> classNames <span class="keyword">from</span> <span class="string">'classnames'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; ButtonSize &#125; <span class="keyword">from</span> <span class="string">'./button'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">interface</span> ButtonGroupProps &#123;</span><br><span class="line">  size?: ButtonSize;</span><br><span class="line">  style?: React.CSSProperties;</span><br><span class="line">  className?: <span class="built_in">string</span>;</span><br><span class="line">  prefixCls?: <span class="built_in">string</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 无状态组件，组件内部不保存任何状态，也被称为纯函数组件</span></span><br><span class="line"><span class="comment">// Typescript 中用 SFC 进行定义</span></span><br><span class="line"><span class="keyword">const</span> ButtonGroup: React.SFC&lt;ButtonGroupProps&gt; = <span class="function">(<span class="params">props</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> &#123; prefixCls = <span class="string">'ant-btn-group'</span>, size, className, ...others &#125; = props;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// large =&gt; lg</span></span><br><span class="line">  <span class="comment">// small =&gt; sm</span></span><br><span class="line">  <span class="keyword">let</span> sizeCls = <span class="string">''</span>;</span><br><span class="line">  <span class="keyword">switch</span> (size) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">'large'</span>:</span><br><span class="line">      sizeCls = <span class="string">'lg'</span>;</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">'small'</span>:</span><br><span class="line">      sizeCls = <span class="string">'sm'</span>;</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> classes = classNames(prefixCls, &#123;</span><br><span class="line">    [<span class="string">`<span class="subst">$&#123;prefixCls&#125;</span>-<span class="subst">$&#123;sizeCls&#125;</span>`</span>]: sizeCls,</span><br><span class="line">  &#125;, className);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> &lt;div &#123;...others&#125; className=&#123;classes&#125; /&gt;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> ButtonGroup;</span><br></pre></td></tr></table></figure>
 <h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a href="https://juejin.im/post/59e1a608518825489732c054" target="_blank" rel="noopener">antd源码解读（4）- ButtonGroup</a></p>
 
       
@@ -768,7 +760,7 @@
       <i class="fa fa-coffee"></i>
     </span>
     
-    <span title="站点阅读时长">2:17</span>
+    <span title="站点阅读时长">2:18</span>
   
 </div>
 
