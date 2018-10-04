@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+  
+  
+    
+      
+    
+    
+      
+    
+  <script src="https://cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+  <link href="https://cdn.bootcss.com/pace/1.0.2/themes/black/pace-theme-corner-indicator.min.css" rel="stylesheet">
+
+
+
+
+  
+  
+  <link rel="stylesheet" media="all" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="1AN0l5FFDH_bGnLzRh2TsBOsw54Rl3zuA7kUviXkk6o" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+  <link href="https://cdn.bootcss.com/fancybox/3.3.5/jquery.fancybox.min.css" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+  
+
+<link href="https://cdn.bootcss.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.4.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.4.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.4.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.4.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    fastclick: false,
+    lazyload: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="在调用 Button 组件时，组件内部是如何处理我们传入的这些状态的？">
+<meta name="keywords" content="AntD, Choerodon-UI, JavaScript, iconfont">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AntD&#x2F;Choerodon-UI 源码分析（3）- Button 组件">
+<meta property="og:url" content="https://www.douglasdong.site/2018-10-03-1.html">
+<meta property="og:site_name" content="Helve&#39;s Blog">
+<meta property="og:description" content="在调用 Button 组件时，组件内部是如何处理我们传入的这些状态的？">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-10-04T06:01:21.840Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AntD&#x2F;Choerodon-UI 源码分析（3）- Button 组件">
+<meta name="twitter:description" content="在调用 Button 组件时，组件内部是如何处理我们传入的这些状态的？">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Helve's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="canonical" href="https://www.douglasdong.site/2018-10-03-1.html"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>AntD/Choerodon-UI 源码分析（3）- Button 组件 | Helve's Blog</title>
+  
+
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?381279f888e646c9a4386fba79ee174b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Helve's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">前端学习杂录</h1>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签<span class="badge">4</span></a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类<span class="badge">6</span></a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">20</span></a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+    <div class="reading-progress-bar"></div>
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.douglasdong.site/2018-10-03-1.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Helvetica.D">
+      <meta itemprop="description" content="P5天下第一！！">
+      <meta itemprop="image" content="/images/avatar.PNG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Helve's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">AntD/Choerodon-UI 源码分析（3）- Button 组件
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-10-03 16:04:38" itemprop="dateCreated datePublished" datetime="2018-10-03T16:04:38+08:00">2018-10-03</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/AntD-源码分析/" itemprop="url" rel="index"><span itemprop="name">AntD 源码分析</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018-10-03-1.html#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count gitment-comments-count" data-xid="/2018-10-03-1.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">12k字</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">11 分钟</span>
+              
+            </div>
+          
+
+          
+              <div class="post-description"><center>在调用 Button 组件时，组件内部是如何处理我们传入的这些状态的？</center></div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <script src="/assets/js/APlayer.min.js"> </script><h1 id="Button"><a href="#Button" class="headerlink" title="Button"></a>Button</h1><p><code>Button</code> 用了两个组件：<code>Button</code> 和 <code>ButtonGroup</code></p>
+<h1 id="Button-参数"><a href="#Button-参数" class="headerlink" title="Button 参数"></a>Button 参数</h1><p>看一个组件首先观察它的传参，所以我们先看 <code>Button</code> 组件中的 <code>ButtonProps</code></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">type</span> ButtonType = <span class="string">'primary'</span> | <span class="string">'ghost'</span> | <span class="string">'dashed'</span> | <span class="string">'danger'</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">type</span> ButtonShape = <span class="string">'circle'</span> | <span class="string">'circle-outline'</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">type</span> ButtonSize = <span class="string">'small'</span> | <span class="string">'large'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">interface</span> ButtonProps &#123;</span><br><span class="line">  <span class="keyword">type</span>?: ButtonType; <span class="comment">// 按钮类型</span></span><br><span class="line">  htmlType?: <span class="built_in">string</span>; <span class="comment">// 设置 button 原生的 type 值（HTML 标准）</span></span><br><span class="line">  icon?: <span class="built_in">string</span>; <span class="comment">// 设置按钮图标类型</span></span><br><span class="line">  shape?: ButtonShape; <span class="comment">// 设置按钮形状（circle 或不设）</span></span><br><span class="line">  size?: ButtonSize; <span class="comment">// 设置按钮大小</span></span><br><span class="line">  onClick?: React.FormEventHandler&lt;<span class="built_in">any</span>&gt;; <span class="comment">// click 事件处理</span></span><br><span class="line">  onMouseUp?: React.FormEventHandler&lt;<span class="built_in">any</span>&gt;; <span class="comment">// 鼠标划过</span></span><br><span class="line">  onMouseDown?: React.FormEventHandler&lt;<span class="built_in">any</span>&gt;; <span class="comment">// 鼠标点击</span></span><br><span class="line">  loading?: <span class="built_in">boolean</span> | &#123; delay?: <span class="built_in">number</span> &#125;; <span class="comment">// 载入状态</span></span><br><span class="line">  disabled?: <span class="built_in">boolean</span>; <span class="comment">// 让按钮处于不可用状态</span></span><br><span class="line">  style?: React.CSSProperties; <span class="comment">// 内联样式</span></span><br><span class="line">  prefixCls?: <span class="built_in">string</span>; <span class="comment">// 预置字符串，用于拼接样式</span></span><br><span class="line">  className?: <span class="built_in">string</span>; <span class="comment">// 输出自定义 CSS 类</span></span><br><span class="line">  ghost?: <span class="built_in">boolean</span>; <span class="comment">// 幽灵属性，使按钮背景透明（2.7+）</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="参数文档"><a href="#参数文档" class="headerlink" title="参数文档"></a>参数文档</h2><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>说明</th>
+<th>类型</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ghost</td>
+<td>幽灵属性，使按钮背景透明，版本 2.7 中增加</td>
+<td>boolean</td>
+<td>false</td>
+</tr>
+<tr>
+<td>htmlType</td>
+<td>设置 button 原生的 type 值，可选值请参考 HTML 标准<span class="Apple-tab-span" style="white-space:pre"></span></td>
+<td>string<span class="Apple-tab-span" style="white-space:pre"></span></td>
+<td>button</td>
+</tr>
+<tr>
+<td>icon</td>
+<td>设置按钮的图标类型<span class="Apple-tab-span" style="white-space:pre"></span></td>
+<td>string</td>
+<td>-</td>
+</tr>
+<tr>
+<td>loading<span class="Apple-tab-span" style="white-space:pre"></span></td>
+<td>设置按钮载入状态</td>
+<td>boolean / { delay: number }<span class="Apple-tab-span" style="white-space:pre"></span></td>
+<td>false</td>
+</tr>
+<tr>
+<td>shape</td>
+<td>设置按钮形状，可选值为 circle 或者不设<span class="Apple-tab-span" style="white-space:pre"></span></td>
+<td>string</td>
+<td>-</td>
+</tr>
+<tr>
+<td>size</td>
+<td>设置按钮大小，可选值为 small large 或者不设<span class="Apple-tab-span" style="white-space:pre"></span></td>
+<td>string<span class="Apple-tab-span" style="white-space:pre"></span></td>
+<td>default</td>
+</tr>
+<tr>
+<td>type<span class="Apple-tab-span" style="white-space:pre"></span></td>
+<td>设置按钮类型，可选值为 primary dashed danger(版本 2.7 中增加) 或者不设<span class="Apple-tab-span" style="white-space:pre"></span></td>
+<td>string<span class="Apple-tab-span" style="white-space:pre"></span></td>
+<td>-</td>
+</tr>
+<tr>
+<td>onClick</td>
+<td>click 事件的 handler<span class="Apple-tab-span" style="white-space:pre"></span></td>
+<td>function</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<p>接下来，我们先跳过组件内部的逻辑，先来看看 <code>Render</code> 部分的内容</p>
+<h1 id="渲染函数（Render）"><a href="#渲染函数（Render）" class="headerlink" title="渲染函数（Render）"></a>渲染函数（Render）</h1><p>首先看看这部分的代码</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 这里是为了规范传入参数的类型</span></span><br><span class="line"><span class="comment">// React.Component 第一个参数是 Props，第二个是 state</span></span><br><span class="line"><span class="comment">// 然后利用 typescript 的类型检查机制明确 Props 类型为上面传入的 ButtonProps</span></span><br><span class="line"><span class="comment">// state 这里不做类型检查</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">class</span> Button <span class="keyword">extends</span> React.Component&lt;ButtonProps, <span class="built_in">any</span>&gt; </span><br></pre></td></tr></table></figure>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">render() &#123;</span><br><span class="line">  <span class="comment">// 解构接口 ButtonProps 传入的参数</span></span><br><span class="line">  <span class="keyword">const</span> &#123;</span><br><span class="line">    <span class="keyword">type</span>, shape, size, className, htmlType, children, icon, prefixCls, ghost, ...others,</span><br><span class="line">  &#125; = <span class="keyword">this</span>.props;</span><br><span class="line">  <span class="comment">// 从 this.state 解构 loading，clicked，hasTwoCNChar</span></span><br><span class="line">  <span class="comment">// hasTwoCNChar 是为了修正两个汉字之间没有添加空格的问题</span></span><br><span class="line">  <span class="keyword">const</span> &#123; loading, clicked, hasTwoCNChar &#125; = <span class="keyword">this</span>.state;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// large =&gt; lg</span></span><br><span class="line">  <span class="comment">// small =&gt; sm</span></span><br><span class="line">  <span class="keyword">let</span> sizeCls = <span class="string">''</span>;</span><br><span class="line">  <span class="comment">// 定义 size 所对应的 CSS</span></span><br><span class="line">  <span class="keyword">switch</span> (size) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">'large'</span>:</span><br><span class="line">      sizeCls = <span class="string">'lg'</span>;</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">'small'</span>:</span><br><span class="line">      sizeCls = <span class="string">'sm'</span>;</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 传入 href 标记时可作为 &lt;a&gt; 标签使用</span></span><br><span class="line">  <span class="keyword">const</span> ComponentProp = others.href ? <span class="string">'a'</span> : <span class="string">'button'</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 组建样式</span></span><br><span class="line">  <span class="keyword">const</span> classes = classNames(prefixCls, className, &#123;</span><br><span class="line">    [<span class="string">`<span class="subst">$&#123;prefixCls&#125;</span>-<span class="subst">$&#123;type&#125;</span>`</span>]: <span class="keyword">type</span>,</span><br><span class="line">    [<span class="string">`<span class="subst">$&#123;prefixCls&#125;</span>-<span class="subst">$&#123;shape&#125;</span>`</span>]: shape,</span><br><span class="line">    [<span class="string">`<span class="subst">$&#123;prefixCls&#125;</span>-<span class="subst">$&#123;sizeCls&#125;</span>`</span>]: sizeCls,</span><br><span class="line">    [<span class="string">`<span class="subst">$&#123;prefixCls&#125;</span>-icon-only`</span>]: !children &amp;&amp; icon,</span><br><span class="line">    [<span class="string">`<span class="subst">$&#123;prefixCls&#125;</span>-loading`</span>]: loading,</span><br><span class="line">    [<span class="string">`<span class="subst">$&#123;prefixCls&#125;</span>-clicked`</span>]: clicked,</span><br><span class="line">    [<span class="string">`<span class="subst">$&#123;prefixCls&#125;</span>-background-ghost`</span>]: ghost,</span><br><span class="line">    [<span class="string">`<span class="subst">$&#123;prefixCls&#125;</span>-two-chinese-chars`</span>]: hasTwoCNChar,</span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="comment">// 传入 icon 与 loading 时，生成相应的 Icon 组件</span></span><br><span class="line">  <span class="keyword">const</span> iconType = loading ? <span class="string">'loading'</span> : icon;</span><br><span class="line">  <span class="keyword">const</span> iconNode = iconType ? &lt;Icon <span class="keyword">type</span>=&#123;iconType&#125; /&gt; : <span class="literal">null</span>;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 这里引用了 React.Children.map 这个函数来渲染包裹在 Button 组件中的内容</span></span><br><span class="line">  <span class="comment">// 当组件有子节点时调用 insertSpace</span></span><br><span class="line">  <span class="comment">// children === 0 是为了修复 &lt;Button&gt;&#123;0&#125;&lt;/Button&gt; 显示异常的bug</span></span><br><span class="line">  <span class="comment">// insertSpace 这个函数主要是为了判断输入是否是中文汉字？如果是的话在中间加入空格，不是则直接返回一个 span</span></span><br><span class="line">  <span class="comment">// 不用 letter-space 是为了不在英文中加入空格</span></span><br><span class="line">  <span class="comment">// &lt;Button&gt;Hello world!&lt;/Button&gt; 最终会被渲染为 &lt;button&gt;&lt;span&gt;Hello world!&lt;/span&gt;&lt;/button&gt;</span></span><br><span class="line">  </span><br><span class="line">  <span class="keyword">const</span> kids = (children || children === <span class="number">0</span>)</span><br><span class="line">    ? React.Children.map(children, <span class="function"><span class="params">child</span> =&gt;</span> insertSpace(child, <span class="keyword">this</span>.isNeedInserted())) : <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    <span class="comment">// 同之前的 Icon 组件，删去 others 属性在 HTML 规范中不存在的内容</span></span><br><span class="line">    &lt;ComponentProp</span><br><span class="line">      &#123;...omit(others, [<span class="string">'loading'</span>])&#125;</span><br><span class="line">      <span class="keyword">type</span>=&#123;others.href ? <span class="literal">undefined</span> : (htmlType || <span class="string">'button'</span>)&#125;</span><br><span class="line">      className=&#123;classes&#125;</span><br><span class="line">      onClick=&#123;<span class="keyword">this</span>.handleClick&#125;</span><br><span class="line">    &gt;</span><br><span class="line">      <span class="comment">// 渲染子元素</span></span><br><span class="line">      &#123;iconNode&#125;&#123;kids&#125;</span><br><span class="line">    &lt;<span class="regexp">/ComponentProp&gt;</span></span><br><span class="line"><span class="regexp">  );</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+<h1 id="InsertSpace-isNeedInserted"><a href="#InsertSpace-isNeedInserted" class="headerlink" title="InsertSpace / isNeedInserted"></a>InsertSpace / isNeedInserted</h1><p>接下来看看上面用到的 <code>InsertSpace</code> 和 <code>isNeedInserted</code> 是如何调用的</p>
+<p>首先看看组件修复 bug 时引入的两个新变量</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 正则表达式，判断是否为汉字（\u4e00 - \u9fa5 代表 unicode 中所有汉字）</span></span><br><span class="line"><span class="keyword">const</span> rxTwoCNChar = <span class="regexp">/^[\u4e00-\u9fa5]&#123;2&#125;$/</span>;</span><br><span class="line"><span class="comment">// 以布尔类型返回判断结果</span></span><br><span class="line"><span class="keyword">const</span> isTwoCNChar = rxTwoCNChar.test.bind(rxTwoCNChar);</span><br></pre></td></tr></table></figure>
+<p>接下来看看用于判断的 <code>isNeedInserted</code></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">isNeedInserted() &#123;</span><br><span class="line">  <span class="keyword">const</span> &#123; loading, icon, children &#125; = <span class="keyword">this</span>.props;</span><br><span class="line">  <span class="keyword">const</span> iconType = loading ? <span class="string">'loading'</span> : icon;</span><br><span class="line">  <span class="comment">// 仅有一个子节点，且 icon 不为空时返回真</span></span><br><span class="line">  <span class="keyword">return</span> React.Children.count(children) === <span class="number">1</span> &amp;&amp; (!iconType || iconType === <span class="string">'loading'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>组件被加载时，会从 DOM 节点中取出文本，然后对字符进行判断，如果为两个中文字符，则会将 hasTwoCNChar 置真</p>
+<p>最后再来看看 <code>insertSpace</code></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">insertSpace</span>(<span class="params">child: React.ReactChild, needInserted: <span class="built_in">boolean</span></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// Check the child if is undefined or null.</span></span><br><span class="line">  <span class="keyword">if</span> (child == <span class="literal">null</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 需要添加空格时设为空格</span></span><br><span class="line">  <span class="keyword">const</span> SPACE = needInserted ? <span class="string">' '</span> : <span class="string">''</span>;</span><br><span class="line">  <span class="comment">// strictNullChecks oops.</span></span><br><span class="line">  <span class="comment">// 非严格意义检查，实际上判断的是这种情况（所以才会说不是严格意义检查，权衡之计……）</span></span><br><span class="line">  <span class="comment">// &lt;Button&gt;</span></span><br><span class="line">  <span class="comment">//   &lt;div&gt;你好啊&lt;/div&gt;</span></span><br><span class="line">  <span class="comment">// &lt;/Button&gt;</span></span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> child !== <span class="string">'string'</span> &amp;&amp; <span class="keyword">typeof</span> child !== <span class="string">'number'</span> &amp;&amp;</span><br><span class="line">    isString(child.type) &amp;&amp; isTwoCNChar(child.props.children)) &#123;</span><br><span class="line">    <span class="keyword">return</span> React.cloneElement(child, &#123;&#125;,</span><br><span class="line">      child.props.children.split(<span class="string">''</span>).join(SPACE));</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 判断组件中文本是不是中文</span></span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> child === <span class="string">'string'</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (isTwoCNChar(child)) &#123;</span><br><span class="line">      child = child.split(<span class="string">''</span>).join(SPACE);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> &lt;span&gt;&#123;child&#125;&lt;<span class="regexp">/span&gt;;</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">  return child;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+<h1 id="完整源代码"><a href="#完整源代码" class="headerlink" title="完整源代码"></a>完整源代码</h1><p>接下来的逻辑比较简单，不需要过多的讲解了</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; findDOMNode &#125; <span class="keyword">from</span> <span class="string">'react-dom'</span>;</span><br><span class="line"><span class="keyword">import</span> PropTypes <span class="keyword">from</span> <span class="string">'prop-types'</span>;</span><br><span class="line"><span class="keyword">import</span> classNames <span class="keyword">from</span> <span class="string">'classnames'</span>;</span><br><span class="line"><span class="keyword">import</span> omit <span class="keyword">from</span> <span class="string">'omit.js'</span>;</span><br><span class="line"><span class="keyword">import</span> Icon <span class="keyword">from</span> <span class="string">'../icon'</span>;</span><br><span class="line"><span class="keyword">import</span> Group <span class="keyword">from</span> <span class="string">'./button-group'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> rxTwoCNChar = <span class="regexp">/^[\u4e00-\u9fa5]&#123;2&#125;$/</span>;</span><br><span class="line"><span class="keyword">const</span> isTwoCNChar = rxTwoCNChar.test.bind(rxTwoCNChar);</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isString</span>(<span class="params">str: <span class="built_in">any</span></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">typeof</span> str === <span class="string">'string'</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Insert one space between two chinese characters automatically.</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">insertSpace</span>(<span class="params">child: React.ReactChild, needInserted: <span class="built_in">boolean</span></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// Check the child if is undefined or null.</span></span><br><span class="line">  <span class="keyword">if</span> (child == <span class="literal">null</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> SPACE = needInserted ? <span class="string">' '</span> : <span class="string">''</span>;</span><br><span class="line">  <span class="comment">// strictNullChecks oops.</span></span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> child !== <span class="string">'string'</span> &amp;&amp; <span class="keyword">typeof</span> child !== <span class="string">'number'</span> &amp;&amp;</span><br><span class="line">    isString(child.type) &amp;&amp; isTwoCNChar(child.props.children)) &#123;</span><br><span class="line">    <span class="keyword">return</span> React.cloneElement(child, &#123;&#125;,</span><br><span class="line">      child.props.children.split(<span class="string">''</span>).join(SPACE));</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> child === <span class="string">'string'</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (isTwoCNChar(child)) &#123;</span><br><span class="line">      child = child.split(<span class="string">''</span>).join(SPACE);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> &lt;span&gt;&#123;child&#125;&lt;<span class="regexp">/span&gt;;</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">  return child;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">export type ButtonType = 'primary' | 'ghost' | 'dashed' | 'danger';</span></span><br><span class="line"><span class="regexp">export type ButtonShape = 'circle' | 'circle-outline';</span></span><br><span class="line"><span class="regexp">export type ButtonSize = 'small' | 'default' | 'large';</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">export interface ButtonProps &#123;</span></span><br><span class="line"><span class="regexp">  type?: ButtonType;</span></span><br><span class="line"><span class="regexp">  htmlType?: string;</span></span><br><span class="line"><span class="regexp">  icon?: string;</span></span><br><span class="line"><span class="regexp">  shape?: ButtonShape;</span></span><br><span class="line"><span class="regexp">  size?: ButtonSize;</span></span><br><span class="line"><span class="regexp">  onClick?: React.FormEventHandler&lt;any&gt;;</span></span><br><span class="line"><span class="regexp">  onMouseUp?: React.FormEventHandler&lt;any&gt;;</span></span><br><span class="line"><span class="regexp">  onMouseDown?: React.FormEventHandler&lt;any&gt;;</span></span><br><span class="line"><span class="regexp">  /</span><span class="regexp">/ 后期添加，为了判断键盘点击事件</span></span><br><span class="line"><span class="regexp">  onKeyPress?: React.KeyboardEvent&lt;any&gt;;</span></span><br><span class="line"><span class="regexp">  onKeyDown?: React.KeyboardEvent&lt;any&gt;;</span></span><br><span class="line"><span class="regexp">  tabIndex?: number;</span></span><br><span class="line"><span class="regexp">  loading?: boolean | &#123; delay?: number &#125;;</span></span><br><span class="line"><span class="regexp">  disabled?: boolean;</span></span><br><span class="line"><span class="regexp">  style?: React.CSSProperties;</span></span><br><span class="line"><span class="regexp">  prefixCls?: string;</span></span><br><span class="line"><span class="regexp">  className?: string;</span></span><br><span class="line"><span class="regexp">  ghost?: boolean;</span></span><br><span class="line"><span class="regexp">  target?: string;</span></span><br><span class="line"><span class="regexp">  href?: string;</span></span><br><span class="line"><span class="regexp">  download?: string;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">export default class Button extends React.Component&lt;ButtonProps, any&gt; &#123;</span></span><br><span class="line"><span class="regexp">  /</span><span class="regexp">/ 为了方便写 Button.Group 来引用 ButtonGroup 这个组件</span></span><br><span class="line"><span class="regexp">  static Group: typeof Group;</span></span><br><span class="line"><span class="regexp">  static __ANT_BUTTON = true;</span></span><br><span class="line"><span class="regexp">  /</span><span class="regexp">/ 组件默认属性</span></span><br><span class="line"><span class="regexp">  static defaultProps = &#123;</span></span><br><span class="line"><span class="regexp">    prefixCls: 'ant-btn',</span></span><br><span class="line"><span class="regexp">    loading: false,</span></span><br><span class="line"><span class="regexp">    ghost: false,</span></span><br><span class="line"><span class="regexp">  &#125;;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">  static propTypes = &#123;</span></span><br><span class="line"><span class="regexp">    type: PropTypes.string,</span></span><br><span class="line"><span class="regexp">    shape: PropTypes.oneOf(['circle', 'circle-outline']),</span></span><br><span class="line"><span class="regexp">    size: PropTypes.oneOf(['large', 'default', 'small']),</span></span><br><span class="line"><span class="regexp">    htmlType: PropTypes.oneOf(['submit', 'button', 'reset']),</span></span><br><span class="line"><span class="regexp">    onClick: PropTypes.func,</span></span><br><span class="line"><span class="regexp">    loading: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),</span></span><br><span class="line"><span class="regexp">    className: PropTypes.string,</span></span><br><span class="line"><span class="regexp">    icon: PropTypes.string,</span></span><br><span class="line"><span class="regexp">  &#125;;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">  timeout: number;</span></span><br><span class="line"><span class="regexp">  delayTimeout: number;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">  /</span><span class="regexp">/ 内部需要使用的状态：点击状态，加载状态</span></span><br><span class="line"><span class="regexp">  constructor(props: ButtonProps) &#123;</span></span><br><span class="line"><span class="regexp">    super(props);</span></span><br><span class="line"><span class="regexp">    this.state = &#123;</span></span><br><span class="line"><span class="regexp">      loading: props.loading,</span></span><br><span class="line"><span class="regexp">      clicked: false,</span></span><br><span class="line"><span class="regexp">      hasTwoCNChar: false,</span></span><br><span class="line"><span class="regexp">    &#125;;</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">  componentDidMount() &#123;</span></span><br><span class="line"><span class="regexp">    /</span><span class="regexp">/ Fix for HOC usage like &lt;FormatMessage /</span>&gt;</span><br><span class="line">    <span class="keyword">const</span> buttonText = (findDOMNode(<span class="keyword">this</span>) <span class="keyword">as</span> HTMLElement).innerText;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.isNeedInserted() &amp;&amp; isTwoCNChar(buttonText)) &#123;</span><br><span class="line">      <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">        hasTwoCNChar: <span class="literal">true</span>,</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 更新加载状态，传入的属性变化时对加载状态进行更新</span></span><br><span class="line">  componentWillReceiveProps(nextProps: ButtonProps) &#123;</span><br><span class="line">    <span class="keyword">const</span> currentLoading = <span class="keyword">this</span>.props.loading;</span><br><span class="line">    <span class="keyword">const</span> loading = nextProps.loading;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (currentLoading) &#123;</span><br><span class="line">      clearTimeout(<span class="keyword">this</span>.delayTimeout);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> loading !== <span class="string">'boolean'</span> &amp;&amp; loading &amp;&amp; loading.delay) &#123;</span><br><span class="line">      <span class="keyword">this</span>.delayTimeout = <span class="built_in">window</span>.setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">this</span>.setState(&#123; loading &#125;), loading.delay);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">this</span>.setState(&#123; loading &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  componentWillUnmount() &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.timeout) &#123;</span><br><span class="line">      clearTimeout(<span class="keyword">this</span>.timeout);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.delayTimeout) &#123;</span><br><span class="line">      clearTimeout(<span class="keyword">this</span>.delayTimeout);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 处理点击事件</span></span><br><span class="line">  handleClick = <span class="function">(<span class="params">e: React.MouseEvent&lt;HTMLButtonElement&gt;</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// Add click effect</span></span><br><span class="line">    <span class="keyword">this</span>.setState(&#123; clicked: <span class="literal">true</span> &#125;);</span><br><span class="line">    clearTimeout(<span class="keyword">this</span>.timeout);</span><br><span class="line">    <span class="keyword">this</span>.timeout = <span class="built_in">window</span>.setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">this</span>.setState(&#123; clicked: <span class="literal">false</span> &#125;), <span class="number">500</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> onClick = <span class="keyword">this</span>.props.onClick;</span><br><span class="line">    <span class="keyword">if</span> (onClick) &#123;</span><br><span class="line">      onClick(e);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  isNeedInserted() &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; loading, icon, children &#125; = <span class="keyword">this</span>.props;</span><br><span class="line">    <span class="keyword">const</span> iconType = loading ? <span class="string">'loading'</span> : icon;</span><br><span class="line">    <span class="keyword">return</span> React.Children.count(children) === <span class="number">1</span> &amp;&amp; (!iconType || iconType === <span class="string">'loading'</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123;</span><br><span class="line">      <span class="keyword">type</span>, shape, size, className, htmlType, children, icon, prefixCls, ghost, ...others,</span><br><span class="line">    &#125; = <span class="keyword">this</span>.props;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> &#123; loading, clicked, hasTwoCNChar &#125; = <span class="keyword">this</span>.state;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// large =&gt; lg</span></span><br><span class="line">    <span class="comment">// small =&gt; sm</span></span><br><span class="line">    <span class="keyword">let</span> sizeCls = <span class="string">''</span>;</span><br><span class="line">    <span class="keyword">switch</span> (size) &#123;</span><br><span class="line">      <span class="keyword">case</span> <span class="string">'large'</span>:</span><br><span class="line">        sizeCls = <span class="string">'lg'</span>;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> <span class="string">'small'</span>:</span><br><span class="line">        sizeCls = <span class="string">'sm'</span>;</span><br><span class="line">      <span class="keyword">default</span>:</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> ComponentProp = others.href ? <span class="string">'a'</span> : <span class="string">'button'</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> classes = classNames(prefixCls, className, &#123;</span><br><span class="line">      [<span class="string">`<span class="subst">$&#123;prefixCls&#125;</span>-<span class="subst">$&#123;type&#125;</span>`</span>]: <span class="keyword">type</span>,</span><br><span class="line">      [<span class="string">`<span class="subst">$&#123;prefixCls&#125;</span>-<span class="subst">$&#123;shape&#125;</span>`</span>]: shape,</span><br><span class="line">      [<span class="string">`<span class="subst">$&#123;prefixCls&#125;</span>-<span class="subst">$&#123;sizeCls&#125;</span>`</span>]: sizeCls,</span><br><span class="line">      [<span class="string">`<span class="subst">$&#123;prefixCls&#125;</span>-icon-only`</span>]: !children &amp;&amp; icon,</span><br><span class="line">      [<span class="string">`<span class="subst">$&#123;prefixCls&#125;</span>-loading`</span>]: loading,</span><br><span class="line">      [<span class="string">`<span class="subst">$&#123;prefixCls&#125;</span>-clicked`</span>]: clicked,</span><br><span class="line">      [<span class="string">`<span class="subst">$&#123;prefixCls&#125;</span>-background-ghost`</span>]: ghost,</span><br><span class="line">      [<span class="string">`<span class="subst">$&#123;prefixCls&#125;</span>-two-chinese-chars`</span>]: hasTwoCNChar,</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> iconType = loading ? <span class="string">'loading'</span> : icon;</span><br><span class="line">    <span class="keyword">const</span> iconNode = iconType ? &lt;Icon <span class="keyword">type</span>=&#123;iconType&#125; /&gt; : <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">const</span> kids = (children || children === <span class="number">0</span>)</span><br><span class="line">      ? React.Children.map(children, <span class="function"><span class="params">child</span> =&gt;</span> insertSpace(child, <span class="keyword">this</span>.isNeedInserted())) : <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;ComponentProp</span><br><span class="line">        &#123;...omit(others, [<span class="string">'loading'</span>])&#125;</span><br><span class="line">        <span class="keyword">type</span>=&#123;others.href ? <span class="literal">undefined</span> : (htmlType || <span class="string">'button'</span>)&#125;</span><br><span class="line">        className=&#123;classes&#125;</span><br><span class="line">        onClick=&#123;<span class="keyword">this</span>.handleClick&#125;</span><br><span class="line">      &gt;</span><br><span class="line">        &#123;iconNode&#125;&#123;kids&#125;</span><br><span class="line">      &lt;<span class="regexp">/ComponentProp&gt;</span></span><br><span class="line"><span class="regexp">    );</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp"></span></span><br></pre></td></tr></table></figure>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a href="https://juejin.im/post/59dfa57ef265da430e4e2a15" target="_blank" rel="noopener">antd源码解读（3）- Button</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Helvetica.D</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://www.douglasdong.site/2018-10-03-1.html" title="AntD/Choerodon-UI 源码分析（3）- Button 组件">https://www.douglasdong.site/2018-10-03-1.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JavaScript-AntD-Choerodon-UI/" rel="tag"># JavaScript, AntD, Choerodon-UI</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018-10-03.html" rel="next" title="AntD/Choerodon-UI 源码分析（2）- Icon 组件">
+                <i class="fa fa-chevron-left"></i> AntD/Choerodon-UI 源码分析（2）- Icon 组件
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div onclick="showGitment()" id="gitment-display-button">显示 Gitment 评论</div>
+        <div id="gitment-container" style="display:none"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.PNG"
+                alt="Helvetica.D" />
+            
+              <p class="site-author-name" itemprop="name">Helvetica.D</p>
+              <p class="site-description motion-element" itemprop="description">P5天下第一！！</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/Xeonice" target="_blank" title="GitHub" rel="external nofollow"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:ad546971975@gmail.com" target="_blank" title="E-Mail" rel="external nofollow"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Button"><span class="nav-number">1.</span> <span class="nav-text">Button</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Button-参数"><span class="nav-number">2.</span> <span class="nav-text">Button 参数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#参数文档"><span class="nav-number">2.1.</span> <span class="nav-text">参数文档</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#渲染函数（Render）"><span class="nav-number">3.</span> <span class="nav-text">渲染函数（Render）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#InsertSpace-isNeedInserted"><span class="nav-number">4.</span> <span class="nav-text">InsertSpace / isNeedInserted</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#完整源代码"><span class="nav-number">5.</span> <span class="nav-text">完整源代码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考资料"><span class="nav-number">6.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2017 – <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Helvetica.D</span>
+  <div class="powered-by">  </div>
+  <span>Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a></span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="站点总字数">150k</span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    
+    <span title="站点阅读时长">2:17</span>
+  
+</div>
+
+
+  
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" rel="external nofollow" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a class="theme-link" target="_blank" rel="external nofollow" href="https://theme-next.org">NexT.Muse</a> v6.4.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  
+    <script type="text/javascript" src="https://cdn.staticfile.org/jquery/2.1.3/jquery.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery_lazyload/1.9.7/jquery.lazyload.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="https://cdn.staticfile.org/velocity/1.2.1/velocity.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="https://cdn.staticfile.org/velocity/1.2.1/velocity.ui.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="https://cdn.bootcss.com/fancybox/3.3.5/jquery.fancybox.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/reading_progress/reading_progress.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: window.location.pathname,
+            owner: 'Xeonice',
+            repo: 'DouglasDongComment',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: '2ffef8417a91b7f5915345b2c029d170112c0429',
+            
+                client_id: 'b15c18bda9a832e21a62'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      function showGitment(){
+        document.getElementById("gitment-display-button").style.display = "none";
+        document.getElementById("gitment-container").style.display = "block";
+        renderGitment();
+      }
+      
+      </script>
+    
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+  
+  
+  <script src="/lib/bookmark/bookmark.min.js?v=1.0"></script>
+  <script type="text/javascript">
+  
+    bookmark.scrollToMark('auto', "#更多");
+  
+  </script>
+
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function (i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap')
+      $(e).after($wrap)
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function (e) {
+        var code = $(this).parent().find('.code').find('.line').map(function (i, e) {
+          return $(e).text()
+        }).toArray().join('\n')
+        var ta = document.createElement('textarea')
+        document.body.appendChild(ta)
+        ta.style.position = 'absolute'
+        ta.style.top = '0px'
+        ta.style.left = '0px'
+        ta.value = code
+        ta.select()
+        ta.focus()
+        var result = document.execCommand('copy')
+        document.body.removeChild(ta)
+        
+          if(result)$(this).text('复制成功')
+          else $(this).text('复制失败')
+        
+        $(this).blur()
+      })).on('mouseleave', function (e) {
+        var $b = $(this).find('.copy-btn')
+        setTimeout(function () {
+          $b.text('复制')
+        }, 300)
+      }).append(e)
+    })
+  </script>
+
+
+</body>
+</html>
