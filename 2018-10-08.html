@@ -133,18 +133,18 @@
 
 
 
-  <meta name="description" content="Thunk 是什么？Thunk 应该如何被实现？Thunk 的真正用途是什么？在 JavaScript 异步编程的 Generator 实现中，Thunk 的作用是怎样的">
-<meta name="keywords" content="Thunk, Thunk的实现, Thunk的用途">
+  <meta name="description" content="BreadcrumbAntD 中的 Breadcrumb 组件用于显示当前页面在系统层级结构中的位置，其中对于路由的支持采用了 react-router@3 和 react-router@4 Breadcrumb Props和之前一样，我们先从组件传入参数入手    参数 说明 类型 可选值 默认值     itemRender 自定义链接函数，和 react-router 配置使用 (rout">
+<meta name="keywords" content="AntD, Choerodon-UI, JavaScript">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Thunk 解析">
-<meta property="og:url" content="https://www.douglasdong.site/2018-04-11.html">
+<meta property="og:title" content="AntD&#x2F;Choerodon-UI 源码分析（7）- Breadcrumb 组件">
+<meta property="og:url" content="https://www.douglasdong.site/2018-10-08.html">
 <meta property="og:site_name" content="Helve&#39;s Blog">
-<meta property="og:description" content="Thunk 是什么？Thunk 应该如何被实现？Thunk 的真正用途是什么？在 JavaScript 异步编程的 Generator 实现中，Thunk 的作用是怎样的">
+<meta property="og:description" content="BreadcrumbAntD 中的 Breadcrumb 组件用于显示当前页面在系统层级结构中的位置，其中对于路由的支持采用了 react-router@3 和 react-router@4 Breadcrumb Props和之前一样，我们先从组件传入参数入手    参数 说明 类型 可选值 默认值     itemRender 自定义链接函数，和 react-router 配置使用 (rout">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-10-04T06:13:56.668Z">
+<meta property="og:updated_time" content="2018-10-08T05:48:46.970Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Thunk 解析">
-<meta name="twitter:description" content="Thunk 是什么？Thunk 应该如何被实现？Thunk 的真正用途是什么？在 JavaScript 异步编程的 Generator 实现中，Thunk 的作用是怎样的">
+<meta name="twitter:title" content="AntD&#x2F;Choerodon-UI 源码分析（7）- Breadcrumb 组件">
+<meta name="twitter:description" content="BreadcrumbAntD 中的 Breadcrumb 组件用于显示当前页面在系统层级结构中的位置，其中对于路由的支持采用了 react-router@3 和 react-router@4 Breadcrumb Props和之前一样，我们先从组件传入参数入手    参数 说明 类型 可选值 默认值     itemRender 自定义链接函数，和 react-router 配置使用 (rout">
 
 
 
@@ -153,7 +153,7 @@
 
 
 
-  <link rel="canonical" href="https://www.douglasdong.site/2018-04-11.html"/>
+  <link rel="canonical" href="https://www.douglasdong.site/2018-10-08.html"/>
 
 
 
@@ -163,7 +163,7 @@
   };
 </script>
 
-  <title>Thunk 解析 | Helve's Blog</title>
+  <title>AntD/Choerodon-UI 源码分析（7）- Breadcrumb 组件 | Helve's Blog</title>
   
 
 
@@ -340,7 +340,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.douglasdong.site/2018-04-11.html">
+    <link itemprop="mainEntityOfPage" href="https://www.douglasdong.site/2018-10-08.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Helvetica.D">
@@ -357,7 +357,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">Thunk 解析
+          <h2 class="post-title" itemprop="name headline">AntD/Choerodon-UI 源码分析（7）- Breadcrumb 组件
               
             
           </h2>
@@ -382,7 +382,7 @@
                 
               
 
-              <time title="创建时间：2018-04-11 19:19:24" itemprop="dateCreated datePublished" datetime="2018-04-11T19:19:24+08:00">2018-04-11</time>
+              <time title="创建时间：2018-10-08 11:46:14" itemprop="dateCreated datePublished" datetime="2018-10-08T11:46:14+08:00">2018-10-08</time>
             
 
             
@@ -400,7 +400,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/JavaScript异步执行/" itemprop="url" rel="index"><span itemprop="name">JavaScript异步执行</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/AntD-源码分析/" itemprop="url" rel="index"><span itemprop="name">AntD 源码分析</span></a></span>
 
                 
                 
@@ -415,8 +415,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018-04-11.html#comments" itemprop="discussionUrl">
-                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count gitment-comments-count" data-xid="/2018-04-11.html" itemprop="commentsCount"></span>
+                <a href="/2018-10-08.html#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count gitment-comments-count" data-xid="/2018-10-08.html" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -438,7 +438,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">3.8k字</span>
+                <span title="本文字数">2.5k字</span>
               
 
               
@@ -452,13 +452,11 @@
                 
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
-                <span title="阅读时长">3 分钟</span>
+                <span title="阅读时长">2 分钟</span>
               
             </div>
           
 
-          
-              <div class="post-description"><center>Thunk 是什么？Thunk 应该如何被实现？Thunk 的真正用途是什么？在 JavaScript 异步编程的 Generator 实现中，Thunk 的作用是怎样的</center></div>
           
 
         </div>
@@ -474,36 +472,51 @@
       
 
       
-        <script src="/assets/js/APlayer.min.js"> </script><h1 id="何为-THUNK？"><a href="#何为-THUNK？" class="headerlink" title="何为 THUNK？"></a>何为 THUNK？</h1><p>开发者时常会面临一个选择：函数的参数到底应该何时求值？</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> x = <span class="number">1</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params">m</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> m * <span class="number">2</span>;</span><br><span class="line">&#125;</span><br><span class="line">f ( x + <span class="number">5</span> );</span><br></pre></td></tr></table></figure>
-<p>上例中的代码非常正常，问题是：<strong>什么时候计算参数 x + 5 呢</strong>？</p>
-<p>一种策略是立即计算，于是 <code>f(x + 5)</code> 会被转换成 <code>f(6)</code>，然后进入函数 <code>f</code> 内运行函数</p>
-<p>另一种策略是延迟计算，在进入函数 <code>f</code> 之前并不计算参数值，而是进入函数体之后才计算，因此函数体内的 <code>return m * 2;</code> 会被转换为 <code>return (x + 5) * 2;</code>，此时才开始计算</p>
-<p>如果不考虑开发成本，延迟计算是比较好的，否则如果函数体内走了某 if 分支并没有用到该参数，就白计算了，浪费性能。延迟到真正用到参数时才开始计算，这也是程序开发的一种流行的风格：<strong>越懒越好</strong><br><a id="more"></a></p>
-<h2 id="如何实现-Thunk？"><a href="#如何实现-Thunk？" class="headerlink" title="如何实现 Thunk？"></a>如何实现 Thunk？</h2><p>如何实现延迟计算呢？可以生成一个临时函数（Thunk 函数），将参数放进去，上面代码等价于：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> x = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">var</span> thunk = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> x + <span class="number">5</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span> (<span class="params">tempFunc</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> tempFunc() * <span class="number">2</span>;</span><br><span class="line">&#125;;</span><br><span class="line">f (thunk);  <span class="comment">//12    </span></span><br></pre></td></tr></table></figure>
-<p>上面这样的延迟计算，可能对效率控来说节省了一些理论上的性能（实际真节省了吗？未必），但从代码可读性，可维护性上来看，这样是得不偿失的</p>
-<h2 id="Thunk-的具体应用"><a href="#Thunk-的具体应用" class="headerlink" title="Thunk 的具体应用"></a>Thunk 的具体应用</h2><p>Thunk 函数在 JS 里的应用是将多参的一步函数转换为单参，通常异步函数的最后一个参数是回调函数，以 NodeJS 的核心模块 File System 的异步函数 <code>readFile</code> 为例</p>
-<p>函数原型：<code>fs.readFile (file[, options], callback)</code><br>支持 3 个参数，其中最后一个是回调函数，普通调用方式：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">someCallback</span> (<span class="params"> err, data </span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (err) <span class="keyword">throw</span> err;</span><br><span class="line">    <span class="built_in">console</span>.log (data);</span><br><span class="line">&#125;</span><br><span class="line">fs.readFile(<span class="string">'./oranges.txt'</span>, <span class="string">'utf8'</span>, someCallback); </span><br></pre></td></tr></table></figure>
-<p>用 Thunk 改造后：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">someCallback</span> (<span class="params">err, data</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (err) <span class="keyword">throw</span> err;</span><br><span class="line">    <span class="built_in">console</span>.log(data);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> Thunk = <span class="function"><span class="keyword">function</span> (<span class="params">fileName, options</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">callback</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> fs.readFile(fileName, options, callback);</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> readFileThunk = Thunk(<span class="string">'./oranges.txt'</span>, <span class="string">'utf8'</span>);</span><br><span class="line">readFileThunk(someCallBack);    </span><br></pre></td></tr></table></figure>
-<p>Thunk 函数真正的作用是<strong>简化了参数，将原本多参的函数，简化成只接受回调函数做参数</strong>，即多参版本的一步函数，经由 Thunk，变成了单参（参数为回调函数）函数</p>
-<p>现实中不必为每个异步函数定制一个 Thunk 函数，因此可以定义通用的 Thunk 函数：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Thunk = <span class="function"><span class="keyword">function</span> (<span class="params">fn</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> args = <span class="built_in">Array</span>.prototype.slice.call(<span class="built_in">arguments</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">callback</span>) </span>&#123;</span><br><span class="line">            args.push(callback);</span><br><span class="line">            <span class="keyword">return</span> fn.apply(<span class="keyword">this</span>, args);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> readFileThunk = Thunk(fs.readFile);</span><br><span class="line">readFileThunk(<span class="string">'./oranges.txt'</span>, <span class="string">'utf8'</span>)(someCallback); </span><br></pre></td></tr></table></figure>
-<p>可以把上面 Thunk 函数放到 common 位置，任何多参的异步函数（最后一个参数为回调函数），都可以调用上面的 Thunk 函数转换成单参版本</p>
-<p>其实上述 Thunk 函数等价于柯里化：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> readFileThunk = fs.readFile.bind(<span class="literal">null</span>, <span class="string">'./orange.txt'</span>, <span class="string">'utf8'</span>);</span><br><span class="line">readFileThunk(someCallback);</span><br></pre></td></tr></table></figure>
-<p>如果不想自己造轮子来写 Thunk 函数，可以 Thunkify 模块：<code>npm install thunkify</code>，源代码和我们写的 Thunk 非常像</p>
-<h2 id="Thunk-的真正用途"><a href="#Thunk-的真正用途" class="headerlink" title="Thunk 的真正用途"></a>Thunk 的真正用途</h2><p>上面举的 Thunk 函数的例子，无论是延迟计算，还是将多参异步函数转换成单参，其实都没什么用，所以在 Generator 函数出现之前，Thunk 函数确实没什么用，真正让其发挥作用的是配合 Generator 函数实现自动化异步操作，以读取文件为例，Generator 函数封装了两个异步操作</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</span><br><span class="line"><span class="keyword">var</span> thunkify = <span class="built_in">require</span>(<span class="string">'thunkify'</span>);</span><br><span class="line"><span class="keyword">var</span> readFileThunk = thunkify(fs.readFile);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> gen = <span class="function"><span class="keyword">function</span>* (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> r1 = <span class="keyword">yield</span> readFileThunk(<span class="string">'./apples.txt'</span>, <span class="string">'utf8'</span>);</span><br><span class="line">    <span class="built_in">console</span>.log(r1);</span><br><span class="line">    <span class="keyword">var</span> r2 = <span class="keyword">yield</span> readFileThunk(<span class="string">'./oranges.txt'</span>, <span class="string">'utf8'</span>);</span><br><span class="line">    <span class="built_in">console</span>.log(r2);</span><br><span class="line">&#125;;    </span><br></pre></td></tr></table></figure>
-<p>定义的异步操作很清晰（这也是 Generator 的优点，可以用同步化的方式定义异步操作步骤），可以如下执行异步操作</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> g = gen();</span><br><span class="line"><span class="keyword">var</span> r = g.next();</span><br><span class="line">r.value(<span class="function"><span class="keyword">function</span> (<span class="params">err, data</span>) </span>&#123;  <span class="comment">//r.value 是一个 function，等价于 fs.readFile(callback)</span></span><br><span class="line">    <span class="keyword">if</span> (err) <span class="keyword">throw</span> err;</span><br><span class="line">    <span class="keyword">var</span> r2 = g.next(data);</span><br><span class="line">    r2.value(<span class="function"><span class="keyword">function</span>(<span class="params">err, data</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (err) <span class="keyword">throw</span> err;</span><br><span class="line">        g.next(data);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);    </span><br></pre></td></tr></table></figure>
-<p>上面代码第二行执行 <code>next</code> 后，返回值 r 的 <code>value</code> 属性是 Generator 函数体内 <code>yield readFileThunk(&#39;./apples.txt&#39;, &#39;utf8&#39;);</code> 语句的执行结果，即 r 的 <code>value</code> 属性是一个内部封装了 <code>[&#39;./apples.txt&#39;, &#39;utf8&#39;]</code> d的单参数的 fs.readFile 函数，即 r 的 <code>value</code> 属性是 fs.readFile(callback)函数</p>
-<p>因此上面代码第三行 <code>r.value(function(err, data){...}</code> 等价于 <code>fs.readFile(function(err, data){...}</code>，此时才开始正式执行异步函数读取文件内容，读取到的内容通过第 5 行 <code>next</code> 方法传递给 Generator 函数里的 <code>r1</code>，打印出文件内容，之后就是重复上述套路</p>
-<p>显然开发者不想用这样嵌套的调用方法，所以可以定义一个 <code>run</code> 方法将上面的调用代码封装起来。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">run</span>(<span class="params">genFunc</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> g = genFunc();</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">next</span>(<span class="params">err, data</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> result = g.next(data);</span><br><span class="line">        <span class="keyword">if</span> (result.done) <span class="keyword">return</span>;</span><br><span class="line">        result.value(next);</span><br><span class="line">    &#125;</span><br><span class="line">    next();</span><br><span class="line">&#125;</span><br><span class="line">run(gen);    </span><br></pre></td></tr></table></figure>
-<p>定义了 <code>run</code> 方法后，执行 Generator 函数就方便了很多，直接将 Generator 函数作为参数传动给 <code>run</code> 就行了，然后会自动像多米诺骨牌一样依次执行 Generator 函数内的异步操作，当然，前提是每一个异步操作，都要是 Thunk 函数，即 <code>yield</code> 命令后面的必须是 Thunk 函数</p>
+        <script src="/assets/js/APlayer.min.js"> </script><h1 id="Breadcrumb"><a href="#Breadcrumb" class="headerlink" title="Breadcrumb"></a>Breadcrumb</h1><p><code>AntD</code> 中的 <code>Breadcrumb</code> 组件用于显示当前页面在系统层级结构中的位置，其中对于路由的支持采用了 <code>react-router@3</code> 和 <code>react-router@4</code></p>
+<h1 id="Breadcrumb-Props"><a href="#Breadcrumb-Props" class="headerlink" title="Breadcrumb Props"></a>Breadcrumb Props</h1><p>和之前一样，我们先从组件传入参数入手</p>
+<table>
+<thead>
+<tr>
+<th><div>参数</div></th>
+<th><div>说明</div></th>
+<th><div>类型</div></th>
+<th><div>可选值</div></th>
+<th><div>默认值</div></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><div>itemRender</div></td>
+<td><div>自定义链接函数，和 react-router 配置使用</div></td>
+<td><div>(route, params, routes, paths) =&gt; ReactNode</div></td>
+<td></td>
+<td>-</td>
+</tr>
+<tr>
+<td><div>params<span class="Apple-tab-span" style="white-space:pre"></span></div></td>
+<td><div>路由的参数</div></td>
+<td><div>object</div></td>
+<td></td>
+<td>-</td>
+</tr>
+<tr>
+<td><div>routes</div></td>
+<td><div>router 的路由栈信息</div></td>
+<td><div>object[]</div></td>
+<td></td>
+<td>-</td>
+</tr>
+<tr>
+<td>separator</td>
+<td>分隔符自定义</td>
+<td>string / ReactNode</td>
+<td></td>
+<td><span class="Apple-tab-span" style="white-space:pre">‘/‘</span></td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">interface</span> Route &#123;</span><br><span class="line">  <span class="comment">// 路由路径</span></span><br><span class="line">  path: <span class="built_in">string</span>;</span><br><span class="line">  <span class="comment">// 面包屑名称</span></span><br><span class="line">  breadcrumbName: <span class="built_in">string</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">interface</span> BreadcrumbProps &#123;</span><br><span class="line">  <span class="comment">// 样式类前缀</span></span><br><span class="line">  prefixCls?: <span class="built_in">string</span>;</span><br><span class="line">  <span class="comment">// 路由数组集合，采用的是上面的 Route 形式</span></span><br><span class="line">  routes?: Route[];</span><br><span class="line">  <span class="comment">// 路由传入参数</span></span><br><span class="line">  params?: <span class="built_in">any</span>;</span><br><span class="line">  <span class="comment">// 每个 item 之间的分隔符</span></span><br><span class="line">  separator?: React.ReactNode;</span><br><span class="line">  <span class="comment">// 自定义链接函数</span></span><br><span class="line">  itemRender?: <span class="function">(<span class="params">route: <span class="built_in">any</span>, params: <span class="built_in">any</span>, routes: <span class="built_in">Array</span>&lt;<span class="built_in">any</span>&gt;, paths: <span class="built_in">Array</span>&lt;<span class="built_in">string</span>&gt;</span>) =&gt;</span> React.ReactNode;</span><br><span class="line">  <span class="comment">// 行内样式</span></span><br><span class="line">  style?: React.CSSProperties;</span><br><span class="line">  className?: <span class="built_in">string</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="Render"><a href="#Render" class="headerlink" title="Render()"></a>Render()</h1><p>这个组件的入口点依旧是 <code>Render()</code> 函数<br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">render() &#123;</span><br><span class="line">    <span class="keyword">let</span> crumbs;</span><br><span class="line">    <span class="keyword">const</span> &#123;</span><br><span class="line">      separator, prefixCls, style, className, routes, params = &#123;&#125;,</span><br><span class="line">      children, itemRender = defaultItemRender,</span><br><span class="line">    &#125; = <span class="keyword">this</span>.props;</span><br><span class="line">    <span class="keyword">if</span> (routes &amp;&amp; routes.length &gt; <span class="number">0</span>) &#123;</span><br><span class="line">      <span class="keyword">const</span> paths: <span class="built_in">string</span>[] = [];</span><br><span class="line">      crumbs = routes.map(<span class="function">(<span class="params">route</span>) =&gt;</span> &#123;</span><br><span class="line">        route.path = route.path || <span class="string">''</span>;</span><br><span class="line">        <span class="keyword">let</span> path: <span class="built_in">string</span> = route.path.replace(<span class="regexp">/^\//</span>, <span class="string">''</span>);</span><br><span class="line">        <span class="built_in">Object</span>.keys(params).forEach(<span class="function"><span class="params">key</span> =&gt;</span> &#123;</span><br><span class="line">          path = path.replace(<span class="string">`:<span class="subst">$&#123;key&#125;</span>`</span>, params[key]);</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">if</span> (path) &#123;</span><br><span class="line">          paths.push(path);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">          &lt;BreadcrumbItem separator=&#123;separator&#125; key=&#123;route.breadcrumbName || path&#125;&gt;</span><br><span class="line">            &#123;itemRender(route, params, routes, paths)&#125;</span><br><span class="line">          &lt;<span class="regexp">/BreadcrumbItem&gt;</span></span><br><span class="line"><span class="regexp">        );</span></span><br><span class="line"><span class="regexp">      &#125;);</span></span><br><span class="line"><span class="regexp">    &#125; else if (children) &#123;</span></span><br><span class="line"><span class="regexp">      crumbs = React.Children.map(children, (element: any, index) =&gt; &#123;</span></span><br><span class="line"><span class="regexp">        if (!element) &#123;</span></span><br><span class="line"><span class="regexp">          return element;</span></span><br><span class="line"><span class="regexp">        &#125;</span></span><br><span class="line"><span class="regexp">        warning(</span></span><br><span class="line"><span class="regexp">          element.type &amp;&amp; element.type.__ANT_BREADCRUMB_ITEM,</span></span><br><span class="line"><span class="regexp">          'Breadcrumb only accepts Breadcrumb.Item as it\'s children',</span></span><br><span class="line"><span class="regexp">        );</span></span><br><span class="line"><span class="regexp">        return cloneElement(element, &#123;</span></span><br><span class="line"><span class="regexp">          separator,</span></span><br><span class="line"><span class="regexp">          key: index,</span></span><br><span class="line"><span class="regexp">        &#125;);</span></span><br><span class="line"><span class="regexp">      &#125;);</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">    return (</span></span><br><span class="line"><span class="regexp">      &lt;div className=&#123;classNames(className, prefixCls)&#125; style=&#123;style&#125;&gt;</span></span><br><span class="line"><span class="regexp">        &#123;crumbs&#125;</span></span><br><span class="line"><span class="regexp">      &lt;/</span>div&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -525,7 +538,7 @@
     <strong>本文作者： </strong>Helvetica.D</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://www.douglasdong.site/2018-04-11.html" title="Thunk 解析">https://www.douglasdong.site/2018-04-11.html</a>
+    <a href="https://www.douglasdong.site/2018-10-08.html" title="AntD/Choerodon-UI 源码分析（7）- Breadcrumb 组件">https://www.douglasdong.site/2018-10-08.html</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -540,6 +553,10 @@
           
             <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
           
+            <a href="/tags/AntD/" rel="tag"># AntD</a>
+          
+            <a href="/tags/Choerodon-UI/" rel="tag"># Choerodon-UI</a>
+          
         </div>
       
 
@@ -551,8 +568,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018-02-05.html" rel="next" title="第八章 -- 布局">
-                <i class="fa fa-chevron-left"></i> 第八章 -- 布局
+              <a href="/2018-10-05-1.html" rel="next" title="AntD/Choerodon-UI 源码分析（6）- Affix 组件">
+                <i class="fa fa-chevron-left"></i> AntD/Choerodon-UI 源码分析（6）- Affix 组件
               </a>
             
           </div>
@@ -560,10 +577,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018-04-21.html" rel="prev" title="JavaScript 执行机制解析">
-                JavaScript 执行机制解析 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -750,7 +763,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#何为-THUNK？"><span class="nav-number">1.</span> <span class="nav-text">何为 THUNK？</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#如何实现-Thunk？"><span class="nav-number">1.1.</span> <span class="nav-text">如何实现 Thunk？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Thunk-的具体应用"><span class="nav-number">1.2.</span> <span class="nav-text">Thunk 的具体应用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Thunk-的真正用途"><span class="nav-number">1.3.</span> <span class="nav-text">Thunk 的真正用途</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Breadcrumb"><span class="nav-number">1.</span> <span class="nav-text">Breadcrumb</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Breadcrumb-Props"><span class="nav-number">2.</span> <span class="nav-text">Breadcrumb Props</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Render"><span class="nav-number">3.</span> <span class="nav-text">Render()</span></a></li></ol></div>
             
 
           </div>

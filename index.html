@@ -270,7 +270,7 @@
           
           <li class="menu-item menu-item-tags">
     <a href="/tags/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签<span class="badge">4</span></a>
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签<span class="badge">5</span></a>
   </li>
         
         
@@ -286,7 +286,7 @@
           
           <li class="menu-item menu-item-archives">
     <a href="/archives/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">23</span></a>
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">24</span></a>
   </li>
 
       
@@ -321,6 +321,232 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.douglasdong.site/2018-10-08.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Helvetica.D">
+      <meta itemprop="description" content="P5天下第一！！">
+      <meta itemprop="image" content="/images/avatar.PNG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Helve's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018-10-08.html" itemprop="url">
+                  AntD/Choerodon-UI 源码分析（7）- Breadcrumb 组件
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-10-08 11:46:14" itemprop="dateCreated datePublished" datetime="2018-10-08T11:46:14+08:00">2018-10-08</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/AntD-源码分析/" itemprop="url" rel="index"><span itemprop="name">AntD 源码分析</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">2.5k字</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">2 分钟</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <script src="/assets/js/APlayer.min.js"> </script><h1 id="Breadcrumb"><a href="#Breadcrumb" class="headerlink" title="Breadcrumb"></a>Breadcrumb</h1><p><code>AntD</code> 中的 <code>Breadcrumb</code> 组件用于显示当前页面在系统层级结构中的位置，其中对于路由的支持采用了 <code>react-router@3</code> 和 <code>react-router@4</code></p>
+<h1 id="Breadcrumb-Props"><a href="#Breadcrumb-Props" class="headerlink" title="Breadcrumb Props"></a>Breadcrumb Props</h1><p>和之前一样，我们先从组件传入参数入手</p>
+<table>
+<thead>
+<tr>
+<th><div>参数</div></th>
+<th><div>说明</div></th>
+<th><div>类型</div></th>
+<th><div>可选值</div></th>
+<th><div>默认值</div></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><div>itemRender</div></td>
+<td><div>自定义链接函数，和 react-router 配置使用</div></td>
+<td><div>(route, params, routes, paths) =&gt; ReactNode</div></td>
+<td></td>
+<td>-</td>
+</tr>
+<tr>
+<td><div>params<span class="Apple-tab-span" style="white-space:pre"></span></div></td>
+<td><div>路由的参数</div></td>
+<td><div>object</div></td>
+<td></td>
+<td>-</td>
+</tr>
+<tr>
+<td><div>routes</div></td>
+<td><div>router 的路由栈信息</div></td>
+<td><div>object[]</div></td>
+<td></td>
+<td>-</td>
+</tr>
+<tr>
+<td>separator</td>
+<td>分隔符自定义</td>
+<td>string / ReactNode</td>
+<td></td>
+<td><span class="Apple-tab-span" style="white-space:pre">‘/‘</span></td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">interface</span> Route &#123;</span><br><span class="line">  <span class="comment">// 路由路径</span></span><br><span class="line">  path: <span class="built_in">string</span>;</span><br><span class="line">  <span class="comment">// 面包屑名称</span></span><br><span class="line">  breadcrumbName: <span class="built_in">string</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">interface</span> BreadcrumbProps &#123;</span><br><span class="line">  <span class="comment">// 样式类前缀</span></span><br><span class="line">  prefixCls?: <span class="built_in">string</span>;</span><br><span class="line">  <span class="comment">// 路由数组集合，采用的是上面的 Route 形式</span></span><br><span class="line">  routes?: Route[];</span><br><span class="line">  <span class="comment">// 路由传入参数</span></span><br><span class="line">  params?: <span class="built_in">any</span>;</span><br><span class="line">  <span class="comment">// 每个 item 之间的分隔符</span></span><br><span class="line">  separator?: React.ReactNode;</span><br><span class="line">  <span class="comment">// 自定义链接函数</span></span><br><span class="line">  itemRender?: <span class="function">(<span class="params">route: <span class="built_in">any</span>, params: <span class="built_in">any</span>, routes: <span class="built_in">Array</span>&lt;<span class="built_in">any</span>&gt;, paths: <span class="built_in">Array</span>&lt;<span class="built_in">string</span>&gt;</span>) =&gt;</span> React.ReactNode;</span><br><span class="line">  <span class="comment">// 行内样式</span></span><br><span class="line">  style?: React.CSSProperties;</span><br><span class="line">  className?: <span class="built_in">string</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="Render"><a href="#Render" class="headerlink" title="Render()"></a>Render()</h1><p>这个组件的入口点依旧是 <code>Render()</code> 函数<br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">render() &#123;</span><br><span class="line">    <span class="keyword">let</span> crumbs;</span><br><span class="line">    <span class="keyword">const</span> &#123;</span><br><span class="line">      separator, prefixCls, style, className, routes, params = &#123;&#125;,</span><br><span class="line">      children, itemRender = defaultItemRender,</span><br><span class="line">    &#125; = <span class="keyword">this</span>.props;</span><br><span class="line">    <span class="keyword">if</span> (routes &amp;&amp; routes.length &gt; <span class="number">0</span>) &#123;</span><br><span class="line">      <span class="keyword">const</span> paths: <span class="built_in">string</span>[] = [];</span><br><span class="line">      crumbs = routes.map(<span class="function">(<span class="params">route</span>) =&gt;</span> &#123;</span><br><span class="line">        route.path = route.path || <span class="string">''</span>;</span><br><span class="line">        <span class="keyword">let</span> path: <span class="built_in">string</span> = route.path.replace(<span class="regexp">/^\//</span>, <span class="string">''</span>);</span><br><span class="line">        <span class="built_in">Object</span>.keys(params).forEach(<span class="function"><span class="params">key</span> =&gt;</span> &#123;</span><br><span class="line">          path = path.replace(<span class="string">`:<span class="subst">$&#123;key&#125;</span>`</span>, params[key]);</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">if</span> (path) &#123;</span><br><span class="line">          paths.push(path);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">          &lt;BreadcrumbItem separator=&#123;separator&#125; key=&#123;route.breadcrumbName || path&#125;&gt;</span><br><span class="line">            &#123;itemRender(route, params, routes, paths)&#125;</span><br><span class="line">          &lt;<span class="regexp">/BreadcrumbItem&gt;</span></span><br><span class="line"><span class="regexp">        );</span></span><br><span class="line"><span class="regexp">      &#125;);</span></span><br><span class="line"><span class="regexp">    &#125; else if (children) &#123;</span></span><br><span class="line"><span class="regexp">      crumbs = React.Children.map(children, (element: any, index) =&gt; &#123;</span></span><br><span class="line"><span class="regexp">        if (!element) &#123;</span></span><br><span class="line"><span class="regexp">          return element;</span></span><br><span class="line"><span class="regexp">        &#125;</span></span><br><span class="line"><span class="regexp">        warning(</span></span><br><span class="line"><span class="regexp">          element.type &amp;&amp; element.type.__ANT_BREADCRUMB_ITEM,</span></span><br><span class="line"><span class="regexp">          'Breadcrumb only accepts Breadcrumb.Item as it\'s children',</span></span><br><span class="line"><span class="regexp">        );</span></span><br><span class="line"><span class="regexp">        return cloneElement(element, &#123;</span></span><br><span class="line"><span class="regexp">          separator,</span></span><br><span class="line"><span class="regexp">          key: index,</span></span><br><span class="line"><span class="regexp">        &#125;);</span></span><br><span class="line"><span class="regexp">      &#125;);</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">    return (</span></span><br><span class="line"><span class="regexp">      &lt;div className=&#123;classNames(className, prefixCls)&#125; style=&#123;style&#125;&gt;</span></span><br><span class="line"><span class="regexp">        &#123;crumbs&#125;</span></span><br><span class="line"><span class="regexp">      &lt;/</span>div&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
     
       
 
@@ -429,7 +655,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">23k字</span>
+                <span title="本文字数">22k字</span>
               
 
               
@@ -464,7 +690,7 @@
 
       
         
-          Affix 是 React 提供的一个图钉组件，它可以固定在页面的固定位置，我们来看看它的实现方式是怎样的？
+          <center>Affix 是 React 提供的一个图钉组件，它可以固定在页面的固定位置，我们来看看它的实现方式是怎样的？</center>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018-10-05-1.html">
@@ -1252,192 +1478,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.douglasdong.site/2018-09-29.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Helvetica.D">
-      <meta itemprop="description" content="P5天下第一！！">
-      <meta itemprop="image" content="/images/avatar.PNG">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Helve's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018-09-29.html" itemprop="url">
-                  AntD/Choerodon-UI 源码分析（1）- index.js
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-10-02 19:24:36" itemprop="dateCreated datePublished" datetime="2018-10-02T19:24:36+08:00">2018-10-02</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/AntD-源码分析/" itemprop="url" rel="index"><span itemprop="name">AntD 源码分析</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-symbolscount">
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">本文字数：</span>
-                
-                <span title="本文字数">6.8k字</span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">6 分钟</span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <center>AntD 是十分优秀的前端项目，研究它的组件书写方式对今后 React 组件的书写非常有帮助，因此本系列将以 AntD 3.2.1 版本为基础，逐步分析其中的源代码</center>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018-09-29.html">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1489,7 +1529,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">23</span>
+                    <span class="site-state-item-count">24</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1535,7 +1575,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">4</span>
+                      
+                    
+                    <span class="site-state-item-count">5</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1610,7 +1652,7 @@
       <i class="fa fa-area-chart"></i>
     </span>
     
-    <span title="站点总字数">181k</span>
+    <span title="站点总字数">183k</span>
   
 
   
@@ -1619,7 +1661,7 @@
       <i class="fa fa-coffee"></i>
     </span>
     
-    <span title="站点阅读时长">2:45</span>
+    <span title="站点阅读时长">2:47</span>
   
 </div>
 
