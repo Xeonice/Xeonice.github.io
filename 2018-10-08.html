@@ -133,18 +133,17 @@
 
 
 
-  <meta name="description" content="BreadcrumbAntD 中的 Breadcrumb 组件用于显示当前页面在系统层级结构中的位置，其中对于路由的支持采用了 react-router@3 和 react-router@4 Breadcrumb Props和之前一样，我们先从组件传入参数入手    参数 说明 类型 可选值 默认值     itemRender 自定义链接函数，和 react-router 配置使用 (rout">
-<meta name="keywords" content="AntD, Choerodon-UI, JavaScript">
+  <meta name="description" content="categories:  AntD 源码分析date: 2018-10-08 11:46:14title: AntD/Choerodon-UI 源码分析（7）- Breadcrumb 组件tags:  JavaScript  AntD  Choerodon-UIkeywords: AntD, Choerodon-UI, JavaScriptdescription:— Breadcrumb 是">
 <meta property="og:type" content="article">
-<meta property="og:title" content="AntD&#x2F;Choerodon-UI 源码分析（7）- Breadcrumb 组件">
+<meta property="og:title" content="Helve&#39;s Blog">
 <meta property="og:url" content="https://www.douglasdong.site/2018-10-08.html">
 <meta property="og:site_name" content="Helve&#39;s Blog">
-<meta property="og:description" content="BreadcrumbAntD 中的 Breadcrumb 组件用于显示当前页面在系统层级结构中的位置，其中对于路由的支持采用了 react-router@3 和 react-router@4 Breadcrumb Props和之前一样，我们先从组件传入参数入手    参数 说明 类型 可选值 默认值     itemRender 自定义链接函数，和 react-router 配置使用 (rout">
+<meta property="og:description" content="categories:  AntD 源码分析date: 2018-10-08 11:46:14title: AntD/Choerodon-UI 源码分析（7）- Breadcrumb 组件tags:  JavaScript  AntD  Choerodon-UIkeywords: AntD, Choerodon-UI, JavaScriptdescription:— Breadcrumb 是">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-10-12T14:11:01.106Z">
+<meta property="og:updated_time" content="2018-10-13T01:03:59.762Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="AntD&#x2F;Choerodon-UI 源码分析（7）- Breadcrumb 组件">
-<meta name="twitter:description" content="BreadcrumbAntD 中的 Breadcrumb 组件用于显示当前页面在系统层级结构中的位置，其中对于路由的支持采用了 react-router@3 和 react-router@4 Breadcrumb Props和之前一样，我们先从组件传入参数入手    参数 说明 类型 可选值 默认值     itemRender 自定义链接函数，和 react-router 配置使用 (rout">
+<meta name="twitter:title" content="Helve&#39;s Blog">
+<meta name="twitter:description" content="categories:  AntD 源码分析date: 2018-10-08 11:46:14title: AntD/Choerodon-UI 源码分析（7）- Breadcrumb 组件tags:  JavaScript  AntD  Choerodon-UIkeywords: AntD, Choerodon-UI, JavaScriptdescription:— Breadcrumb 是">
 
 
 
@@ -163,7 +162,7 @@
   };
 </script>
 
-  <title>AntD/Choerodon-UI 源码分析（7）- Breadcrumb 组件 | Helve's Blog</title>
+  <title> | Helve's Blog</title>
   
 
 
@@ -357,7 +356,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">AntD/Choerodon-UI 源码分析（7）- Breadcrumb 组件
+          <h2 class="post-title" itemprop="name headline">
               
             
           </h2>
@@ -388,24 +387,6 @@
             
           </span>
 
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/AntD-源码分析/" itemprop="url" rel="index"><span itemprop="name">AntD 源码分析</span></a></span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -438,7 +419,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">6.2k字</span>
+                <span title="本文字数">6.4k字</span>
               
 
               
@@ -472,7 +453,17 @@
       
 
       
-        <script src="/assets/js/APlayer.min.js"> </script><h1 id="Breadcrumb"><a href="#Breadcrumb" class="headerlink" title="Breadcrumb"></a>Breadcrumb</h1><p><code>AntD</code> 中的 <code>Breadcrumb</code> 组件用于显示当前页面在系统层级结构中的位置，其中对于路由的支持采用了 <code>react-router@3</code> 和 <code>react-router@4</code></p>
+        <script src="/assets/js/APlayer.min.js"> </script><hr>
+<p>categories:</p>
+<ul>
+<li>AntD 源码分析<br>date: 2018-10-08 11:46:14<br>title: AntD/Choerodon-UI 源码分析（7）- Breadcrumb 组件<br>tags: <ul>
+<li>JavaScript </li>
+<li>AntD </li>
+<li>Choerodon-UI<br>keywords: AntD, Choerodon-UI, JavaScript<br>description:<br>— Breadcrumb 是 AntD 用于显示页面系统层级结构的组件，它的实现功能有哪些值得我们学习的地方？</li>
+</ul>
+</li>
+</ul>
+<h1 id="Breadcrumb"><a href="#Breadcrumb" class="headerlink" title="Breadcrumb"></a>Breadcrumb</h1><p><code>AntD</code> 中的 <code>Breadcrumb</code> 组件用于显示当前页面在系统层级结构中的位置，其中对于路由的支持采用了 <code>react-router@3</code> 和 <code>react-router@4</code></p>
 <h1 id="Breadcrumb-Props"><a href="#Breadcrumb-Props" class="headerlink" title="Breadcrumb Props"></a>Breadcrumb Props</h1><p>和之前一样，我们先从组件传入参数入手</p>
 <table>
 <thead>
@@ -547,7 +538,7 @@
     <strong>本文作者： </strong>Helvetica.D</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://www.douglasdong.site/2018-10-08.html" title="AntD/Choerodon-UI 源码分析（7）- Breadcrumb 组件">https://www.douglasdong.site/2018-10-08.html</a>
+    <a href="https://www.douglasdong.site/2018-10-08.html" title="">https://www.douglasdong.site/2018-10-08.html</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -557,16 +548,6 @@
     
 
     <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
-          
-            <a href="/tags/AntD/" rel="tag"># AntD</a>
-          
-            <a href="/tags/Choerodon-UI/" rel="tag"># Choerodon-UI</a>
-          
-        </div>
       
 
       
