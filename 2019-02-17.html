@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+  
+  
+    
+      
+    
+    
+      
+    
+  <script src="https://cdn.staticfile.org/pace/1.0.2/pace.min.js"></script>
+  <link href="https://cdn.staticfile.org/pace/1.0.2/themes/black/pace-theme-corner-indicator.min.css" rel="stylesheet">
+
+
+
+
+  
+  
+  <link rel="stylesheet" media="all" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="1AN0l5FFDH_bGnLzRh2TsBOsw54Rl3zuA7kUviXkk6o" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+  <link href="https://cdn.staticfile.org/fancybox/3.3.5/jquery.fancybox.min.css" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+  
+
+<link href="https://cdn.staticfile.org/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.4.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.4.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.4.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.4.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    fastclick: false,
+    lazyload: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="React 作为一款流行于市面的框架，其内部逻辑并不是非常复杂。本篇文章我们先从 React 最为核心的 diff 算法入手，看看它是如何运作的">
+<meta name="keywords" content="Javascript, React">
+<meta property="og:type" content="article">
+<meta property="og:title" content="React diff 算法">
+<meta property="og:url" content="https://www.douglasdong.site/2019-02-17.html">
+<meta property="og:site_name" content="Helve&#39;s Blog">
+<meta property="og:description" content="React 作为一款流行于市面的框架，其内部逻辑并不是非常复杂。本篇文章我们先从 React 最为核心的 diff 算法入手，看看它是如何运作的">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://imagetemp.oss-cn-beijing.aliyuncs.com/2019-03-28-%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202019-03-28%2022.49.13.png">
+<meta property="og:image" content="https://imagetemp.oss-cn-beijing.aliyuncs.com/2019-03-28-%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202019-03-28%2022.50.03.png">
+<meta property="og:image" content="https://imagetemp.oss-cn-beijing.aliyuncs.com/2019-03-28-%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202019-03-28%2022.50.32.png">
+<meta property="og:image" content="https://imagetemp.oss-cn-beijing.aliyuncs.com/2019-03-28-%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202019-03-28%2018.35.34-1.png">
+<meta property="og:image" content="https://imagetemp.oss-cn-beijing.aliyuncs.com/2019-03-28-%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202019-03-28%2018.36.12.png">
+<meta property="og:image" content="https://imagetemp.oss-cn-beijing.aliyuncs.com/2019-03-28-%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202019-03-28%2022.23.19.png">
+<meta property="og:image" content="https://imagetemp.oss-cn-beijing.aliyuncs.com/2019-03-28-%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202019-03-28%2022.57.15.png">
+<meta property="og:updated_time" content="2019-03-28T14:58:07.617Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="React diff 算法">
+<meta name="twitter:description" content="React 作为一款流行于市面的框架，其内部逻辑并不是非常复杂。本篇文章我们先从 React 最为核心的 diff 算法入手，看看它是如何运作的">
+<meta name="twitter:image" content="https://imagetemp.oss-cn-beijing.aliyuncs.com/2019-03-28-%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202019-03-28%2022.49.13.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Helve's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="canonical" href="https://www.douglasdong.site/2019-02-17.html"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>React diff 算法 | Helve's Blog</title>
+  
+
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?381279f888e646c9a4386fba79ee174b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Helve's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">前端学习杂录</h1>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签<span class="badge">7</span></a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类<span class="badge">9</span></a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">27</span></a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+    <div class="reading-progress-bar"></div>
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.douglasdong.site/2019-02-17.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Helvetica.D">
+      <meta itemprop="description" content="P5天下第一！！">
+      <meta itemprop="image" content="/images/avatar.PNG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Helve's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">React diff 算法
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-02-17 23:45:39" itemprop="dateCreated datePublished" datetime="2019-02-17T23:45:39+08:00">2019-02-17</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/自行动手-Diy-React/" itemprop="url" rel="index"><span itemprop="name">自行动手 Diy React</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019-02-17.html#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count gitment-comments-count" data-xid="/2019-02-17.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">6.3k字</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">6 分钟</span>
+              
+            </div>
+          
+
+          
+              <div class="post-description"><center>React 作为一款流行于市面的框架，其内部逻辑并不是非常复杂。本篇文章我们先从 React 最为核心的 diff 算法入手，看看它是如何运作的</center></div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <script src="/assets/js/APlayer.min.js"> </script><h1 id="为什么要用-diff-算法？"><a href="#为什么要用-diff-算法？" class="headerlink" title="为什么要用 diff 算法？"></a>为什么要用 diff 算法？</h1><p><code>Web</code> 界面是由 <code>DOM</code> 树构成的，当页面发生变化时，对应到 <code>DOM</code> 树中就是某个节点发生了变化。传统的 <a href="https://grfia.dlsi.ua.es/ml/algorithms/references/editsurvey_bille.pdf" target="_blank" rel="noopener">diff 算法</a> 通过循环递归对节点进行依次对比，时间复杂度为 <code>O(n^3)</code>。意味着如果我们展示 1000 个节点，就需要做 <code>1,000^3 = 1,000,000,000</code> 次操作。这种实现在数据量极大的情况下对前端是绝对不可接受的。而且其中考虑到的相当一部分特殊情况也属于前端大部分时候不需要去考虑的部分，比如<code>不相交路径问题</code>、<code>子林问题</code>、<code>NP 完全问题</code>。</p>
+<p>也就是说，<code>React</code> 如果单纯引入正统的 <code>Diff</code> 算法，不仅会做很多冗余运算，而且还会极大程度上拖慢前端渲染的性能。因此，<code>React</code> 针对前端渲染的情况做了大胆假设与推断，运用正统 <code>Diff</code> 算法中的一部分子集完成了一套针对于前端的高效 <code>Diff</code> 算法。</p>
+<h1 id="React-所实现的-Diff-算法"><a href="#React-所实现的-Diff-算法" class="headerlink" title="React 所实现的 Diff 算法"></a>React 所实现的 Diff 算法</h1><p><code>React</code> 这套算法的实现并不复杂，其时间复杂度仅为 O(n)，主要依赖于以下几条 <code>diff</code> 策略。</p>
+<ol>
+<li><code>Web UI</code> 中跨节点的操作很少，几乎可以忽略不计</li>
+<li>拥有相同类的两个组件会生成相似的树形结构，拥有不同类的两个组件将会生成不同的树形结构。</li>
+<li>对于同一层级的一组子节点，它们可以通过唯一 <code>Id</code> 进行区分</li>
+</ol>
+<p>基于以上三条策略，<code>React</code> 分别对 <code>tree-diff</code>、<code>component-diff</code>、<code>element-diff</code> 进行了优化。</p>
+<h2 id="tree-diff"><a href="#tree-diff" class="headerlink" title="tree-diff"></a>tree-diff</h2><p>既然跨节点操作可以忽略不计，那么我们完全可以忽略跨节点操作的情况，仅考虑同一层的节点变化情况，这样的同层比较就将原先 <code>O(n^3)</code> 的算法复杂度缩减到了 <code>O(n)</code>（PS：<code>React</code> 所实现的 <code>diff</code> 算法高效的原因仅仅是因为其需要考虑的情况较少，并不是说正统的 <code>diff</code> 算法劣于 <code>React-diff</code> 算法）</p>
+<p><img src="https://imagetemp.oss-cn-beijing.aliyuncs.com/2019-03-28-%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202019-03-28%2022.49.13.png" alt="tree-diff-1"></p>
+<p><code>React</code> 通过 <code>updateDepth</code> 对 <code>Virtul-DOM 树</code> 进行层级控制，只会对同一层级的节点进行比较，当发现节点已不存在，则该节点及其子节点都会被删掉，不会用于进一步的比较。这样只需要做一次遍历，就可以完成整个 <code>DOM树</code> 的比较。</p>
+<p>那么，如果出现跨层级的 <code>DOM</code> 节点移动的话，<code>React</code> 会如何进行处理呢？</p>
+<p><img src="https://imagetemp.oss-cn-beijing.aliyuncs.com/2019-03-28-%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202019-03-28%2022.50.03.png" alt="tree-diff-2"></p>
+<p>直觉上来说，上图的 <code>Diff</code> 操作应该只涉及两个节点，即 <code>A.parentNode.remove</code> 与 <code>B.append(A)</code>，但是由于 <code>React</code> 只监听同一层的节点变换，所以它会先删除整个 <code>A</code> 节点及其子树，然后在 <code>D</code> 节点上重新生成 <code>A</code> 节点与其整个子树。其操作应该是 <code>Create A</code> =&gt; <code>Create B</code> =&gt; <code>Create C</code> =&gt; <code>Delete A</code>。如果是跨层级移动一个调用栈很深的节点的话，就会导致很明显的性能问题。</p>
+<blockquote>
+<p>注意：保持稳定的 <code>DOM</code> 结构，不做跨层级 <code>DOM</code> 操作有助于性能提升。例如，用 <code>CSS</code> 隐藏或显示节点，而不是真的隐藏或添加 <code>DOM</code> 节点。</p>
+</blockquote>
+<h2 id="component-diff"><a href="#component-diff" class="headerlink" title="component-diff"></a>component-diff</h2><p><code>React</code> 基于组件构建应用，对于组件间的比较采用的策略也同样简单高效。</p>
+<ul>
+<li>如果是同一类型的组件，按照原先策略继续比较</li>
+<li>如果不是，则将该组件判断为 <code>dirty component</code>，从而替换整个组件下的子节点</li>
+<li>对于同一类型的组件，有可能其 <code>Virtual DOM</code> 没有任何变化，如果能够确切的知道这点那可以节省大量的 <code>diff</code> 运算时间，因此 React 允许用户通过 <code>shouldComponentUpdate()</code> 来判断该组件是否需要进行 <code>diff</code>。</li>
+</ul>
+<p><img src="https://imagetemp.oss-cn-beijing.aliyuncs.com/2019-03-28-%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202019-03-28%2022.50.32.png" alt="component-diff-1"></p>
+<p>如上图，当 <code>componentD</code> 转为 <code>componentG</code> 的时候，即使这两个组件结构相似，一旦 <code>React</code> 判断这两个组件为不同类型的组件，就不会比较两者的结构，而是直接删除 <code>componentD</code>，并新建 <code>componentG</code> 以及其子节点。（PS：这也许是使用 <code>React-beautiful-dnd</code> 时必须使用 <code>shouldComponentUpdate</code> 规避 <code>Draggable</code> 下的所有子组件渲染的原因。因为 <code>Draggable</code> 内的组件进行了变化）</p>
+<h1 id="element-diff"><a href="#element-diff" class="headerlink" title="element-diff"></a>element-diff</h1><p>组件位于同一层级时，React-diff 提供了三种节点操作，分别为 <code>INSERT_MARKUP（插入）</code>、<code>MOVE_EXISTING（移动）</code> 和 <code>REMOVE_NODE（删除）</code>。</p>
+<ul>
+<li><code>INSERT_MARKUP</code>，新的节点不在老的节点集合中，即全新的节点，需要对新节点执行插入操作</li>
+<li><code>MOVE_EXISTING</code>，在老集合中有 <code>component</code> 类型，且 <code>element</code> 是可更新的类型，<code>generateComponentChildern</code> 已调用 <code>receiveComponent</code>，这种情况下 <code>prevChild=nextChild</code>，就需要调用移动操作，可以复用以前的 <code>DOM</code> 节点</li>
+<li><code>REMOVE_NODE</code>，老 <code>component</code> 类型，在新集合中也有，但对应的 <code>element</code> 不同则不能直接复用和更新，需要执行删除操作。或者老的 <code>component</code> 不在新集合里的，也需要执行删除操作。</li>
+</ul>
+<h2 id="为什么需要-element-diff-原则？"><a href="#为什么需要-element-diff-原则？" class="headerlink" title="为什么需要 element-diff 原则？"></a>为什么需要 element-diff 原则？</h2><p>如下图，老集合中包含节点：<code>A、B、C、D</code>，更新后的新集合包含节点 <code>B、A、D、C</code>，此时新老集合进行 <code>diff</code> 差异化对比，发现 <code>B != A</code>，则创建并插入 <code>B</code> 至新集合，删除老集合 <code>A</code>，以此类推，创建 <code>A</code>、<code>D</code> 和 <code>C</code>，删除 <code>B</code>、<code>C</code>、和 <code>D</code>。</p>
+<p><img src="https://imagetemp.oss-cn-beijing.aliyuncs.com/2019-03-28-%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202019-03-28%2018.35.34-1.png" alt="element-diff-1"></p>
+<p>React 发现这类操作繁琐冗余，因为这些都是相同的节点。但由于位置发生变化，导致需要进行繁杂低效的删除、创建操作，其实上只需要进行位置移动即可。</p>
+<p>针对这一现象，React 提出优化策略，允许开发者对同一层级的同组子节点，添加唯一 <code>key</code> 进行区分，虽然只是小小的改动，性能上却发生了翻天覆地的变化。</p>
+<p>如下图所示，新老集合进行 <code>diff</code> 差异化对比，通过 <code>key</code> 发现新老集合中的节点都是相同的节点，因此无需进行节点删除和创建，只需要将老集合中节点的位置进行移动，更新为新集合中节点的位置，此时 React 给出的 <code>diff</code> 结果为：<code>B、D 不进行任何操作，A、C 进行移动操作</code></p>
+<p><img src="https://imagetemp.oss-cn-beijing.aliyuncs.com/2019-03-28-%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202019-03-28%2018.36.12.png" alt="element-diff-2"></p>
+<blockquote>
+<p>PS：我们用 <code>map</code> 方法将一组节点集合加入页面时，如果贪图省事将 <code>key</code> 设定为数组的 <code>index</code>，React 就会立即在控制台爆出 <code>warning</code>，其主要原因就在于，当我们对该数组进行操作时，如果删除或移动数组中任意一个节点，都会无可避免的导致 <code>index</code> 的变动。如果用经常变动的 <code>index</code> 作为 <code>key</code> 来标示节点，每次对数组进行操作后就会导致几乎所有的 <code>key</code> 变动，从而误导 React 对所有节点进行更新。 </p>
+</blockquote>
+<h2 id="element-diff-是如何运作的？"><a href="#element-diff-是如何运作的？" class="headerlink" title="element-diff 是如何运作的？"></a>element-diff 是如何运作的？</h2><p>首先先对新集合的节点进行循环便利，<code>for(name in nextChildren)</code>,通过唯一 <code>key</code> 可以判断新老集合中是否存在相同的节点，<code>if (prefChild === nextChild)</code>，存在相同节点时，进行移动操作。</p>
+<p>移动前需要将当前节点在老集合中的位置与 <code>lastIndex</code> 进行比较，<code>if(child._mountIndex &lt; lastIndex)</code> 则进行节点移动操作，否则不执行该操作。这是一种顺序优化手段，<code>lastIndex</code> 一直在更新，表示访问过的节点在老集合中最右的位置（即最大的位置）。<strong>如果新集合中当前访问的节点比 lastIndex 大，说明当前访问节点在老集合中就比上一个节点位置靠后，则该节点不会影响其他节点的位置，因此不用添加到差异队列中，即不执行移动操作。只有当访问的节点比 <code>lastIndex</code> 小的时候，才需要进行移动操作。</strong></p>
+<p> PS：下文中的 <code>lastIndex</code> 均指原数组元素更新后生成的当前 <code>index</code></p>
+<h3 id="新老集合中存在相同节点但位置不同"><a href="#新老集合中存在相同节点但位置不同" class="headerlink" title="新老集合中存在相同节点但位置不同"></a>新老集合中存在相同节点但位置不同</h3><p> 以上图为例，可以更为清晰直观的描述 diff 的差异对比流程</p>
+<ul>
+<li>从新集合中取得 B，判断老集合中存在相同节点 B，通过对比节点位置判断是否进行移动操作，B 在老集合中的位置 <code>B._mountIndex = 1</code>，此时 <code>lastIndex = 0</code>，不满足 <code>child._mountIndex &lt; lastIndex</code> 的条件，因此不对 B 进行移动操作，更新 <code>lastIndex = Math.max(prevChild._mountIndex, lastIndex)</code>，其中 <code>prevChild._mountIndex</code> 表示 B 在老集合中的位置，则 <code>lastIndex = 1</code>，并将 B 的位置更新为新集合中的位置 <code>prevChild._mountIndex = nextIndex</code>，此时新集合中 <code>B._mountIndex = 0</code>，<code>nextIdnex ++</code> 进入下一个节点的判断</li>
+<li>从新集合中取得 A，判断老集合中存在相同节点 A，通过对比节点位置判断是否进行移动操作，A 在老集合中的位置 <code>A._mountIndex = 0</code>，此时 <code>lastIndex = 1</code>，满足 <code>child._mountIndex &lt; lastIndex</code> 的条件，因此对 A 进行移动操作 <code>enqueueMove(this, child._mountIndex, toIndex)</code>，其中 <code>toIndex</code> 其实就是 <code>nextIndex</code>，表示 A 需要移动到的位置；更新 <code>lastIndex = Math.max(prevChild._mountIndex, lastIndex)</code>，则 <code>lastIndex = 1</code>，并将 A 的位置更新为新集合中的位置 <code>prevChild._mountIndex = nextIndex</code>，此时新集合中 <code>A._mountIndex = 1</code>，<code>nextIndex++</code> 进入下一个节点的判断。</li>
+<li><p>从新集合中取得 D，判断老集合中存在相同节点 D，通过对比节点位置判断是否进行移动操作，D 在老集合中的位置 <code>D._mountIndex = 3</code>，此时 <code>lastIndex = 1</code>，不满足 <code>child._mountIndex &lt; lastIndex</code> 的条件，因此不对 D 进行移动操作；更新 <code>lastIndex = Math.max(prevChild._mountIndex = nextIndex)</code>，则 <code>lastIndex = 3</code>，并将 D 的位置更新为新集合中的位置 <code>prevChild._mountIndex = nextIndex</code>，此时新集合中 <code>D._mountIndex = 2</code>，<code>nextIndex++</code> 进入下一个节点的判断</p>
+</li>
+<li><p>从新集合中取得 C，判断老集合中存在相同节点 C，通过对比节点位置判断是否进行移动操作，C 在老集合中的位置 <code>C._mountIndex = 2</code>，此时 <code>lastIndex = 3</code>，满足 <code>child._mountIndex &lt; lastIndex</code> 的条件，因此对 C 进行移动操作 <code>enqueueMove(this, child._mountIndex, toIndex)</code>；更新 <code>lastIndex = Math.max(prevChild._mountIndex, lastIndex)</code>，则 <code>lastIndex ＝ 3</code>，并将 C 的位置更新为新集合中的位置 <code>prevChild._mountIndex = nextIndex</code>，此时新集合中 <code>C._mountIndex = 3</code>，<code>nextIndex++</code> 进入下一个节点的判断，由于 C 已经是最后一个节点，因此 diff 到此完成。</p>
+</li>
+</ul>
+<p>如果新集合中有新加入的节点且老集合中存在需要删除的节点，<code>React diff</code> 又是如何对比运作的呢？</p>
+<h3 id="新集合有新加入节点，老集合中存在需要删除的节点"><a href="#新集合有新加入节点，老集合中存在需要删除的节点" class="headerlink" title="新集合有新加入节点，老集合中存在需要删除的节点"></a>新集合有新加入节点，老集合中存在需要删除的节点</h3><p>以下图为例：</p>
+<p><img src="https://imagetemp.oss-cn-beijing.aliyuncs.com/2019-03-28-%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202019-03-28%2022.23.19.png" alt="element-diff-3"></p>
+<ul>
+<li><p>从新集合中取得 B，判断老集合中存在相同节点 B，由于 B 在老集合中的位置 <code>B._mountIndex = 1</code>，此时 <code>lastIndex = 0</code>，因此不对 B 进行移动操作；更新 <code>lastIndex ＝ 1</code>，并将 B 的位置更新为新集合中的位置 <code>B._mountIndex = 0</code>，<code>nextIndex++</code> 进入下一个节点的判断。</p>
+</li>
+<li><p>从新集合中取得 E，判断老集合中不存在相同节点 E，则创建新节点 E；更新 <code>lastIndex ＝ 1</code>，并将 E 的位置更新为新集合中的位置，<code>nextIndex++</code> 进入下一个节点的判断。</p>
+</li>
+<li><p>从新集合中取得 C，判断老集合中存在相同节点 C，由于 C 在老集合中的位置 <code>C._mountIndex = 2</code>，<code>lastIndex = 1</code>，此时 <code>C._mountIndex &gt; lastIndex</code>，因此不对 C 进行移动操作；更新 <code>lastIndex ＝ 2</code>，并将 C 的位置更新为新集合中的位置，<code>nextIndex++</code> 进入下一个节点的判断。</p>
+</li>
+<li><p>从新集合中取得 A，判断老集合中存在相同节点 A，由于 A 在老集合中的位置<code>A._mountIndex = 0</code>，<code>lastIndex = 2</code>，此时 <code>A._mountIndex &lt; lastIndex</code>，因此对 A 进行移动操作；更新 <code>lastIndex ＝ 2</code>，并将 A 的位置更新为新集合中的位置，<code>nextIndex++</code> 进入下一个节点的判断。</p>
+</li>
+<li><p>当完成新集合中所有节点 diff 时，最后还需要对老集合进行循环遍历，判断是否存在新集合中没有但老集合中仍存在的节点，发现存在这样的节点 D，因此删除节点 D，到此 diff 全部完成。</p>
+</li>
+</ul>
+<h3 id="React-Diff-的不足"><a href="#React-Diff-的不足" class="headerlink" title="React Diff 的不足"></a>React Diff 的不足</h3><p>如下图所示，新集合的节点更新为：D、A、B、C，与老集合对比只有 D 节点移动，而 A、B、C 仍然保持原有的顺序，理论上 diff 应该只需对 D 进行移动操作，然而由于 D 在老集合中的位置是最大的，导致其他节点的 <code>_mountIndex &lt; lastIndex</code>，造成 D 没有执行移动操作，而是 A、B、C 全部移动到 D 节点后面。</p>
+<p><img src="https://imagetemp.oss-cn-beijing.aliyuncs.com/2019-03-28-%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202019-03-28%2022.57.15.png" alt="element-diff-4"></p>
+<blockquote>
+<p>建议：在开发过程中，尽量减少类似将最后一个节点移动到列表首部的操作，当节点数量过大或更新操作过于频繁时，在一定程度上会影响 React 的渲染性能</p>
+</blockquote>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><ul>
+<li>React 通过制定大胆的 diff 策略，将 <code>O(n^3)</code> 复杂度的问题转换成 <code>O(n)</code> 复杂度的问题</li>
+<li>React 通过分层求异的方法，对 <code>tree diff</code> 进行算法优化</li>
+<li>React 通过相同类生成相似树形结构，不同类生成不同树形结构的策略，对 <code>component diff</code> 进行算法优化</li>
+<li>React 通过设置唯一 key 的策略，对 <code>element diff</code> 进行算法优化</li>
+<li>建议：在开发组件时，保持稳定的 DOM 结构会有助于性能的提升（前端铁则）</li>
+<li>建议：在开发过程中，尽量减少类似将最后一个节点移动到列表首部的操作，当节点数量过大或更新操作过于频繁时，在一定程度上会影响 React 的渲染性能（可以将节点移动的操作转换为 CSS 位置变动的操作，如利用 <code>transform</code> 变动节点 <code>position</code> 坐标）</li>
+</ul>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p>本篇文章为阅读 Pure render 发布的 diff 算法解析后，在原有文章上添加了一些自有注解的产物，非原创文章。</p>
+<p><a href="https://zhuanlan.zhihu.com/p/20346379" target="_blank" rel="noopener">React 源码剖析系列 － 不可思议的 react diff</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Helvetica.D</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://www.douglasdong.site/2019-02-17.html" title="React diff 算法">https://www.douglasdong.site/2019-02-17.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+          
+            <a href="/tags/React/" rel="tag"># React</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018-12-17.html" rel="next" title="React 重复渲染分析及优化">
+                <i class="fa fa-chevron-left"></i> React 重复渲染分析及优化
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div onclick="showGitment()" id="gitment-display-button">显示 Gitment 评论</div>
+        <div id="gitment-container" style="display:none"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.PNG"
+                alt="Helvetica.D" />
+            
+              <p class="site-author-name" itemprop="name">Helvetica.D</p>
+              <p class="site-description motion-element" itemprop="description">P5天下第一！！</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">27</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">9</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/Xeonice" target="_blank" title="GitHub" rel="external nofollow"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:ad546971975@gmail.com" target="_blank" title="E-Mail" rel="external nofollow"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#为什么要用-diff-算法？"><span class="nav-number">1.</span> <span class="nav-text">为什么要用 diff 算法？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#React-所实现的-Diff-算法"><span class="nav-number">2.</span> <span class="nav-text">React 所实现的 Diff 算法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#tree-diff"><span class="nav-number">2.1.</span> <span class="nav-text">tree-diff</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#component-diff"><span class="nav-number">2.2.</span> <span class="nav-text">component-diff</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#element-diff"><span class="nav-number">3.</span> <span class="nav-text">element-diff</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么需要-element-diff-原则？"><span class="nav-number">3.1.</span> <span class="nav-text">为什么需要 element-diff 原则？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#element-diff-是如何运作的？"><span class="nav-number">3.2.</span> <span class="nav-text">element-diff 是如何运作的？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#新老集合中存在相同节点但位置不同"><span class="nav-number">3.2.1.</span> <span class="nav-text">新老集合中存在相同节点但位置不同</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#新集合有新加入节点，老集合中存在需要删除的节点"><span class="nav-number">3.2.2.</span> <span class="nav-text">新集合有新加入节点，老集合中存在需要删除的节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#React-Diff-的不足"><span class="nav-number">3.2.3.</span> <span class="nav-text">React Diff 的不足</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考资料"><span class="nav-number">5.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2017 – <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Helvetica.D</span>
+  <div class="powered-by">  </div>
+  <span>Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a></span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="站点总字数">224k</span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    
+    <span title="站点阅读时长">3:24</span>
+  
+</div>
+
+
+  
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" rel="external nofollow" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a class="theme-link" target="_blank" rel="external nofollow" href="https://theme-next.org">NexT.Muse</a> v6.4.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  
+    <script type="text/javascript" src="https://cdn.staticfile.org/jquery/2.1.3/jquery.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="https://cdn.staticfile.org/jquery_lazyload/1.9.7/jquery.lazyload.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="https://cdn.staticfile.org/velocity/1.2.1/velocity.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="https://cdn.staticfile.org/velocity/1.2.1/velocity.ui.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="https://cdn.staticfile.org/fancybox/3.3.5/jquery.fancybox.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/reading_progress/reading_progress.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: window.location.pathname,
+            owner: 'Xeonice',
+            repo: 'DouglasDongComment',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: '2ffef8417a91b7f5915345b2c029d170112c0429',
+            
+                client_id: 'b15c18bda9a832e21a62'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      function showGitment(){
+        document.getElementById("gitment-display-button").style.display = "none";
+        document.getElementById("gitment-container").style.display = "block";
+        renderGitment();
+      }
+      
+      </script>
+    
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+  
+  
+  <script src="/lib/bookmark/bookmark.min.js?v=1.0"></script>
+  <script type="text/javascript">
+  
+    bookmark.scrollToMark('auto', "#更多");
+  
+  </script>
+
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function (i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap')
+      $(e).after($wrap)
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function (e) {
+        var code = $(this).parent().find('.code').find('.line').map(function (i, e) {
+          return $(e).text()
+        }).toArray().join('\n')
+        var ta = document.createElement('textarea')
+        document.body.appendChild(ta)
+        ta.style.position = 'absolute'
+        ta.style.top = '0px'
+        ta.style.left = '0px'
+        ta.value = code
+        ta.select()
+        ta.focus()
+        var result = document.execCommand('copy')
+        document.body.removeChild(ta)
+        
+          if(result)$(this).text('复制成功')
+          else $(this).text('复制失败')
+        
+        $(this).blur()
+      })).on('mouseleave', function (e) {
+        var $b = $(this).find('.copy-btn')
+        setTimeout(function () {
+          $b.text('复制')
+        }, 300)
+      }).append(e)
+    })
+  </script>
+
+
+</body>
+</html>
