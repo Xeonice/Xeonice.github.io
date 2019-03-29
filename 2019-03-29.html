@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+  
+  
+    
+      
+    
+    
+      
+    
+  <script src="https://cdn.staticfile.org/pace/1.0.2/pace.min.js"></script>
+  <link href="https://cdn.staticfile.org/pace/1.0.2/themes/black/pace-theme-corner-indicator.min.css" rel="stylesheet">
+
+
+
+
+  
+  
+  <link rel="stylesheet" media="all" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="1AN0l5FFDH_bGnLzRh2TsBOsw54Rl3zuA7kUviXkk6o" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+  <link href="https://cdn.staticfile.org/fancybox/3.3.5/jquery.fancybox.min.css" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+  
+
+<link href="https://cdn.staticfile.org/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.4.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.4.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.4.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.4.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    fastclick: false,
+    lazyload: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Choerodon-Agile 在 0.13 版本之前的看板性能一直十分低下，本篇文章将记录我是如何在 0.14 版本进行整体代码重构，最终将其最大承载量提升数倍的过程">
+<meta name="keywords" content="Javascript, React-UI">
+<meta property="og:type" content="article">
+<meta property="og:title" content="活跃冲刺 - 看板性能优化随笔">
+<meta property="og:url" content="https://www.douglasdong.site/2019-03-29.html">
+<meta property="og:site_name" content="Helve&#39;s Blog">
+<meta property="og:description" content="Choerodon-Agile 在 0.13 版本之前的看板性能一直十分低下，本篇文章将记录我是如何在 0.14 版本进行整体代码重构，最终将其最大承载量提升数倍的过程">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://imagetemp.oss-cn-beijing.aliyuncs.com/2019-03-29-%E5%8F%B2%E8%AF%97%E6%B3%B3%E9%81%93.png">
+<meta property="og:image" content="https://imagetemp.oss-cn-beijing.aliyuncs.com/2019-03-29-162228.jpg">
+<meta property="og:image" content="https://imagetemp.oss-cn-beijing.aliyuncs.com/2019-03-29-%E6%B4%BB%E8%B7%83%E5%86%B2%E5%88%BA--%E9%A1%B5%E9%9D%A2%E5%91%88%E7%8E%B0.png">
+<meta property="og:image" content="https://imagetemp.oss-cn-beijing.aliyuncs.com/2019-03-29-%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202019-03-29%2012.04.34.png">
+<meta property="og:image" content="https://imagetemp.oss-cn-beijing.aliyuncs.com/2019-03-29-%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202019-03-29%2012.17.22.png">
+<meta property="og:image" content="https://imagetemp.oss-cn-beijing.aliyuncs.com/2019-03-29-%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202019-03-29%2016.08.32-1.png">
+<meta property="og:image" content="https://imagetemp.oss-cn-beijing.aliyuncs.com/2019-03-29-%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202019-03-29%2016.08.32.png">
+<meta property="og:image" content="https://imagetemp.oss-cn-beijing.aliyuncs.com/2019-03-29-%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202019-03-29%2016.50.27.png">
+<meta property="og:image" content="https://imagetemp.oss-cn-beijing.aliyuncs.com/2019-03-29-%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202019-03-29%2017.00.15.png">
+<meta property="og:image" content="https://imagetemp.oss-cn-beijing.aliyuncs.com/2019-03-29-%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202019-03-29%2017.01.43.png">
+<meta property="og:image" content="https://imagetemp.oss-cn-beijing.aliyuncs.com/2019-03-29-1_xio-0VMqqAzA2t45_Uzkzw.gif">
+<meta property="og:image" content="https://imagetemp.oss-cn-beijing.aliyuncs.com/2019-03-29-%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202019-03-29%2023.59.27.png">
+<meta property="og:image" content="https://imagetemp.oss-cn-beijing.aliyuncs.com/2019-03-29-%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202019-03-30%2000.09.04.png">
+<meta property="og:updated_time" content="2019-03-29T16:36:53.192Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="活跃冲刺 - 看板性能优化随笔">
+<meta name="twitter:description" content="Choerodon-Agile 在 0.13 版本之前的看板性能一直十分低下，本篇文章将记录我是如何在 0.14 版本进行整体代码重构，最终将其最大承载量提升数倍的过程">
+<meta name="twitter:image" content="https://imagetemp.oss-cn-beijing.aliyuncs.com/2019-03-29-%E5%8F%B2%E8%AF%97%E6%B3%B3%E9%81%93.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Helve's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="canonical" href="https://www.douglasdong.site/2019-03-29.html"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>活跃冲刺 - 看板性能优化随笔 | Helve's Blog</title>
+  
+
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?381279f888e646c9a4386fba79ee174b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Helve's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">前端学习杂录</h1>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签<span class="badge">7</span></a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类<span class="badge">9</span></a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">28</span></a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+    <div class="reading-progress-bar"></div>
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.douglasdong.site/2019-03-29.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Helvetica.D">
+      <meta itemprop="description" content="P5天下第一！！">
+      <meta itemprop="image" content="/images/avatar.PNG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Helve's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">活跃冲刺 - 看板性能优化随笔
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-03-29 11:00:42" itemprop="dateCreated datePublished" datetime="2019-03-29T11:00:42+08:00">2019-03-29</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/React-代码性能优化/" itemprop="url" rel="index"><span itemprop="name">React 代码性能优化</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019-03-29.html#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count gitment-comments-count" data-xid="/2019-03-29.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">4.3k字</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">4 分钟</span>
+              
+            </div>
+          
+
+          
+              <div class="post-description"><center>Choerodon-Agile 在 0.13 版本之前的看板性能一直十分低下，本篇文章将记录我是如何在 0.14 版本进行整体代码重构，最终将其最大承载量提升数倍的过程</center></div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <script src="/assets/js/APlayer.min.js"> </script><h1 id="开端"><a href="#开端" class="headerlink" title="开端"></a>开端</h1><p>今年年初，组长要求在 Agile 看板中加入一个史诗泳道功能，其功能大致如下：</p>
+<p><img src="https://imagetemp.oss-cn-beijing.aliyuncs.com/2019-03-29-%E5%8F%B2%E8%AF%97%E6%B3%B3%E9%81%93.png" alt="史诗泳道"></p>
+<p>原先的代码结构中根本没有考虑过泳道之间互相嵌套的问题，而且原先的代码大部分都是这个画风：</p>
+<p><img src="https://imagetemp.oss-cn-beijing.aliyuncs.com/2019-03-29-162228.jpg" alt="互相嵌套的代码"></p>
+<p>这种代码几乎是完全无法复用的，而且多层 for 循环嵌套写出的逻辑近乎于完全无法维护。因此，我决定向组长申请重构，彻底从根源上解决代码整体结构问题</p>
+<h1 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h1><p>在完全没有开发文档，代码注释，以及单元测试的项目中进行重构工作，是一件非常令人头疼的问题。如果不熟悉原先的代码，很容易会改出各种各样的 bug，或者做少了功能。所以我在进行代码重构前的第一步，就是整理整体代码逻辑，书写了一份简单的思维导图，用于整理原先的功能，避免重构过程中由于 bug 产生的多次返工。</p>
+<p><img src="https://imagetemp.oss-cn-beijing.aliyuncs.com/2019-03-29-%E6%B4%BB%E8%B7%83%E5%86%B2%E5%88%BA--%E9%A1%B5%E9%9D%A2%E5%91%88%E7%8E%B0.png" alt="活跃冲刺-文档"></p>
+<blockquote>
+<p>实际开发流程中，这份思维导图的功能应当被完备的单元测试所代替。书写这么一份简单的思维导图来统计功能也是因为原先没有任何开发文档留存所导致的。</p>
+</blockquote>
+<p>之后的问题主要集中在看板拖拽功能上，这一部分在重构过程中近乎完全重写</p>
+<h2 id="原先如何实现拖拽"><a href="#原先如何实现拖拽" class="headerlink" title="原先如何实现拖拽"></a>原先如何实现拖拽</h2><p><img src="https://imagetemp.oss-cn-beijing.aliyuncs.com/2019-03-29-%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202019-03-29%2012.04.34.png" alt="看板界面"></p>
+<p>原先的开发人员在实现拖拽功能的时候，<strong>将每个列看成一个整体，存取数据时按照列存取，当拖拽操作发生时，只是将当前卡片由当前列移动至下一个列并变动排序，故事之间的关联关系通过不断遍历数组去查询。</strong></p>
+<p>这种对拖拽的处理可以说是相当低效，如上图，我在故事泳道中拖动一个故事 <code>Pannel</code> 下的子任务，更新数据时根本不应该让其他的 <code>Pannel</code> 进行重新渲染。这种操作成本高昂，又没有什么实际意义。更重要的是，这种变动会让之后维护的开发者不明所以，因为<strong>后端要求返回的数据要求是极多的，既要状态，也要故事/史诗关联关系。</strong></p>
+<p><img src="https://imagetemp.oss-cn-beijing.aliyuncs.com/2019-03-29-%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202019-03-29%2012.17.22.png" alt="错误示范"></p>
+<p>如上图所示，之前的开发者通过多个 For 循环遍历数组，做了很多次 <code>O(n^3)</code> 的操作，只是为了获取当前各种各样的关联关系，虽然客户机普遍不存在性能瓶颈，但是多层 For 循环本身就是不易于维护的，更不用说这种不规范的 <code>len</code>、<code>len2</code> 命名导致的理解歧义了。</p>
+<p>原先的代码中，因为内部的处理逻辑是将列看作一个整体，所以我们每移动一张卡片都会导致两个列完全重新渲染。如果客户在<code>待处理</code>列放了 300 条 <code>issue</code>，而整个看板只有 302 条 <code>issue</code>，即使我们拖拽的目标列没有 <code>issue</code>，也会导致 React 同时更新 300 条 <code>issue</code>。这种情况下，是否使用 React 与 Mobx 几乎是没有意义的。因为每次拖拽约等于更新了整个页面，严重违背了 React 减少利用 <code>Virtul-DOM</code> 减少渲染次数的初衷。</p>
+<h2 id="如何对原先的代码做改进？"><a href="#如何对原先的代码做改进？" class="headerlink" title="如何对原先的代码做改进？"></a>如何对原先的代码做改进？</h2><p>分析原先的看板数据结构，可以发现后端返回给我们的数据已经包含了 <code>issue</code> 在看板中的各种关系，而且已经用嵌套对象形成了清晰的层级结构。结合后端返回的数据结构，我们可以轻松的构建出<code>列-状态-issue</code> 的相关关系，<code>无泳道（不对 issue 进行分类）</code>情况下的整体数据呈现也随之形成了。</p>
+<p><img src="https://imagetemp.oss-cn-beijing.aliyuncs.com/2019-03-29-%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202019-03-29%2016.08.32-1.png" alt="数据关系"></p>
+<p>但是仅仅凭后端查出的这套数据，是完全没有办法满足前端通过 <code>故事</code>、<code>史诗</code>、<code>经办人</code> 进行数据分类的需求的，所以我们需要结合后端传回的其他数据对这些数据进行分类。</p>
+<h3 id="改善原先的数据结构"><a href="#改善原先的数据结构" class="headerlink" title="改善原先的数据结构"></a>改善原先的数据结构</h3><p>既然后端需要各种各样的关联关系，那么我们完全可以提前存一张 <code>issueId</code> 与 <code>issue</code> 相关联的 Map，在 <code>ComponentDidMount</code> 时提前将后端需要的各种关联关系存进 <code>issue</code>，在拖拽结束通过 <code>issueId</code> 去查询对应的 <code>issue</code> 直接拿对应的关联关系。这样做虽然在初始化数据时时间复杂度依然为 <code>O(n^3)</code>，而且会比数组方法耗费内存，但是在获取关联关系时只需要 <code>O(1)</code> 的时间就能拿到对应的值，而且不必每次微小的操作都要执行 <code>O(n^3)</code> 复杂度的运算。</p>
+<p><img src="https://imagetemp.oss-cn-beijing.aliyuncs.com/2019-03-29-%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202019-03-29%2016.08.32.png" alt="总Map"></p>
+<center>先构建一张总 <code>Map</code></center><br><br><br><br><img src="https://imagetemp.oss-cn-beijing.aliyuncs.com/2019-03-29-%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202019-03-29%2016.50.27.png" alt="分类"><br><center>再根据这张总 <code>Map</code> 结合后端返回的其他数据进行分类</center><br><br><br><br>这样改进结构后，我们就可以按照 React 的设计哲学做到针对不同 <code>Pannel</code> 进行部分更新。如下图所示，移动位于经办人泳道下的 <code>issue</code> 时，我们只需要按照 <code>‘泳道模式-经办人 Id/other（无经办人问题）’ -&gt; 状态 Id</code> 查询出需要操作的数组，并进行操作即可。<br><br><img src="https://imagetemp.oss-cn-beijing.aliyuncs.com/2019-03-29-%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202019-03-29%2017.00.15.png" alt="泳道Map"><br><center>先根据泳道，<code>关联 ID</code> 生成一张 <code>Map</code></center><br><br><br><br><img src="https://imagetemp.oss-cn-beijing.aliyuncs.com/2019-03-29-%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202019-03-29%2017.01.43.png" alt="移动issue"><br><center>移动 <code>issue</code> 时，通过事先设定好的 <code>swimlaneId</code>（这里是经办人模式，所以是 <code>assignee-${assigneeId}</code>）与 <code>statusId</code> 查询对应的数组，移动这条 <code>issue</code> 即可</center>
+
+
+<h3 id="去除重复-Render"><a href="#去除重复-Render" class="headerlink" title="去除重复 Render"></a>去除重复 Render</h3><p>之前的代码中，一个函数调用的 <code>action</code> 过多，导致每执行一次 <code>action</code>，就会进行一次 <code>render</code>。这样就直接导致首屏渲染时间过长，很多时候加载瓶颈都集中在刷新后的重复渲染中。这与 <code>mobx</code> 设计初衷是背道而驰的。因此，这一部分的主要工作与之前的优化一样，通过合并 <code>action</code> 以减轻页面的重复渲染。</p>
+<blockquote>
+<p>React 本身是运用 <code>Virtual DOM</code> 来渲染整个页面的，如果渲染节点/次数过多就会导致内存占用率居高不下，<code>GC</code> 无法正常回收多余内存。因此，规避重复渲染也可以有效减轻内存占用率。</p>
+</blockquote>
+<p>经过这两步优化，我们就有效的优化了 300 条 <code>issue</code> 时整体系统的运行效率，但是这依然存在一个问题：如果我只有 300 条 <code>issue</code> 不做任何分类，全部丢在<code>待处理</code>列中，并且开启全部泳道。这时依然需要渲染整体页面，而且帧数依然没能达到 30 帧以上。那我们需要如何针对这一种情况做优化呢？</p>
+<h3 id="为什么-React-beautiful-dnd-官方组件的性能会那么好？"><a href="#为什么-React-beautiful-dnd-官方组件的性能会那么好？" class="headerlink" title="为什么 React-beautiful-dnd 官方组件的性能会那么好？"></a>为什么 React-beautiful-dnd 官方组件的性能会那么好？</h3><p>在没有深入阅读 <code>React-beautiful-dnd</code> 的官方文档与随想之前，我一直武断的将总体帧数过低的原因归因于 <code>React-beautiful-dnd</code> 本身的 设计问题，但是在我 <code>clone</code> 了 <code>React-beautiful-dnd</code> 官方库，将他们提供的看板 Demo 卡片数量提升至 1500 后，我发现官方的 Demo 能够很好的处理这种极端情况，而且帧数能稳定在 <code>60 fps</code>。</p>
+<p>但这一发现明显不符合常理，因为操作上千条 <code>issue</code> 时，本身就存在高昂的性能成本。<code>60 fps</code> 的前提是将每个整体渲染流程（js 执行 + css 重绘）的执行时间控制在 17ms 之内。如果 <code>beautiful-dnd</code> 没有采用 <code>Virtualized List</code> 的话，根本不可能在 17 ms 之内完成近千条 <code>issue</code> 的操作。也就是说，<code>beautiful-dnd</code> 采用了另一种不同于 <code>Virtualized List</code> 的神奇方案减轻渲染负担。</p>
+<p>查阅官方文档后，我发现了这篇文章：<a href="https://medium.com/@alexandereardon/dragging-react-performance-forward-688b30d40a33" target="_blank" rel="noopener">Dragging React performance forward</a></p>
+<p>这篇文章详细解释了 <code>React-beautiful-dnd</code> 为了做到极致拖拽性能所采取的一些独特设计方案，总体来看有以下两个技巧：</p>
+<ol>
+<li>设定一系列事件，在开始拖拽时触发，将需要的公用 <code>style</code> 放置在 <code>&lt;head&gt;</code> 标签中，避免每次都去更改大量 <code>&lt;Draggable&gt;</code> 组件的 <code>style</code></li>
+<li>如下图所示，每次将卡片拖拽进一个队列的时候，拖拽目标位置后的所有卡片都需要更改 <code>Position</code>，虽然 <code>CSS</code> 的渲染几乎没有成本，但是同时更改几百个 <code>&lt;Draggable&gt;</code> 组件的 <code>style</code> 难免会超出 <code>17ms</code> 的操作间隔，因此在更新组件位置时，只会更新当前可视区域内的组件 <code>style</code>，可视区域外的组件样式会等到滚动到相应位置后再去更新。</li>
+</ol>
+<p><img src="https://imagetemp.oss-cn-beijing.aliyuncs.com/2019-03-29-1_xio-0VMqqAzA2t45_Uzkzw.gif" alt="react-beautiful-dnd演示"></p>
+<p>这两个小技巧也启发了我书写了一套简单的高阶组件，用于在组件拖拽开始时更新每个列和状态的样式。</p>
+<p>第二个小技巧在 <code>DOM</code> 节点极端多的情况下依然会有明显的卡顿，但是处理 500 条 <code>issue</code> 可以说是绰绰有余，如果卡片不复杂的话，甚至可以处理 2500 条 <code>issue</code>。而 <code>Atlassian</code> 不采用 <code>Virtualized List</code> 的重要原因主要有两个：</p>
+<ul>
+<li><code>Virtualized List</code> 无法让用户通过 <code>ctrl-f</code> 检索列表</li>
+<li>不希望组件过多干涉用户自己封装的组件，保证组件的易用性</li>
+</ul>
+<p>当然，<code>Atlassian</code> 开发团队已经将 <code>Virtualized List</code> 提上了日程，希望给用户另一种选择。让我们拭目以待吧！</p>
+<h3 id="我们在使用-React-beautiful-dnd-没有注意到的盲点"><a href="#我们在使用-React-beautiful-dnd-没有注意到的盲点" class="headerlink" title="我们在使用 React-beautiful-dnd 没有注意到的盲点"></a>我们在使用 React-beautiful-dnd 没有注意到的盲点</h3><p>首先要说的是，<code>React-beautiful-dnd</code> 是有一个暗坑的。虽然这个暗坑的规避方式被醒目的标记在了官方文档上，但是我们的开发明显在当初开发的时候并没有注意到这一点。具体来说就是这篇文档：<a href="https://github.com/atlassian/react-beautiful-dnd/blob/master/docs/api/droppable.md" target="_blank" rel="noopener">Droppable</a>，这篇文档中标题为 <code>Recommended &lt;Droppable /&gt; performance optimisation</code> 这一部分记录了一个潜在的影响性能的问题，就是 <code>&lt;Droppable&gt;</code> 组件会导致重渲染，如果没有在下一层组件设定 <code>shouldComponentUpdate</code>，就会导致下面的所有子组件全部重渲染。解决方案自然是在 <code>shouldComponentUpdate</code> 中对比 <code>this.props</code> 与 <code>nextProps</code>，相同时不执行更新。</p>
+<h3 id="规避数组元素变动时导致的数组全渲染"><a href="#规避数组元素变动时导致的数组全渲染" class="headerlink" title="规避数组元素变动时导致的数组全渲染"></a>规避数组元素变动时导致的数组全渲染</h3><p>与其说规避，不如说是之前对于 <code>React diff</code> 算法了解不够深入导致的误解。实际上来说解决方式也非常简单，就是给每个从数组生成的 issue 设定独一无二的 <code>key</code> 用于识别，具体原理可以看前一篇文章中的 <code>element-diff</code> 部分。</p>
+<h1 id="尾声"><a href="#尾声" class="headerlink" title="尾声"></a>尾声</h1><p>新年结束后，Agile 看板服务果然不出我所料出现了严重的性能问题，客户现场甚至出现了页面完全卡死的现象。万幸的是我在年前准备了一套针对 500 条 <code>issue</code> 的优化方案，年后又迅速的将这个数字提升至单看板 1500 条 <code>issue</code> 的上限。至此，看板的重构工作算是圆满收工了。虽然现在看起来还是存在相当一部分的冗余代码，但是相对于以前代码的性能已经可以说是巨大提升了。客户机的性能虽然比服务器好得多，但是内存占用，时间复杂度依然是我们需要考虑的一环。否则等到系统在客户现场奔溃就为时已晚了。</p>
+<p>最后贴一下我这几个月的优化成果吧：</p>
+<p><img src="https://imagetemp.oss-cn-beijing.aliyuncs.com/2019-03-29-%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202019-03-29%2023.59.27.png" alt="优化前"></p>
+<p><center>优化前，每拖动一次就会触发全页面渲染</center><br><br></p>
+<p><img src="https://imagetemp.oss-cn-beijing.aliyuncs.com/2019-03-29-%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202019-03-30%2000.09.04.png" alt="优化后"></p>
+<p><center>优化后，只触发当前 <code>pannel</code> 下状态数组的更新</center><br><br></p>
+<blockquote>
+<p>这次重构依然是留下了一部分内存泄漏的问题，后期会专门针对 <code>Javascript</code> 内存泄漏进行研究并改进</p>
+</blockquote>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Helvetica.D</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://www.douglasdong.site/2019-03-29.html" title="活跃冲刺 - 看板性能优化随笔">https://www.douglasdong.site/2019-03-29.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+          
+            <a href="/tags/React/" rel="tag"># React</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019-02-17.html" rel="next" title="React diff 算法">
+                <i class="fa fa-chevron-left"></i> React diff 算法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div onclick="showGitment()" id="gitment-display-button">显示 Gitment 评论</div>
+        <div id="gitment-container" style="display:none"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.PNG"
+                alt="Helvetica.D" />
+            
+              <p class="site-author-name" itemprop="name">Helvetica.D</p>
+              <p class="site-description motion-element" itemprop="description">P5天下第一！！</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">28</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">9</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/Xeonice" target="_blank" title="GitHub" rel="external nofollow"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:ad546971975@gmail.com" target="_blank" title="E-Mail" rel="external nofollow"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#开端"><span class="nav-number">1.</span> <span class="nav-text">开端</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#过程"><span class="nav-number">2.</span> <span class="nav-text">过程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#原先如何实现拖拽"><span class="nav-number">2.1.</span> <span class="nav-text">原先如何实现拖拽</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何对原先的代码做改进？"><span class="nav-number">2.2.</span> <span class="nav-text">如何对原先的代码做改进？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#改善原先的数据结构"><span class="nav-number">2.2.1.</span> <span class="nav-text">改善原先的数据结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#去除重复-Render"><span class="nav-number">2.2.2.</span> <span class="nav-text">去除重复 Render</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么-React-beautiful-dnd-官方组件的性能会那么好？"><span class="nav-number">2.2.3.</span> <span class="nav-text">为什么 React-beautiful-dnd 官方组件的性能会那么好？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#我们在使用-React-beautiful-dnd-没有注意到的盲点"><span class="nav-number">2.2.4.</span> <span class="nav-text">我们在使用 React-beautiful-dnd 没有注意到的盲点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#规避数组元素变动时导致的数组全渲染"><span class="nav-number">2.2.5.</span> <span class="nav-text">规避数组元素变动时导致的数组全渲染</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#尾声"><span class="nav-number">3.</span> <span class="nav-text">尾声</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2017 – <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Helvetica.D</span>
+  <div class="powered-by">  </div>
+  <span>Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a></span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="站点总字数">228k</span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    
+    <span title="站点阅读时长">3:27</span>
+  
+</div>
+
+
+  
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" rel="external nofollow" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a class="theme-link" target="_blank" rel="external nofollow" href="https://theme-next.org">NexT.Muse</a> v6.4.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  
+    <script type="text/javascript" src="https://cdn.staticfile.org/jquery/2.1.3/jquery.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="https://cdn.staticfile.org/jquery_lazyload/1.9.7/jquery.lazyload.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="https://cdn.staticfile.org/velocity/1.2.1/velocity.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="https://cdn.staticfile.org/velocity/1.2.1/velocity.ui.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="https://cdn.staticfile.org/fancybox/3.3.5/jquery.fancybox.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/reading_progress/reading_progress.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: window.location.pathname,
+            owner: 'Xeonice',
+            repo: 'DouglasDongComment',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: '2ffef8417a91b7f5915345b2c029d170112c0429',
+            
+                client_id: 'b15c18bda9a832e21a62'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      function showGitment(){
+        document.getElementById("gitment-display-button").style.display = "none";
+        document.getElementById("gitment-container").style.display = "block";
+        renderGitment();
+      }
+      
+      </script>
+    
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+  
+  
+  <script src="/lib/bookmark/bookmark.min.js?v=1.0"></script>
+  <script type="text/javascript">
+  
+    bookmark.scrollToMark('auto', "#更多");
+  
+  </script>
+
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function (i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap')
+      $(e).after($wrap)
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function (e) {
+        var code = $(this).parent().find('.code').find('.line').map(function (i, e) {
+          return $(e).text()
+        }).toArray().join('\n')
+        var ta = document.createElement('textarea')
+        document.body.appendChild(ta)
+        ta.style.position = 'absolute'
+        ta.style.top = '0px'
+        ta.style.left = '0px'
+        ta.value = code
+        ta.select()
+        ta.focus()
+        var result = document.execCommand('copy')
+        document.body.removeChild(ta)
+        
+          if(result)$(this).text('复制成功')
+          else $(this).text('复制失败')
+        
+        $(this).blur()
+      })).on('mouseleave', function (e) {
+        var $b = $(this).find('.copy-btn')
+        setTimeout(function () {
+          $b.text('复制')
+        }, 300)
+      }).append(e)
+    })
+  </script>
+
+
+</body>
+</html>
